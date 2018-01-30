@@ -12,24 +12,19 @@ class MainViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        addViewControllers()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    private func addViewControllers() {
+        let feedVC = UINavigationController(rootViewController: FeedViewController())
+        
+        let userProfileVC = UINavigationController(rootViewController: UserProfileViewController())
+        let postVC = UINavigationController(rootViewController: PostViewController())
+        feedVC.tabBarItem = UITabBarItem(title: "Feed", image: #imageLiteral(resourceName: "home"), tag: 0)
+        userProfileVC.tabBarItem = UITabBarItem(title: "Profile", image: #imageLiteral(resourceName: "profile"), tag: 1)
+        postVC.tabBarItem = UITabBarItem(title: "Post", image: #imageLiteral(resourceName: "post"), tag: 2)
+        let tabList = [feedVC, userProfileVC, postVC]
+        viewControllers = tabList
     }
-    */
 
 }
