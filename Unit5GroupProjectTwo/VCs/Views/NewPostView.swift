@@ -36,26 +36,33 @@ class NewPostView: UIView {
     lazy var titleTextfield: UITextField = customTextField()
     
     private func customImageView() -> UIImageView {
-        let iv = UIImageView(image: #imageLiteral(resourceName: "profile"))
+        let iv = UIImageView(image: #imageLiteral(resourceName: "addImagePlaceholder"))
         iv.contentMode = .scaleAspectFit
         iv.backgroundColor = .white
         return iv
     }
     lazy var postImageView: UIImageView = customImageView()
     
-    private func customButton() -> UIButton {
+    private func customAddImageButton() -> UIButton {
+        let button = UIButton()
+        return button
+    }
+    lazy var addImageButton: UIButton = customAddImageButton()
+    
+    private func customPostButton() -> UIButton {
         let button = UIButton()
         button.setTitle("Post", for: .normal)
         button.backgroundColor = .blue
         button.tintColor = UIColor.darkGray
         return button
     }
-    lazy var postButton: UIButton = customButton()
+    lazy var postButton: UIButton = customPostButton()
     
     // MARK:- Set Constraints
     private func setupViews() {
         setupTitleTextfield()
         setupPostImageView()
+        setupAddImageButton()
         setupPostButton()
     }
     
@@ -76,6 +83,14 @@ class NewPostView: UIView {
          postImageView.heightAnchor.constraint(equalTo: postImageView.widthAnchor)].forEach{$0.isActive = true}
     }
     
+    private func setupAddImageButton() {
+        addSubview(addImageButton)
+        addImageButton.translatesAutoresizingMaskIntoConstraints = false
+        [addImageButton.topAnchor.constraint(equalTo: postImageView.topAnchor),
+         addImageButton.bottomAnchor.constraint(equalTo: postImageView.bottomAnchor),
+         addImageButton.leadingAnchor.constraint(equalTo: postImageView.leadingAnchor),
+         addImageButton.trailingAnchor.constraint(equalTo: postImageView.trailingAnchor)].forEach{$0.isActive = true}
+    }
     private func setupPostButton() {
         addSubview(postButton)
         postButton.translatesAutoresizingMaskIntoConstraints = false
