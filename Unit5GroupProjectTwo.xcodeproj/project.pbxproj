@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		5BC8DC379B24CCBD27A8DB51 /* Pods_Unit5GroupProjectTwo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9E7FAE3BF8E8EC2EEE62EED /* Pods_Unit5GroupProjectTwo.framework */; };
+		812655782021108E0021E621 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812655772021108E0021E621 /* FeedTableViewCell.swift */; };
+		810C65B6201FE3B700A3AB6F /* UserLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C65B5201FE3B700A3AB6F /* UserLoginView.swift */; };
+		810C65BC2020060E00A3AB6F /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C65BB2020060E00A3AB6F /* SignUpView.swift */; };
+		810C65BE2020114F00A3AB6F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C65BD2020114F00A3AB6F /* SettingsViewController.swift */; };
+		810C65C02020116600A3AB6F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C65BF2020116600A3AB6F /* SettingsView.swift */; };
+		815EC677202117DD003FEFCD /* SegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815EC676202117DD003FEFCD /* SegmentedControlView.swift */; };
 		81727912201FCB89002EE595 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81727911201FCB89002EE595 /* AppDelegate.swift */; };
 		81727914201FCB89002EE595 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81727913201FCB89002EE595 /* ViewController.swift */; };
 		81727917201FCB89002EE595 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81727915201FCB89002EE595 /* Main.storyboard */; };
@@ -21,16 +27,25 @@
 		81727934201FD166002EE595 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 81727933201FD166002EE595 /* GoogleService-Info.plist */; };
 		81727937201FD7F3002EE595 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81727936201FD7F3002EE595 /* AppError.swift */; };
 		81727939201FD809002EE595 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81727938201FD809002EE595 /* NetworkHelper.swift */; };
+		8172793B201FD82C002EE595 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8172793A201FD82C002EE595 /* FeedView.swift */; };
 		8172793B201FD82C002EE595 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8172793A201FD82C002EE595 /* FeedVC.swift */; };
 		81B9AE57202032E70045622F /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B9AE56202032E70045622F /* NewPostViewController.swift */; };
 		81B9AE592020333D0045622F /* NewPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B9AE582020333D0045622F /* NewPostView.swift */; };
 		81B9AE9D2020E07A0045622F /* CameraImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B9AE9C2020E07A0045622F /* CameraImageViewController.swift */; };
 		81B9AE9F2020E0870045622F /* GalleryImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B9AE9E2020E0870045622F /* GalleryImageViewController.swift */; };
+		81D7285B20211703006F6B7D /* Cells in Resources */ = {isa = PBXBuildFile; fileRef = 81D7285A20211703006F6B7D /* Cells */; };
+		81D7285D202117D9006F6B7D /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D7285C202117D9006F6B7D /* UserProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		30614DA021DADB042722320B /* Pods-Unit5GroupProjectTwo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Unit5GroupProjectTwo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Unit5GroupProjectTwo/Pods-Unit5GroupProjectTwo.release.xcconfig"; sourceTree = "<group>"; };
 		6C9001B8718B7029C2EFA3F8 /* Pods-Unit5GroupProjectTwo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Unit5GroupProjectTwo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Unit5GroupProjectTwo/Pods-Unit5GroupProjectTwo.debug.xcconfig"; sourceTree = "<group>"; };
+		812655772021108E0021E621 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FeedTableViewCell.swift; path = /Users/c4q/Desktop/IOSProjectsFolder/GroupProject/Unit5ProjectGroupTwo/Unit5GroupProjectTwo/VCs/Views/FeedTableViewCell.swift; sourceTree = "<absolute>"; };
+		810C65B5201FE3B700A3AB6F /* UserLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoginView.swift; sourceTree = "<group>"; };
+		810C65BB2020060E00A3AB6F /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		810C65BD2020114F00A3AB6F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		810C65BF2020116600A3AB6F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		815EC676202117DD003FEFCD /* SegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlView.swift; sourceTree = "<group>"; };
 		8172790E201FCB89002EE595 /* Unit5GroupProjectTwo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Unit5GroupProjectTwo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81727911201FCB89002EE595 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81727913201FCB89002EE595 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -46,11 +61,15 @@
 		81727933201FD166002EE595 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		81727936201FD7F3002EE595 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		81727938201FD809002EE595 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
+		8172793A201FD82C002EE595 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+
 		8172793A201FD82C002EE595 /* FeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
 		81B9AE56202032E70045622F /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		81B9AE582020333D0045622F /* NewPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostView.swift; sourceTree = "<group>"; };
 		81B9AE9C2020E07A0045622F /* CameraImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraImageViewController.swift; sourceTree = "<group>"; };
 		81B9AE9E2020E0870045622F /* GalleryImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryImageViewController.swift; sourceTree = "<group>"; };
+		81D7285A20211703006F6B7D /* Cells */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Cells; sourceTree = "<group>"; };
+		81D7285C202117D9006F6B7D /* UserProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		F9E7FAE3BF8E8EC2EEE62EED /* Pods_Unit5GroupProjectTwo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Unit5GroupProjectTwo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -96,6 +115,7 @@
 		81727910201FCB89002EE595 /* Unit5GroupProjectTwo */ = {
 			isa = PBXGroup;
 			children = (
+				81D7285A20211703006F6B7D /* Cells */,
 				81727935201FD7D7002EE595 /* Utility */,
 				81727925201FCE9C002EE595 /* Models */,
 				81727926201FCEA2002EE595 /* VCs */,
@@ -123,6 +143,7 @@
 				81B9AE9C2020E07A0045622F /* CameraImageViewController.swift */,
 				81B9AE9E2020E0870045622F /* GalleryImageViewController.swift */,
 				8172792F201FD03A002EE595 /* UserProfileViewController.swift */,
+				810C65BD2020114F00A3AB6F /* SettingsViewController.swift */,
 				81727931201FD047002EE595 /* PostViewController.swift */,
 				8172792B201FD007002EE595 /* UserLogInViewController.swift */,
 				81727927201FCEAC002EE595 /* Views */,
@@ -133,8 +154,17 @@
 		81727927201FCEAC002EE595 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+
+				8172793A201FD82C002EE595 /* FeedView.swift */,
+				812655772021108E0021E621 /* FeedTableViewCell.swift */,
+
 				8172793A201FD82C002EE595 /* FeedVC.swift */,
 				81B9AE582020333D0045622F /* NewPostView.swift */,
+				810C65B5201FE3B700A3AB6F /* UserLoginView.swift */,
+				810C65BF2020116600A3AB6F /* SettingsView.swift */,
+				810C65BB2020060E00A3AB6F /* SignUpView.swift */,
+				815EC676202117DD003FEFCD /* SegmentedControlView.swift */,
+				81D7285C202117D9006F6B7D /* UserProfileView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -202,7 +232,7 @@
 				TargetAttributes = {
 					8172790D201FCB89002EE595 = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -233,6 +263,7 @@
 				81727934201FD166002EE595 /* GoogleService-Info.plist in Resources */,
 				81727919201FCB89002EE595 /* Assets.xcassets in Resources */,
 				81727917201FCB89002EE595 /* Main.storyboard in Resources */,
+				81D7285B20211703006F6B7D /* Cells in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +312,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Unit5GroupProjectTwo/Pods-Unit5GroupProjectTwo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -288,6 +320,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -309,14 +342,22 @@
 				81727939201FD809002EE595 /* NetworkHelper.swift in Sources */,
 				81B9AE592020333D0045622F /* NewPostView.swift in Sources */,
 				8172793B201FD82C002EE595 /* FeedVC.swift in Sources */,
+				8172793B201FD82C002EE595 /* FeedView.swift in Sources */,
 				81727930201FD03A002EE595 /* UserProfileViewController.swift in Sources */,
 				81727932201FD047002EE595 /* PostViewController.swift in Sources */,
 				81727914201FCB89002EE595 /* ViewController.swift in Sources */,
+				810C65B6201FE3B700A3AB6F /* UserLoginView.swift in Sources */,
+				810C65C02020116600A3AB6F /* SettingsView.swift in Sources */,
+				810C65BC2020060E00A3AB6F /* SignUpView.swift in Sources */,
 				81727937201FD7F3002EE595 /* AppError.swift in Sources */,
 				81B9AE9F2020E0870045622F /* GalleryImageViewController.swift in Sources */,
+				815EC677202117DD003FEFCD /* SegmentedControlView.swift in Sources */,
+				81D7285D202117D9006F6B7D /* UserProfileView.swift in Sources */,
 				8172792E201FD01D002EE595 /* FeedViewController.swift in Sources */,
+				810C65BE2020114F00A3AB6F /* SettingsViewController.swift in Sources */,
 				81727912201FCB89002EE595 /* AppDelegate.swift in Sources */,
 				8172792C201FD007002EE595 /* UserLogInViewController.swift in Sources */,
+				812655782021108E0021E621 /* FeedTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,11 +495,14 @@
 			baseConfigurationReference = 6C9001B8718B7029C2EFA3F8 /* Pods-Unit5GroupProjectTwo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Unit5GroupProjectTwo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ac.c4q.nyc.Unit5GroupProjectTwo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -469,11 +513,14 @@
 			baseConfigurationReference = 30614DA021DADB042722320B /* Pods-Unit5GroupProjectTwo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Unit5GroupProjectTwo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ac.c4q.nyc.Unit5GroupProjectTwo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

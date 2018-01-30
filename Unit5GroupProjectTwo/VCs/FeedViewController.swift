@@ -10,26 +10,34 @@ import UIKit
 
 class FeedViewController: UIViewController {
 
+    
+    let feedView = FeedView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .orange
-        navigationController?.pushViewController(NewPostViewController(), animated: true)
+        view.addSubview(feedView)
+        feedView.tableView.delegate = self
+        feedView.tableView.dataSource = self
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
+
+}
+extension FeedViewController: UITableViewDelegate {
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+}
+extension FeedViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 20
     }
-    */
-
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell
+        return cell
+        
+    }
 }
