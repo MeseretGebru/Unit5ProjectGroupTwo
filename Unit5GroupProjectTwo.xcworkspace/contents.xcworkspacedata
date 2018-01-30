@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/c4q/Desktop/IOSProjectsFolder/GroupProject/Unit5ProjectGroupTwo/Unit5GroupProjectTwo/VCs/Views/FeedTableViewCell.swift">
+   </FileRef>
+   <FileRef
       location = "group:Unit5GroupProjectTwo.xcodeproj">
    </FileRef>
    <FileRef

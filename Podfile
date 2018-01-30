@@ -7,11 +7,11 @@ target 'Unit5GroupProjectTwo' do
     pod 'Firebase/Core' 
     pod 'Firebase/Auth'
     pod 'Firebase/Database'
-<<<<<<< HEAD
+
     pod ‘SnapKit’
-=======
-    pod 'SnapKit'
->>>>>>> cea971c59753eba40b435c155e684c3a9dc196a3
+
+
+
 
   # Pods for Unit5GroupProjectTwo
 
