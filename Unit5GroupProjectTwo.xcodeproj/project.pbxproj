@@ -27,13 +27,13 @@
 		81727934201FD166002EE595 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 81727933201FD166002EE595 /* GoogleService-Info.plist */; };
 		81727937201FD7F3002EE595 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81727936201FD7F3002EE595 /* AppError.swift */; };
 		81727939201FD809002EE595 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81727938201FD809002EE595 /* NetworkHelper.swift */; };
-		8172793B201FD82C002EE595 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8172793A201FD82C002EE595 /* FeedView.swift */; };
 		81B9AE57202032E70045622F /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B9AE56202032E70045622F /* NewPostViewController.swift */; };
 		81B9AE592020333D0045622F /* NewPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B9AE582020333D0045622F /* NewPostView.swift */; };
 		81B9AE9D2020E07A0045622F /* CameraImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B9AE9C2020E07A0045622F /* CameraImageViewController.swift */; };
 		81B9AE9F2020E0870045622F /* GalleryImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B9AE9E2020E0870045622F /* GalleryImageViewController.swift */; };
-		81D7285B20211703006F6B7D /* Cells in Resources */ = {isa = PBXBuildFile; fileRef = 81D7285A20211703006F6B7D /* Cells */; };
 		81D7285D202117D9006F6B7D /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D7285C202117D9006F6B7D /* UserProfileView.swift */; };
+		81ED6102202131BD00072587 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ED6101202131BD00072587 /* FeedView.swift */; };
+		81ED61052021322700072587 /* UserProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ED61042021322700072587 /* UserProfileTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,13 +60,13 @@
 		81727933201FD166002EE595 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		81727936201FD7F3002EE595 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		81727938201FD809002EE595 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
-		8172793A201FD82C002EE595 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		81B9AE56202032E70045622F /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		81B9AE582020333D0045622F /* NewPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostView.swift; sourceTree = "<group>"; };
 		81B9AE9C2020E07A0045622F /* CameraImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraImageViewController.swift; sourceTree = "<group>"; };
 		81B9AE9E2020E0870045622F /* GalleryImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryImageViewController.swift; sourceTree = "<group>"; };
-		81D7285A20211703006F6B7D /* Cells */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Cells; sourceTree = "<group>"; };
 		81D7285C202117D9006F6B7D /* UserProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
+		81ED6101202131BD00072587 /* FeedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		81ED61042021322700072587 /* UserProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserProfileTableViewCell.swift; path = Unit5GroupProjectTwo/Cells/UserProfileTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		F9E7FAE3BF8E8EC2EEE62EED /* Pods_Unit5GroupProjectTwo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Unit5GroupProjectTwo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -112,7 +112,7 @@
 		81727910201FCB89002EE595 /* Unit5GroupProjectTwo */ = {
 			isa = PBXGroup;
 			children = (
-				81D7285A20211703006F6B7D /* Cells */,
+				81ED61032021320B00072587 /* Cells */,
 				81727935201FD7D7002EE595 /* Utility */,
 				81727925201FCE9C002EE595 /* Models */,
 				81727926201FCEA2002EE595 /* VCs */,
@@ -151,8 +151,8 @@
 		81727927201FCEAC002EE595 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				81ED6101202131BD00072587 /* FeedView.swift */,
 				812655772021108E0021E621 /* FeedTableViewCell.swift */,
-				8172793A201FD82C002EE595 /* FeedView.swift */,
 				81B9AE582020333D0045622F /* NewPostView.swift */,
 				810C65B5201FE3B700A3AB6F /* UserLoginView.swift */,
 				810C65BF2020116600A3AB6F /* SettingsView.swift */,
@@ -181,6 +181,15 @@
 				81727936201FD7F3002EE595 /* AppError.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		81ED61032021320B00072587 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				81ED61042021322700072587 /* UserProfileTableViewCell.swift */,
+			);
+			name = Cells;
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		ABE95A418F335C752D2F0330 /* Frameworks */ = {
@@ -257,7 +266,6 @@
 				81727934201FD166002EE595 /* GoogleService-Info.plist in Resources */,
 				81727919201FCB89002EE595 /* Assets.xcassets in Resources */,
 				81727917201FCB89002EE595 /* Main.storyboard in Resources */,
-				81D7285B20211703006F6B7D /* Cells in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,10 +343,10 @@
 				8172792A201FCFC8002EE595 /* MainViewController.swift in Sources */,
 				81727939201FD809002EE595 /* NetworkHelper.swift in Sources */,
 				81B9AE592020333D0045622F /* NewPostView.swift in Sources */,
-				8172793B201FD82C002EE595 /* FeedView.swift in Sources */,
-				8172793B201FD82C002EE595 /* FeedView.swift in Sources */,
 				81727930201FD03A002EE595 /* UserProfileViewController.swift in Sources */,
 				81727932201FD047002EE595 /* PostViewController.swift in Sources */,
+				81ED6102202131BD00072587 /* FeedView.swift in Sources */,
+				81ED61052021322700072587 /* UserProfileTableViewCell.swift in Sources */,
 				81727914201FCB89002EE595 /* ViewController.swift in Sources */,
 				810C65B6201FE3B700A3AB6F /* UserLoginView.swift in Sources */,
 				810C65C02020116600A3AB6F /* SettingsView.swift in Sources */,
