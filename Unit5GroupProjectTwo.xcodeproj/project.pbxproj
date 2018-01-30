@@ -29,9 +29,12 @@
 		81727939201FD809002EE595 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81727938201FD809002EE595 /* NetworkHelper.swift */; };
 		8172793B201FD82C002EE595 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8172793A201FD82C002EE595 /* FeedView.swift */; };
 		8172793B201FD82C002EE595 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8172793A201FD82C002EE595 /* FeedVC.swift */; };
+		81B9AE57202032E70045622F /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B9AE56202032E70045622F /* NewPostViewController.swift */; };
+		81B9AE592020333D0045622F /* NewPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B9AE582020333D0045622F /* NewPostView.swift */; };
+		81B9AE9D2020E07A0045622F /* CameraImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B9AE9C2020E07A0045622F /* CameraImageViewController.swift */; };
+		81B9AE9F2020E0870045622F /* GalleryImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B9AE9E2020E0870045622F /* GalleryImageViewController.swift */; };
 		81D7285B20211703006F6B7D /* Cells in Resources */ = {isa = PBXBuildFile; fileRef = 81D7285A20211703006F6B7D /* Cells */; };
 		81D7285D202117D9006F6B7D /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D7285C202117D9006F6B7D /* UserProfileView.swift */; };
-
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,9 +64,12 @@
 		8172793A201FD82C002EE595 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 
 		8172793A201FD82C002EE595 /* FeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
+		81B9AE56202032E70045622F /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
+		81B9AE582020333D0045622F /* NewPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostView.swift; sourceTree = "<group>"; };
+		81B9AE9C2020E07A0045622F /* CameraImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraImageViewController.swift; sourceTree = "<group>"; };
+		81B9AE9E2020E0870045622F /* GalleryImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryImageViewController.swift; sourceTree = "<group>"; };
 		81D7285A20211703006F6B7D /* Cells */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Cells; sourceTree = "<group>"; };
 		81D7285C202117D9006F6B7D /* UserProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
-
 		F9E7FAE3BF8E8EC2EEE62EED /* Pods_Unit5GroupProjectTwo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Unit5GroupProjectTwo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -133,6 +139,9 @@
 			children = (
 				81727929201FCFC8002EE595 /* MainViewController.swift */,
 				8172792D201FD01D002EE595 /* FeedViewController.swift */,
+				81B9AE56202032E70045622F /* NewPostViewController.swift */,
+				81B9AE9C2020E07A0045622F /* CameraImageViewController.swift */,
+				81B9AE9E2020E0870045622F /* GalleryImageViewController.swift */,
 				8172792F201FD03A002EE595 /* UserProfileViewController.swift */,
 				810C65BD2020114F00A3AB6F /* SettingsViewController.swift */,
 				81727931201FD047002EE595 /* PostViewController.swift */,
@@ -150,12 +159,12 @@
 				812655772021108E0021E621 /* FeedTableViewCell.swift */,
 
 				8172793A201FD82C002EE595 /* FeedVC.swift */,
+				81B9AE582020333D0045622F /* NewPostView.swift */,
 				810C65B5201FE3B700A3AB6F /* UserLoginView.swift */,
 				810C65BF2020116600A3AB6F /* SettingsView.swift */,
 				810C65BB2020060E00A3AB6F /* SignUpView.swift */,
 				815EC676202117DD003FEFCD /* SegmentedControlView.swift */,
 				81D7285C202117D9006F6B7D /* UserProfileView.swift */,
-
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -327,8 +336,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81B9AE9D2020E07A0045622F /* CameraImageViewController.swift in Sources */,
+				81B9AE57202032E70045622F /* NewPostViewController.swift in Sources */,
 				8172792A201FCFC8002EE595 /* MainViewController.swift in Sources */,
 				81727939201FD809002EE595 /* NetworkHelper.swift in Sources */,
+				81B9AE592020333D0045622F /* NewPostView.swift in Sources */,
+				8172793B201FD82C002EE595 /* FeedVC.swift in Sources */,
 				8172793B201FD82C002EE595 /* FeedView.swift in Sources */,
 				81727930201FD03A002EE595 /* UserProfileViewController.swift in Sources */,
 				81727932201FD047002EE595 /* PostViewController.swift in Sources */,
@@ -337,6 +350,7 @@
 				810C65C02020116600A3AB6F /* SettingsView.swift in Sources */,
 				810C65BC2020060E00A3AB6F /* SignUpView.swift in Sources */,
 				81727937201FD7F3002EE595 /* AppError.swift in Sources */,
+				81B9AE9F2020E0870045622F /* GalleryImageViewController.swift in Sources */,
 				815EC677202117DD003FEFCD /* SegmentedControlView.swift in Sources */,
 				81D7285D202117D9006F6B7D /* UserProfileView.swift in Sources */,
 				8172792E201FD01D002EE595 /* FeedViewController.swift in Sources */,
