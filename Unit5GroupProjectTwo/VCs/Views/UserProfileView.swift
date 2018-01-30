@@ -16,7 +16,7 @@ class UserProfileView: UIView {
     
     lazy var UserProfileTableView: UITableView = {
         let tableview = UITableView()
-        tableview.register(UserProfileTableViewCell.self, forCellReuseIdentifier: "ProfileCell")
+//        tableview.register(UserProfileTableViewCell.self, forCellReuseIdentifier: "ProfileCell")
         return tableview
     }()
     
