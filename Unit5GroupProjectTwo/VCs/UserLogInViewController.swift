@@ -15,44 +15,39 @@ class UserLogInViewController: UIViewController {
     let userSignUpView = SignUpView()
     let viewContainer = SegmentedControlView()
     
-  
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .yellow
         
-        let views = [userLoginView, userSignUpView, viewContainer] as [UIView]
+        let views = [viewContainer, userLoginView, userSignUpView] as [UIView]
         views.forEach{ ($0).translatesAutoresizingMaskIntoConstraints = false; self.view.addSubview($0) }
-        
-//        let segmentedControl = UISegmentedControl(items: ["Title One", "Title Two"])
-//        segmentedControl.frame = CGRect(x: 0, y: 64, width: view.bounds.width, height: 44)
-//        view.addSubview(segmentedControl)
-//        segmentedControl.tintColor = .orange
-//        segmentedControl.backgroundColor = .green
-//        segmentedControl.addTarget(self, action: #selector(segmentControlPressed), for: .valueChanged)
-        
-        
-        //self.view.addSubview(userLoginView)
-//        self.view.addSubview(userSignUpView)
-//        let items = [ userLoginView, userSignUpView]
-//        let segControl = UISegmentedControl(items: items)
-//        self.view.addSubview(segControl)
-//        segControl.frame = CGRect(x: 100, y: 200, width: 200, height: 30)
-//        segControl.insertSegment(withTitle: "Log In", at: 0, animated: true)
-//        segControl.selectedSegmentIndex = 0
-//        segControl.addTarget(self, action: "segment", for: UIControlEvents.valueChanged)
+        userSignUpView.isHidden = true
+    
+        viewContainer.segmentedControl.addTarget(self, action: #selector(segmentControlPressed), for: .valueChanged)
+        userLoginView.submitInfoButton.addTarget(<#T##target: Any?##Any?#>, action: <#T##Selector#>, for: <#T##UIControlEvents#>)
+        userSignUpView.createAccountButton.addTarget(<#T##target: Any?##Any?#>, action: <#T##Selector#>, for: <#T##UIControlEvents#>)
 
+        setUpAccountView()
+        userSignUpViewConstraints()
+        userCreateAccountConstraints()
     }
     
-
+    
     
     func setUpAccountView() {
         viewContainer.snp.makeConstraints { (make) -> Void in
+            make.height.equalTo(view.snp.height).multipliedBy(0.8)
+            make.width.equalTo(view.snp.width).multipliedBy(0.9)
+            make.centerX.equalTo(view.snp.centerX)
+            make.centerY.equalTo(view.snp.centerY).offset(20)
             
             
         }
     }
     
+    //To check if user is logged in and switch screens if true
     private func getStarted() {
         let navBar = MainViewController()
         navigationController?.pushViewController(navBar, animated: true)
@@ -61,12 +56,19 @@ class UserLogInViewController: UIViewController {
     
     func userSignUpViewConstraints() {
         userSignUpView.snp.makeConstraints { (make) -> Void in
-
+            make.top.equalTo(viewContainer.segmentedControl.snp.bottom).offset(2)
+            make.width.equalTo(viewContainer.snp.width).multipliedBy(0.99)
+            make.height.equalTo(viewContainer.borderForViews.snp.height).multipliedBy(0.99)
+            make.centerX.equalTo(viewContainer.segmentedControl.snp.centerX)
         }
     }
     
     func userCreateAccountConstraints() {
         userLoginView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(viewContainer.segmentedControl.snp.bottom).offset(2)
+            make.width.equalTo(viewContainer.snp.width).multipliedBy(0.99)
+            make.height.equalTo(viewContainer.borderForViews.snp.height).multipliedBy(0.99)
+            make.centerX.equalTo(viewContainer.segmentedControl.snp.centerX)
             
         }
     }
@@ -74,13 +76,20 @@ class UserLogInViewController: UIViewController {
     
     @objc func segmentControlPressed(sender: UISegmentedControl)  {
         if sender.selectedSegmentIndex == 0 {
+            userLoginView.isHidden = false
+            userSignUpView.isHidden = true
             print("\(String(describing: sender.titleForSegment(at: 0)))")
         }
             
         else if sender.selectedSegmentIndex == 1 {
+            userLoginView.isHidden = true
+            userSignUpView.isHidden = false
             print("\(String(describing: sender.titleForSegment(at: 1)))")
         }
     }
+    
+    
+
     /*
      // MARK: - Navigation
      
