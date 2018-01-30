@@ -17,9 +17,10 @@ class MainViewController: UITabBarController {
     
     private func addViewControllers() {
         let feedVC = UINavigationController(rootViewController: FeedViewController())
-        
         let userProfileVC = UINavigationController(rootViewController: UserProfileViewController())
         let postVC = UINavigationController(rootViewController: PostViewController())
+        let settingVC = UINavigationController(rootViewController: SettingsViewController())
+        let userloginVC = UINavigationController(rootViewController: UserLogInViewController())
         feedVC.tabBarItem = UITabBarItem(title: "Feed", image: #imageLiteral(resourceName: "home"), tag: 0)
         userProfileVC.tabBarItem = UITabBarItem(title: "Profile", image: #imageLiteral(resourceName: "profile"), tag: 1)
         postVC.tabBarItem = UITabBarItem(title: "Post", image: #imageLiteral(resourceName: "post"), tag: 2)
