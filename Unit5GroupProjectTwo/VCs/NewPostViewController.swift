@@ -77,10 +77,10 @@ class NewPostViewController: UIViewController {
 //            self?.navigationController?.pushViewController(CameraImageViewController(), animated: true)
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 var imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
+//                imagePicker.delegate = self
                 imagePicker.sourceType = .camera;
                 imagePicker.allowsEditing = false
-                navigationController?.pushViewController(imagePicker, animated: false)
+                self?.navigationController?.pushViewController(imagePicker, animated: false)
             }
         }
         
