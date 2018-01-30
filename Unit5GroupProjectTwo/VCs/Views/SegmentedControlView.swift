@@ -38,7 +38,7 @@ class SegmentedControlView: UIView {
     }
     
     private func commonInit() {
-        backgroundColor = .white
+        backgroundColor = .blue
         setupViews()
     }
     
@@ -52,18 +52,20 @@ class SegmentedControlView: UIView {
     
     private func setUpSegCon() {
         segmentedControl.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(safeAreaLayoutGuide.snp.width)
-            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.2)
-            make.top.equalTo(safeAreaLayoutGuide.snp.top)
+            make.width.equalTo(self)
+            make.height.equalTo(self).multipliedBy(0.2)
+            make.centerX.equalTo(self)
+//            make.centerY.equalTo(self)
+            make.top.equalTo(self)
         }
     }
     
     private func setUpUserView() {
         borderForViews.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.7)
+            make.height.equalTo(self).multipliedBy(0.8)
             make.width.equalTo(segmentedControl.snp.width)
             make.top.equalTo(segmentedControl.snp.bottom)
-            
+            make.centerX.equalTo(segmentedControl.snp.centerX)
         }
         
     }
