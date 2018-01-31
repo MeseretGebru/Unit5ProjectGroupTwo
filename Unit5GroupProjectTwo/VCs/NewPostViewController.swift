@@ -76,7 +76,7 @@ class NewPostViewController: UIViewController {
         let openCamera = UIAlertAction.init(title: "take a photo", style: .default) { [weak self] (action) in
 //            self?.navigationController?.pushViewController(CameraImageViewController(), animated: true)
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                var imagePicker = UIImagePickerController()
+                let imagePicker = UIImagePickerController()
 //                imagePicker.delegate = self
                 imagePicker.sourceType = .camera;
                 imagePicker.allowsEditing = false
