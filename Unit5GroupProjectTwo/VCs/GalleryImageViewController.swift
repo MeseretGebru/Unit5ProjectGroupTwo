@@ -14,7 +14,7 @@ class GalleryImageViewController: UIViewController {
         super.viewDidLoad()
         // TODO: use KingFisher Pod
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-            var imagePicker = UIImagePickerController()
+            let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary;
             imagePicker.allowsEditing = true
