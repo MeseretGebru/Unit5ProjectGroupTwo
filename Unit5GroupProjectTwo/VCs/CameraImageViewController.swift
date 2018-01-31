@@ -18,7 +18,7 @@ class CameraImageViewController: UIViewController {
         }
         // TODO: use KingFisher Pod
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            var imagePicker = UIImagePickerController()
+            let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = .camera;
             imagePicker.allowsEditing = false

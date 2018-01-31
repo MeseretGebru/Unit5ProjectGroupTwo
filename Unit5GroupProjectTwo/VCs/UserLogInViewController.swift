@@ -26,15 +26,21 @@ class UserLogInViewController: UIViewController {
         userSignUpView.isHidden = true
     
         viewContainer.segmentedControl.addTarget(self, action: #selector(segmentControlPressed), for: .valueChanged)
-        userLoginView.submitInfoButton.addTarget(<#T##target: Any?##Any?#>, action: <#T##Selector#>, for: <#T##UIControlEvents#>)
-        userSignUpView.createAccountButton.addTarget(<#T##target: Any?##Any?#>, action: <#T##Selector#>, for: <#T##UIControlEvents#>)
+        userLoginView.submitInfoButton.addTarget(self, action: #selector(login), for: .touchUpInside)
+        userSignUpView.createAccountButton.addTarget(self, action: #selector(signUp), for: .touchUpInside)
 
         setUpAccountView()
         userSignUpViewConstraints()
         userCreateAccountConstraints()
     }
     
+    @objc private func login() {
+        
+    }
     
+    @objc private func signUp() {
+        
+    }
     
     func setUpAccountView() {
         viewContainer.snp.makeConstraints { (make) -> Void in
