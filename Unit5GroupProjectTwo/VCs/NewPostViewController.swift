@@ -73,33 +73,19 @@ class NewPostViewController: UIViewController {
     @objc private func addImageButtonPressed() {
         let addImageActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 //        UIAlertAction(title: "take a photo", style: .default, handler: nil)
-        let openCamera = UIAlertAction.init(title: "take a photo", style: .default) { [weak self] (action) in
-//            self?.navigationController?.pushViewController(CameraImageViewController(), animated: true)
-            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+        let openCamera = UIAlertAction.init(title: "take a photo", style: .default) { [weak self] (action) in            if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 let imagePicker = UIImagePickerController()
-//                imagePicker.delegate = self
                 imagePicker.sourceType = .camera;
                 imagePicker.allowsEditing = false
                 self?.navigationController?.pushViewController(imagePicker, animated: false)
             }
         }
-        
+//        let openGallery = UIAler
         
         addImageActionSheet.addAction(openCamera)
         addImageActionSheet.addAction(UIAlertAction(title: "take from gallery", style: .default, handler: nil))
-//        addImageActionSheet.addAction(UIAlertAction(title: "upload from url", style: .default, handler: nil))
         self.present(addImageActionSheet, animated: true, completion: nil)
         
-        
-//        let cameraVC = CameraImageViewController()
-//        let galleryVC = GalleryImageViewController()
-//        // PlaceHolders
-//        cameraVC.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 0)
-//        galleryVC.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 1)
-//        let tabBarVC = UITabBarController()
-//        tabBarVC.viewControllers = [cameraVC, galleryVC]
-//        tabBarController?.tabBar.isHidden = true
-//        navigationController?.pushViewController(tabBarVC, animated: true)
         print("opened camera maybe?")
     }
 
