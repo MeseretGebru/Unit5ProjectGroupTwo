@@ -65,7 +65,7 @@
 		81157D482023B842000B765B /* UserPostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostsViewController.swift; sourceTree = "<group>"; };
 		81157D4A2023B850000B765B /* UserPostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostsView.swift; sourceTree = "<group>"; };
 		81157D4C2023B896000B765B /* PostViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+Extension.swift"; sourceTree = "<group>"; };
-		812655772021108E0021E621 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FeedTableViewCell.swift; path = /Users/C4Q/Desktop/C4Q_Gloria_Washington/Projects/Homework/Unit5ProjectGroupTwo/Unit5GroupProjectTwo/VCs/Views/FeedTableViewCell.swift; sourceTree = "<absolute>"; };
+		812655772021108E0021E621 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FeedTableViewCell.swift; path = /Users/c4q/Desktop/IOSProjectsFolder/GroupProject/Unit5ProjectGroupTwo/Unit5GroupProjectTwo/VCs/Views/FeedTableViewCell.swift; sourceTree = "<absolute>"; };
 		815EC676202117DD003FEFCD /* SegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlView.swift; sourceTree = "<group>"; };
 		81624CE0202263F400D9EAD4 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		81624CE220228E7000D9EAD4 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
