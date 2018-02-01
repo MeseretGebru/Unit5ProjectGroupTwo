@@ -12,33 +12,28 @@ import FirebaseDatabase
 import FirebaseStorage
 
 struct Comment {
-    var userImageStringUrl: String
-    var postId: String
-    var content: String
-    var userName: String
-    var ref: DatabaseReference?
-    var key: String!
+    var userRef: DatabaseReference
+    var postRef: DatabaseReference
+    var textComment: String
+
+    init(userRef: DatabaseReference, postRef: DatabaseReference, textComment: String) {
+        self.userRef = userRef
+        self.postRef = postRef
+        self.textComment = textComment
     
-    init(postId: String, userImageStringUrl: String, content: String, userName: String, key: String = ""){
-        self.content = content
-        self.postId = postId
-        self.userImageStringUrl = userImageStringUrl
-        self.userName = userName
-        self.ref = Database.database().reference()
     }
     
-    init(snapShot: DataSnapshot){
+ 
+    init(snapShot: DataSnapshot, userRef: DatabaseReference, postRef: DatabaseReference){
         let value = snapShot.value as? [String: Any]
-        self.content = value?["content"] as? String ?? ""
-        self.postId = value?["postId"] as? String ?? ""
-        self.userName = value?["userName"] as? String ?? ""
-        self.userImageStringUrl = value?["userImageStringUrl"] as? String ?? ""
-        self.key = snapShot.key
-        self.ref = snapShot.ref
-    }
+        self.textComment = value?["textComment"] as? String ?? ""
+        self.userRef = userRef
+        self.postRef = postRef
     
+    }
+
     func toAnyObject() -> [String: Any] {
-        return ["userImageSgtringUrl": userImageStringUrl, "content": content, "username": userName, "postId": postId]
+        return["userRef": userRef, "postRef" : postRef, "textComment" : textComment]
     }
     
 }
