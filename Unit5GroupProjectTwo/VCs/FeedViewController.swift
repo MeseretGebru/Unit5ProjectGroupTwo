@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import SnapKit
 
 class FeedViewController: UIViewController {
-
     
-    let feedView = FeedView()
+    let feedView  = FeedView()
+    let menuButt = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton"), style: .plain, target: self, action: #selector(showMenu))
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,15 +22,20 @@ class FeedViewController: UIViewController {
         view.addSubview(feedView)
         feedView.tableView.delegate = self
         feedView.tableView.dataSource = self
+        navigationItem.leftBarButtonItem = menuButt
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    @objc func showMenu() {
+        let presentedMenuController = MenuViewController()
+        presentedMenuController.modalTransitionStyle = .flipHorizontal
+        presentedMenuController.modalPresentationStyle = .pageSheet
+        present(presentedMenuController, animated: true, completion: nil)
     }
-
-
+    
+    
+    
 }
+
 extension FeedViewController: UITableViewDelegate {
     
 }
