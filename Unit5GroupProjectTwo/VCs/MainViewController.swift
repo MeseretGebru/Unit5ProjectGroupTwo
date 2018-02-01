@@ -7,13 +7,21 @@
 //
 
 import UIKit
+import SnapKit
 
 class MainViewController: UITabBarController {
 
+//    var menuLeftRight: ConstraintMakerExtendable!
+//    let menuView = MenuView()
+//    var toggle = true
     override func viewDidLoad() {
         super.viewDidLoad()
         addViewControllers()
+
     }
+    
+
+    let menuButt = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton"), style: .plain, target: self, action: #selector(showMenu))
     
     private func addViewControllers() {
         let feedVC = UINavigationController(rootViewController: FeedViewController())
@@ -26,6 +34,16 @@ class MainViewController: UITabBarController {
         postVC.tabBarItem = UITabBarItem(title: "Post", image: #imageLiteral(resourceName: "post"), tag: 2)
         let tabList = [feedVC, userProfileVC, postVC]
         viewControllers = tabList
-    }
+        tabList.forEach { $0.navigationItem.leftBarButtonItem = menuButt }
 
+        
+        
+    }
+    
+    @objc func showMenu() {
+        let presentedMenuController = MenuViewController()
+        presentedMenuController.modalTransitionStyle = .coverVertical
+        present(presentedMenuController, animated: true, completion: nil)
+    }
+    
 }
