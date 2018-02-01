@@ -36,10 +36,11 @@ class UserLogInViewController: UIViewController {
     
     @objc private func login() {
         
+        present(MainViewController(), animated: true, completion: nil)
     }
     
     @objc private func signUp() {
-        
+         present(MainViewController(), animated: true, completion: nil)
     }
     
     func setUpAccountView() {
