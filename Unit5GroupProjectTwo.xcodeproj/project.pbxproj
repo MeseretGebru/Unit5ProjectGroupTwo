@@ -45,7 +45,7 @@
 		810C65BB2020060E00A3AB6F /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		810C65BD2020114F00A3AB6F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		810C65BF2020116600A3AB6F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		812655772021108E0021E621 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FeedTableViewCell.swift; path = "/Users/c4q/Desktop/Class Playgrounds/Unit 5 Project/Unit5ProjectGroupTwo/Unit5GroupProjectTwo/VCs/Views/FeedTableViewCell.swift"; sourceTree = "<absolute>"; };
+		812655772021108E0021E621 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FeedTableViewCell.swift; path = /Users/c4q/Desktop/IOSProjectsFolder/GroupProject/Unit5ProjectGroupTwo/Unit5GroupProjectTwo/VCs/Views/FeedTableViewCell.swift; sourceTree = "<absolute>"; };
 		815EC676202117DD003FEFCD /* SegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlView.swift; sourceTree = "<group>"; };
 		8172790E201FCB89002EE595 /* Unit5GroupProjectTwo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Unit5GroupProjectTwo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81727911201FCB89002EE595 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
