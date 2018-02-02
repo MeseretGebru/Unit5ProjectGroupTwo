@@ -10,12 +10,16 @@ import UIKit
 import Firebase
 import FirebaseAuth
 
+//This VC adds a post 
+
 class PostViewController: UIViewController {
     var posts = [Post]() {
         didSet {
             tableView.reloadData()
         }
     }
+    
+    var userRef: DatabaseReference! = nil
     
     lazy var tableView: UITableView = {
         let tv = UITableView()
@@ -26,8 +30,8 @@ class PostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        tableView.delegate = self
-//        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.dataSource = self
         navigationController?.navigationBar.barTintColor = .red
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
@@ -52,12 +56,29 @@ class PostViewController: UIViewController {
         postRef.observe(.value) { (snapShot) in
             var posts = [Post]()
             for post in snapShot.children {
-                let newPost = Post(snapShot: post as! DataSnapshot)
+                //                let newPost = Post(snapShot: post as! DataSnapshot)
+                let newPost = Post(snapShot: snapShot)
                 posts.insert(newPost, at: 0)
             }
             self.posts = posts
         }
     }
+    
+    //We need to get the user to save a user reference to the post
+//    private func getUsers() {
+//        let userRef = Database.database().reference().child("users")
+//        userRef.observe(.value) { (snapShot) in
+//            var users = [User]()
+//            for user in snapShot.children {
+//                //                let newPost = Post(snapShot: post as! DataSnapshot)
+//                let newPost = Post(snapShot: snapShot, user: Auth.auth().currentUser)
+//                posts.insert(newPost, at: 0)
+//            }
+//            self.posts = posts
+//        }
+//    }
+    
+    
     
     @objc private func addPost() {
         let newPost = UIAlertController(title: "New Post", message: "Please write your post", preferredStyle: .alert)
@@ -74,9 +95,22 @@ class PostViewController: UIViewController {
     }
     
     private func savePost(text: String) {
-        let id = Database.database().reference().child("posts").childByAutoId()
-        let post = Post(postId: id.key, postImageStringUrl: "No post image so far", userImageStringUrl: "No user image so far", content: text, userName: "User1")
-        id.setValue(post.toAnyObject())
+        //        let id = Database.database().reference().child("posts").childByAutoId()
+        //        let post = Post(postId: id.key, postImageStringUrl: "No post image so far", userImageStringUrl: "No user image so far", content: text, userName: "User1")
+        //        id.setValue(post.toAnyObject())
+        //        self.loadData()
+        let postId = Database.database().reference().child("posts").childByAutoId()
+        let post = Post(ref: postId, userRef: getUser()!, postImageStringUrl: "", postContent: "", postTitle: text)
+        postId.setValue(post)
         self.loadData()
     }
+    
+    private func getUser() -> DatabaseReference? {
+        let currentUser = Auth.auth().currentUser
+        let user = Database.database().reference().child("users").queryEqual(toValue: currentUser).value(forKey: "userRef") as? DatabaseReference
+        return user
+        
+        
+    }
+    
 }
