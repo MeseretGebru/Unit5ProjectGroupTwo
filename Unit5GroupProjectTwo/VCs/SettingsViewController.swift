@@ -17,11 +17,10 @@ import UIKit
  */
 
 class SettingsViewController: UIViewController {
-    
     // Title should be big, bold and center
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = " Setting"
+        label.text = "Setting"
         label.textAlignment = .center
         return label
     }()
@@ -29,14 +28,14 @@ class SettingsViewController: UIViewController {
     //Stack of right side labels
     lazy var changeNameLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        //label.numberOfLines = 0
         label.text = "Change User Name:"
         return label
     }()
     
     lazy var changePasswordLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        //label.numberOfLines = 0
         label.text = "Change Password:"
         return label
     }()
@@ -58,7 +57,7 @@ class SettingsViewController: UIViewController {
     
     lazy var profilePictureLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        //label.numberOfLines = 0
         label.text = "Upload profile Picture"
         return label
     }()
@@ -74,7 +73,7 @@ class SettingsViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = UILayoutConstraintAxis.vertical
         stackView.distribution = UIStackViewDistribution.fillEqually
-        stackView.spacing = 1.0
+        stackView.spacing = 10.0
         return stackView
     }()
     
@@ -82,14 +81,13 @@ class SettingsViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = UILayoutConstraintAxis.vertical
         stackView.distribution = UIStackViewDistribution.fillEqually
-        stackView.alignment = .center
-        stackView.spacing = 1.0
+        stackView.spacing = 10.0
         return stackView
     }()
     
     lazy var saveButton: UIButton = {
         let button = UIButton()
-        // button.setTitle("Save, for: .normal)
+        button.setTitle("Save", for: .normal)
         return button
     }()
     
@@ -101,7 +99,6 @@ class SettingsViewController: UIViewController {
     }
     
     func addSubViews(){
-        // view.addSubview(userProfileView)
         view.addSubview(titleLabel)
         view.addSubview(leftsideStacks)
         view.addSubview(rightsideStacks)
@@ -118,37 +115,36 @@ class SettingsViewController: UIViewController {
     }
     
     private func addConstraints(){
+        
         titleLabel.snp.makeConstraints {(title) in
-            title.width.equalTo(view)
-            title.top.equalTo(view).offset(30)
-            title.centerX.equalTo(view)
+            title.width.equalTo(view.snp.width)
+            title.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(50)
+            title.centerX.equalTo(view.snp.centerX)
         }
         leftsideStacks.snp.makeConstraints {(left) -> Void in
-            left.left.equalTo(view.snp.left).offset(20)
             left.top.equalTo(titleLabel.snp.bottom).offset(20)
-            left.right.equalTo(rightsideStacks.snp.left).offset(20)
-            left.height.equalTo(view.snp.height).multipliedBy(0.2)
+            left.left.equalTo(view.snp.left).offset(20)
+            left.width.equalTo(view.snp.width).multipliedBy(0.4)
+            
         }
         
         rightsideStacks.snp.makeConstraints {(right) -> Void in
+            right.top.equalTo(leftsideStacks.snp.top)
             right.left.equalTo(leftsideStacks.snp.right).offset(20)
-            right.top.equalTo(titleLabel.snp.bottom).offset(20)
-            right.right.equalTo(view.snp.right).offset(40)
-            right.height.equalTo(view.snp.height).multipliedBy(0.2)
+            right.right.equalTo(view.snp.right).offset(-20)
+            
         }
         profilePictureLabel.snp.makeConstraints {(make) in
-            make.top.equalTo(rightsideStacks.snp.bottom).offset(10)
-            //make.left.equalTo(view.safeAreaLayoutGuide.snp.left).offset(20)
+            make.top.equalTo(view.snp.centerY).offset(-150)
             make.centerX.equalTo(view.snp.centerX)
         }
         profileImage.snp.makeConstraints { (make) in
             make.top.equalTo(profilePictureLabel.snp.bottom).offset(20)
             make.centerX.equalTo(view.snp.centerX)
-            make.bottom.equalTo(saveButton.snp.top).offset(10)
+            make.width.height.equalTo(300)
         }
         saveButton.snp.makeConstraints { (save) in
-            //save.top.equalTo(profileImage.snp.bottom).offset(10)
-            save.bottom.equalTo(view.snp.bottom).offset(-20)
+            save.top.equalTo(profileImage.snp.bottom).offset(20)
             save.centerX.equalTo(view.snp.centerX)
         }
     }
