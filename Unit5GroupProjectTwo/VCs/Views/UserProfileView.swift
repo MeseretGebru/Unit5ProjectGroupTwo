@@ -14,10 +14,18 @@ class UserProfileView: UIView {
     //set up initializers
     //set up properties
     
-    lazy var UserProfileTableView: UITableView = {
-        let tableview = UITableView()
-//        tableview.register(UserProfileTableViewCell.self, forCellReuseIdentifier: "ProfileCell")
-        return tableview
+    
+    lazy var userPostImage: UIImageView = {
+        let userPostImage = UIImageView()
+        userPostImage.image = #imageLiteral(resourceName: "noImage")
+        return userPostImage
+    }()
+    
+    lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.text = "Description"
+        return label
     }()
     
     override init(frame: CGRect) {
@@ -34,15 +42,16 @@ class UserProfileView: UIView {
     }
     
     private func setupViews() {
-        addSubview(UserProfileTableView)
+        addSubview(userPostImage)
+        addSubview(descriptionLabel)
         
-        UserProfileTableView.snp.makeConstraints { (tableView) in
-          tableView.edges.equalTo(self)
-       }
+        userPostImage.snp.makeConstraints { (image) in
+            image.edges.equalTo(self)
+        }
+        descriptionLabel.snp.makeConstraints { (label) in
+            //label.trailing.leading.equalTo(self).inset(8)
+            label.centerX.equalTo(self.snp.centerX)
+            label.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-20)
+        }
     }
-    
-    
 }
-
-
-
