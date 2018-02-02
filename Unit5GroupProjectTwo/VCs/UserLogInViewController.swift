@@ -11,9 +11,8 @@ import SnapKit
 import Firebase
 
 /*TO-DO:
- - Pop up alerts for wrong password / username
- - Where to check email verification
- - Add forgot password option 
+ - Timer for reset password and verification
+ - Check if user is logged in
  - Theme and fix constraints
  - Add logo */
 
@@ -72,30 +71,63 @@ class UserLogInViewController: UIViewController {
         //            }
         //        }
         FirebaseAPIClient.manager.login(with: email, an: password) { (user, error) in
-            if let errorCode = AuthErrorCode(rawValue: error!._code) {
-                //Take message for each case and put in a string to use for alert.
-                var message = ""
-                switch errorCode {
-                case .wrongPassword:
-                    message = "Wrong password entered"
-                case .userNotFound:
-                    message = "User not found. Please check that you entered the correct name."
-                case .missingEmail:
-                    message = "Please enter an email to log in"
-                case .invalidEmail:
-                    message = "You have entered the wrong email"
-                case .networkError:
-                    message = "There was an error with your connection. Please try again later."
-                default:
-                    break
-                    }
-                let ac = UIAlertController(title: "Problem Logging In", message: message, preferredStyle: .alert)
+            
+            if Auth.auth().currentUser?.isEmailVerified != true {
+                print("User hasn't verified email")
+                let ac = UIAlertController(title: "Email Not Verified", message: "Please verify your email.", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                 ac.addAction(okAction)
                 self.present(ac, animated: true, completion: nil)
+                return
             }
-            if user != nil {
                 
+            else {
+                self.verificationTimer.invalidate()
+            }
+            
+            guard email != ""  else {
+                let ac = UIAlertController(title: "Problem Logging In", message: "Please enter an email.", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                ac.addAction(okAction)
+                self.present(ac, animated: true, completion: nil)
+                return
+            }
+            
+            guard password != "" else {
+                let ac = UIAlertController(title: "Problem Logging In", message: "Please enter a password.", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                ac.addAction(okAction)
+                self.present(ac, animated: true, completion: nil)
+                return
+            }
+            
+            
+            if error != nil {
+                if let errorCode = AuthErrorCode(rawValue: error!._code) {
+                    //Take message for each case and put in a string to use for alert.
+                    var message = ""
+                    switch errorCode {
+                    case .wrongPassword:
+                        message = "Wrong password entered."
+                    case .userNotFound:
+                        message = "User not found. Please check that you entered the correct name and password."
+                    case .invalidEmail:
+                        message = "Please enter a valid email"
+                    case .networkError:
+                        message = "There was an error with your connection. Please try again later."
+                    default:
+                        break
+                    }
+                    let ac = UIAlertController(title: "Problem Logging In", message: message, preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    ac.addAction(okAction)
+                    self.present(ac, animated: true, completion: nil)
+                }
+            }
+            
+            
+            if user != nil {
+                self.present(MainViewController(), animated: true, completion: nil)
             }
         }
         
@@ -105,6 +137,22 @@ class UserLogInViewController: UIViewController {
     
     @objc private func signUp() {
         let (userName, email, password) = getUserNameEmailPW()
+        
+        guard password != "" else {
+            let ac = UIAlertController(title: "Problem Logging In", message: "Please enter a valid password.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            ac.addAction(okAction)
+            self.present(ac, animated: true, completion: nil)
+            return
+        }
+        
+        guard userName != "" else {
+            let ac = UIAlertController(title: "Problem Logging In", message: "Please enter a valid user name.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            ac.addAction(okAction)
+            self.present(ac, animated: true, completion: nil)
+            return
+        }
         
         Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
             if error == nil && user != nil {
@@ -131,31 +179,51 @@ class UserLogInViewController: UIViewController {
                 
             }
             else {
+                if let errorCode = AuthErrorCode(rawValue: error!._code) {
+                    var message = ""
+                    switch errorCode {
+                    case .invalidEmail:
+                        message = "Please enter a valid email"
+                    case .networkError:
+                        message = "There was an error with your connection. Please try again later."
+                    case .emailAlreadyInUse:
+                        message = "There is already an account associated with this email."
+                    case .missingEmail:
+                        message = "Email textfield empty. Please input a valid email."
+                    default:
+                        break
+                    }
+                    let ac = UIAlertController(title: "Problem Logging In", message: message, preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    ac.addAction(okAction)
+                    self.present(ac, animated: true, completion: nil)
+                    
+                }
             }
             print("Error creating user: \(String(describing: error?.localizedDescription))")
         }
     }
     
-    func isEmailVerfied() {
-        Auth.auth().currentUser?.reload{ (error) in
-            if error == nil {
-                if Auth.auth().currentUser!.isEmailVerified {
-                    self.present(MainViewController(), animated: true, completion: nil)
-                    self.verificationTimer.invalidate()
-                }
-                else {
-                    print("User hasn't verified email")
-                    let ac = UIAlertController(title: "Email Not Verified", message: "Please verify your email to gain access", preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                    ac.addAction(okAction)
-                    self.present(ac, animated: true, completion: nil)
-                }
-            }
-            else {
-                print("Error: \(String(describing: error?.localizedDescription))")
-            }
-        }
-    }
+    //    func isEmailVerfied() {
+    //        Auth.auth().currentUser?.reload{ (error) in
+    //            if error == nil {
+    //                if Auth.auth().currentUser!.isEmailVerified {
+    //                    self.present(MainViewController(), animated: true, completion: nil)
+    //                    self.verificationTimer.invalidate()
+    //                }
+    //                else {
+    //                    print("User hasn't verified email")
+    //                    let ac = UIAlertController(title: "Email Not Verified", message: "Please verify your email.", preferredStyle: .alert)
+    //                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+    //                    ac.addAction(okAction)
+    //                    self.present(ac, animated: true, completion: nil)
+    //                }
+    //            }
+    //            else {
+    //                print("Error: \(String(describing: error?.localizedDescription))")
+    //            }
+    //        }
+    //    }
     
     @objc private func reset() {
         let resetVC = ResetPasswordViewController()
