@@ -10,15 +10,16 @@ import UIKit
 
 class SignUpView: UIView {
     
-//    lazy var appNameLabel  : UILabel = {
-//        let lab = UILabel()
-//        return lab
-//    }()
+    //    lazy var appNameLabel  : UILabel = {
+    //        let lab = UILabel()
+    //        return lab
+    //    }()
     
     lazy var usernameTextField: UITextField = {
         let txt = UITextField()
         txt.placeholder = "Username"
         txt.backgroundColor = .green
+        txt.autocapitalizationType = .none
         return txt
     }()
     
@@ -26,6 +27,7 @@ class SignUpView: UIView {
         let txt = UITextField()
         txt.placeholder = "Email Address"
         txt.backgroundColor = .green
+        txt.autocapitalizationType = .none
         return txt
     }()
     
@@ -33,6 +35,8 @@ class SignUpView: UIView {
         let txt = UITextField()
         txt.placeholder = "Password"
         txt.backgroundColor = .green
+        txt.autocapitalizationType = .none
+        txt.isSecureTextEntry = true
         return txt
     }()
     
@@ -42,10 +46,10 @@ class SignUpView: UIView {
         return butt
     }()
     
-//    lazy var offerLoginLabel: UILabel = {
-//        let lab = UILabel()
-//        return lab
-//    }()
+    //    lazy var offerLoginLabel: UILabel = {
+    //        let lab = UILabel()
+    //        return lab
+    //    }()
     
     override init(frame: CGRect) {
         super.init(frame: UIScreen.main.bounds)
@@ -69,7 +73,7 @@ class SignUpView: UIView {
         setUpEmailTF()
         setUpPWTF()
         setUpCreateButt()
-
+        
     }
     
     private func setUpUserNameTF() {
