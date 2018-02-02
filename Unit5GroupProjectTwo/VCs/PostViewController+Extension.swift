@@ -8,14 +8,27 @@
 
 import UIKit
 
-class PostViewController_Extension: UIView {
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+extension PostViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let post = posts[indexPath.row]
+        let commentVC = PostDetailViewController()
+        commentVC.post = post
+        navigationController?.pushViewController(commentVC, animated: true)
     }
-    */
+    
+}
 
+extension PostViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return posts.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let post = posts[indexPath.row]
+        cell.textLabel?.text = post.postContent
+        cell.detailTextLabel?.text = "User1"
+        return cell
+    }
 }

@@ -11,9 +11,10 @@ import Foundation
 import Firebase
 import FirebaseDatabase
 import FirebaseStorage
+import FirebaseAuth
 
-struct User {
-
+struct UserProfile {
+    var user: User
     var ref: DatabaseReference
     var profileImageUrl: String
     var email: String
@@ -22,7 +23,9 @@ struct User {
     var numberOfFlags: String
     
     // preparing info to save into firebase
-    init(ref: DatabaseReference, profileImageUrl: String, email: String, displayName: String, lastLogin: String, numberOfFlags: String){
+    init(user: User, ref: DatabaseReference, profileImageUrl: String, email: String, displayName: String, lastLogin: String, numberOfFlags: String){
+        
+        self.user = user
         self.ref = ref
         self.profileImageUrl = profileImageUrl
         self.email = email
@@ -36,6 +39,7 @@ struct User {
     // take info from firebase
     init(snapShot: DataSnapshot){
         let value = snapShot.value as? [String: Any]
+        self.user = value?["user"] as! User
         self.ref = snapShot.ref
         self.profileImageUrl = value?["profileImageStringUrl"] as? String ?? ""
         self.email = value?["email"] as? String ?? ""
