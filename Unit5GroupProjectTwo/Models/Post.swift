@@ -17,32 +17,32 @@ import FirebaseAuth
 struct Post {
     var ref: DatabaseReference
     var userRef: DatabaseReference
-    var key: String!
-    var postId: String
+//    var key: String
+//    var postId: String
     var postImageStringUrl: String
     var postContent: String
     var postTitle: String
 
     
     // preparing info to save into firebase
-    init(ref: DatabaseReference, userRef: DatabaseReference, key: String, postId: String, postImageStringUrl: String, postContent: String, postTitle: String){
+    init(ref: DatabaseReference, userRef: DatabaseReference, postImageStringUrl: String, postContent: String, postTitle: String){
         
         self.ref = ref
         self.userRef = userRef
-        self.key = key
-        self.postId = postId
+//        self.key = key
+//        self.postId = postId
         self.postImageStringUrl = postImageStringUrl
         self.postContent = postContent
         self.postTitle = postTitle
     }
     
     // take info from firebase
-    init(snapShot: DataSnapshot, user: DatabaseReference){
+    init(snapShot: DataSnapshot){
         let value = snapShot.value as? [String: Any]
         self.ref = snapShot.ref
-        self.userRef = user
-        self.key = value?["key"] as? String ?? ""
-        self.postId = value?["postId"] as?  String ?? ""
+        self.userRef = value?["userRef"] as! DatabaseReference
+//        self.key = value?["key"] as? String ?? ""
+//        self.postId = value?["postId"] as?  String ?? ""
         self.postImageStringUrl = value?["postImageStringUrl"] as? String ?? ""
         self.postContent = value?["postContent"] as? String ?? ""
         self.postTitle = value?["postTitle"] as? String ?? ""
@@ -51,7 +51,7 @@ struct Post {
     
     // transform info previous to save
     func toAnyObject() -> [String: Any] {
-        return ["ref" : ref, "userRef" : userRef, "key" : key, "postId" : postId, "postImageStringUrl" : postImageStringUrl, "postContent" : postContent, "postTitle" : postTitle ]
+        return ["ref" : ref, "userRef" : userRef, "postImageStringUrl" : postImageStringUrl, "postContent" : postContent, "postTitle" : postTitle ]
     }
     
 }
