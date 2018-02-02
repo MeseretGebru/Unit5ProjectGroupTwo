@@ -8,6 +8,13 @@
 
 import UIKit
 import SnapKit
+import Firebase
+
+/*TO DO:
+ - Fix modal presentation
+ - Resize everything
+ - Get TV to load
+ - Get cells to segue or perform an action */
 
 class MenuViewController: UIViewController {
     
@@ -63,6 +70,7 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
             segueIdentifier = "Settings"
         case 4:
             segueIdentifier = "Logout"
+            FirebaseAPIClient.manager.logOutCurrentUser()
         default:
             segueIdentifier = "Logout"
         }
