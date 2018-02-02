@@ -17,10 +17,11 @@ class UserLoginView: UIView {
     //    }()
     
     
-    lazy var userNameTextField: UITextField = {
+    lazy var emailTextField: UITextField = {
         let txt = UITextField()
-        txt.placeholder = "Username"
+        txt.placeholder = "Email"
         txt.backgroundColor = .red
+        txt.autocapitalizationType = .none
         return txt
     }()
     
@@ -28,14 +29,25 @@ class UserLoginView: UIView {
         let txt = UITextField()
         txt.placeholder = "Password"
         txt.backgroundColor = .red
+        txt.isSecureTextEntry = true
+        txt.autocapitalizationType = .none
         return txt
     }()
     
     lazy var submitInfoButton: UIButton = {
         let butt = UIButton()
         butt.backgroundColor = .green
+        butt.titleLabel?.text = "Login"
         return butt
     }()
+    
+    lazy var forgotPWButton: UIButton = {
+        let butt = UIButton()
+        butt.titleLabel?.text = "Forgot Password"
+        butt.backgroundColor = .green
+        return butt
+    }()
+    
     
     //    lazy var offerRegisterLabel: UILabel = {
     //        let lab = UILabel()
@@ -64,15 +76,16 @@ class UserLoginView: UIView {
         setUpUserNameTF()
         setUpPWTF()
         setUpSubmitButt()
+        setUpForgotPWB()
     }
     
     private func setupViews() {
-        let views = [userNameTextField, passWordField, submitInfoButton] as [UIView]
+        let views = [emailTextField, passWordField, submitInfoButton, forgotPWButton] as [UIView]
         views.forEach { addSubview($0); ($0).translatesAutoresizingMaskIntoConstraints = false}
     }
     
     private func setUpUserNameTF () {
-        userNameTextField.snp.makeConstraints { (make) -> Void in
+        emailTextField.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(self).multipliedBy(0.9)
             make.height.equalTo(self).multipliedBy(0.1)
             make.top.equalTo(self).offset(50)
@@ -84,7 +97,7 @@ class UserLoginView: UIView {
         passWordField.snp.makeConstraints { (make) -> Void in 
             make.width.equalTo(self).multipliedBy(0.9)
             make.height.equalTo(self).multipliedBy(0.1)
-            make.top.equalTo(userNameTextField.snp.bottom).offset(20)
+            make.top.equalTo(emailTextField.snp.bottom).offset(20)
             make.centerX.equalTo(self)
         }
     }
@@ -97,6 +110,15 @@ class UserLoginView: UIView {
             make.centerX.equalTo(self)
         }
         
+    }
+    
+    private func setUpForgotPWB() {
+        forgotPWButton.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(self).multipliedBy(0.3)
+            make.height.equalTo(self).multipliedBy(0.1)
+            make.top.equalTo(submitInfoButton.snp.bottom).offset(20)
+            make.centerX.equalTo(self)
+        }
     }
     
     
