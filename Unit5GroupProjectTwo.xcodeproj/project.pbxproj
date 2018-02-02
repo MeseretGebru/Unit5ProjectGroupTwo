@@ -21,6 +21,10 @@
 		81157D492023B842000B765B /* UserPostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81157D482023B842000B765B /* UserPostsViewController.swift */; };
 		81157D4B2023B850000B765B /* UserPostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81157D4A2023B850000B765B /* UserPostsView.swift */; };
 		81157D4D2023B896000B765B /* PostViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81157D4C2023B896000B765B /* PostViewController+Extension.swift */; };
+		81157D512023DEC3000B765B /* FirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81157D502023DEC3000B765B /* FirebaseAPI.swift */; };
+		81157D532023EBA6000B765B /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81157D522023EBA6000B765B /* ResetPasswordViewController.swift */; };
+		81157D552023EBCB000B765B /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81157D542023EBCB000B765B /* ResetPasswordView.swift */; };
+		81157D762024F7D3000B765B /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81157D752024F7D3000B765B /* PostService.swift */; };
 		812655782021108E0021E621 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812655772021108E0021E621 /* FeedTableViewCell.swift */; };
 		815EC677202117DD003FEFCD /* SegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815EC676202117DD003FEFCD /* SegmentedControlView.swift */; };
 		81624CE1202263F400D9EAD4 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81624CE0202263F400D9EAD4 /* MenuView.swift */; };
@@ -65,7 +69,11 @@
 		81157D482023B842000B765B /* UserPostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostsViewController.swift; sourceTree = "<group>"; };
 		81157D4A2023B850000B765B /* UserPostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostsView.swift; sourceTree = "<group>"; };
 		81157D4C2023B896000B765B /* PostViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+Extension.swift"; sourceTree = "<group>"; };
-		812655772021108E0021E621 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FeedTableViewCell.swift; path = /Users/c4q/Desktop/IOSProjectsFolder/GroupProject/Unit5ProjectGroupTwo/Unit5GroupProjectTwo/VCs/Views/FeedTableViewCell.swift; sourceTree = "<absolute>"; };
+		81157D502023DEC3000B765B /* FirebaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAPI.swift; sourceTree = "<group>"; };
+		81157D522023EBA6000B765B /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
+		81157D542023EBCB000B765B /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
+		81157D752024F7D3000B765B /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
+		812655772021108E0021E621 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
 		815EC676202117DD003FEFCD /* SegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlView.swift; sourceTree = "<group>"; };
 		81624CE0202263F400D9EAD4 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		81624CE220228E7000D9EAD4 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +125,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		81157D742024F7C3000B765B /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				81157D752024F7D3000B765B /* PostService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		81727905201FCB89002EE595 = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +154,7 @@
 		81727910201FCB89002EE595 /* Unit5GroupProjectTwo */ = {
 			isa = PBXGroup;
 			children = (
+				81157D742024F7C3000B765B /* Services */,
 				81ED61032021320B00072587 /* Cells */,
 				81727935201FD7D7002EE595 /* Utility */,
 				81727925201FCE9C002EE595 /* Models */,
@@ -153,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				81727938201FD809002EE595 /* NetworkHelper.swift */,
+				81157D502023DEC3000B765B /* FirebaseAPI.swift */,
 				81157D3C2023A307000B765B /* User.swift */,
 				8185FF3E20216DFB00F6760B /* Post.swift */,
 				81157D3E2023A5B0000B765B /* Vote.swift */,
@@ -178,6 +196,7 @@
 				81157D462023B66C000B765B /* PostDetailViewController+Extension.swift */,
 				81157D482023B842000B765B /* UserPostsViewController.swift */,
 				8172792B201FD007002EE595 /* UserLogInViewController.swift */,
+				81157D522023EBA6000B765B /* ResetPasswordViewController.swift */,
 				81727927201FCEAC002EE595 /* Views */,
 			);
 			path = VCs;
@@ -197,6 +216,7 @@
 				815EC676202117DD003FEFCD /* SegmentedControlView.swift */,
 				81D7285C202117D9006F6B7D /* UserProfileView.swift */,
 				81157D402023B5BF000B765B /* CommentView.swift */,
+				81157D542023EBCB000B765B /* ResetPasswordView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -385,6 +405,9 @@
 				81727939201FD809002EE595 /* NetworkHelper.swift in Sources */,
 				81157D432023B5D8000B765B /* CommentTVCell.swift in Sources */,
 				81B9AE592020333D0045622F /* NewPostView.swift in Sources */,
+				81157D532023EBA6000B765B /* ResetPasswordViewController.swift in Sources */,
+				81157D762024F7D3000B765B /* PostService.swift in Sources */,
+				81157D552023EBCB000B765B /* ResetPasswordView.swift in Sources */,
 				81157D3D2023A307000B765B /* User.swift in Sources */,
 				81157D412023B5BF000B765B /* CommentView.swift in Sources */,
 				81727930201FD03A002EE595 /* UserProfileViewController.swift in Sources */,
@@ -395,6 +418,7 @@
 				81ED61052021322700072587 /* UserProfileTableViewCell.swift in Sources */,
 				81727914201FCB89002EE595 /* ViewController.swift in Sources */,
 				81624CE1202263F400D9EAD4 /* MenuView.swift in Sources */,
+				81157D512023DEC3000B765B /* FirebaseAPI.swift in Sources */,
 				810C65B6201FE3B700A3AB6F /* UserLoginView.swift in Sources */,
 				810C65C02020116600A3AB6F /* SettingsView.swift in Sources */,
 				8185FF3F20216DFB00F6760B /* Post.swift in Sources */,
