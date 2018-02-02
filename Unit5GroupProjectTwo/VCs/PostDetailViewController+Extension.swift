@@ -24,7 +24,7 @@ extension PostDetailViewController: UITableViewDataSource {
             cell.backgroundColor = UIColor.lightGray
         }
         let comment = comments[indexPath.row]
-        cell.textLabel?.text = comment.content
+//        cell.textLabel?.text = comment.content
         cell.textLabel?.numberOfLines = 0
         cell.detailTextLabel?.text = "User1"
         //            cell.configureCell(image: nil, message: comment.content)
