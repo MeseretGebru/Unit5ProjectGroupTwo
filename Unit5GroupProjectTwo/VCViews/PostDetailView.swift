@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CommentView: UIView {
+class PostDetailView: UIView {
 
     lazy var postImageView: UIImageView = {
         let image = UIImageView()
