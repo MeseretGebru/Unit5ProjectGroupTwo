@@ -16,7 +16,7 @@ import UIKit
  - Back button is in navigation 
  */
 
-class SettingsViewController: UIViewController {
+class SettingsVC: UIViewController {
     // Title should be big, bold and center
     lazy var titleLabel: UILabel = {
         let label = UILabel()
