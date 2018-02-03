@@ -21,6 +21,7 @@ class ResetPasswordView: UIView {
         let tf = UITextField()
         tf.placeholder = "Enter email"
         tf.backgroundColor = .purple
+        tf.autocapitalizationType = .none
         return tf
     }()
     
