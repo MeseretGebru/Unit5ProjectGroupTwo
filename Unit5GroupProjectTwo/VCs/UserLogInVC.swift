@@ -16,7 +16,7 @@ import Firebase
  - Theme and fix constraints
  - Add logo */
 
-class UserLogInViewController: UIViewController {
+class UserLogInVC: UIViewController {
     
     let userLoginView = UserLoginView()
     let userSignUpView = SignUpView()
@@ -37,7 +37,7 @@ class UserLogInViewController: UIViewController {
         userSignUpView.createAccountButton.addTarget(self, action: #selector(signUp), for: .touchUpInside)
         userLoginView.forgotPWButton.addTarget(self, action: #selector(reset), for: .touchUpInside)
         
-        self.verificationTimer = Timer.scheduledTimer(timeInterval: 200, target: self, selector: #selector(UserLogInViewController.signUp) , userInfo: nil, repeats: true)
+        self.verificationTimer = Timer.scheduledTimer(timeInterval: 200, target: self, selector: #selector(UserLogInVC.signUp) , userInfo: nil, repeats: true)
         
         setUpAccountView()
         userSignUpViewConstraints()
@@ -127,7 +127,7 @@ class UserLogInViewController: UIViewController {
             
             
             if user != nil {
-                self.present(MainViewController(), animated: true, completion: nil)
+                self.present(MainVC(), animated: true, completion: nil)
             }
         }
         
@@ -226,16 +226,16 @@ class UserLogInViewController: UIViewController {
     //    }
     
     @objc private func reset() {
-        let resetVC = ResetPasswordViewController()
+        let resetVC = ForgotPasswordVC()
         resetVC.modalTransitionStyle = .coverVertical
         resetVC.modalPresentationStyle = .pageSheet
-        self.present(ResetPasswordViewController(), animated: true, completion: nil)
+        self.present(ForgotPasswordVC(), animated: true, completion: nil)
     }
     
     
     //To check if user is logged in and switch screens if true
     private func getStarted() {
-        let navBar = MainViewController()
+        let navBar = MainVC()
         navigationController?.pushViewController(navBar, animated: true)
         
     }

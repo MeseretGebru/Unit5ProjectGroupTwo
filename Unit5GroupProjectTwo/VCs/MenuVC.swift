@@ -16,7 +16,7 @@ import Firebase
  - Get TV to load
  - Get cells to segue or perform an action */
 
-class MenuViewController: UIViewController {
+class MenuVC: UIViewController {
     
     let menuView = MenuView() 
     
@@ -45,7 +45,7 @@ class MenuViewController: UIViewController {
 }
 
 
-extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
+extension MenuVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuTitles.count
     }
