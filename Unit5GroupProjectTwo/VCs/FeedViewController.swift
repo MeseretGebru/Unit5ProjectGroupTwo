@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 class FeedViewController: UIViewController {
-    
+    //Note:  MENU BUTTON DOES NOT WORK. YOU WILL NOT HAVE A GOOD TIME IF YOU TOUCHY!
     let feedView  = FeedView()
     let menuButt = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton"), style: .plain, target: self, action: #selector(showMenu))
     
@@ -28,7 +28,7 @@ class FeedViewController: UIViewController {
         feedView.tableView.rowHeight = UITableViewAutomaticDimension
         
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(showMenu))
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(showMenu))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
     }
     
