@@ -11,7 +11,7 @@ import FirebaseDatabase
 import FirebaseAuth
 import SnapKit
 
-class PostDetailViewController: UIViewController {
+class PostDetailVC: UIViewController {
     var comments = [Comment]() {
         didSet {
             commentView.tableView.reloadData()
@@ -20,7 +20,7 @@ class PostDetailViewController: UIViewController {
     }
     
     var post: Post!
-    let commentView = CommentView()
+    let commentView = PostDetailView()
     
     
     override func viewDidLoad() {
