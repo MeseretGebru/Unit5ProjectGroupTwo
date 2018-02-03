@@ -37,15 +37,36 @@ class ResetPasswordViewController: UIViewController {
                 
                 //Present Alert
                 let ac = UIAlertController(title: "Email Sent", message: "An email with reset instructions has been sent.", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                let okAction = UIAlertAction(title: "Ok", style: .default, handler: {_ in self.dimissSelf() })
                 ac.addAction(okAction)
-//                self.present(UserLogInViewController(), animated: true, completion: nil)
                 print("Password reset email sent")
+                self.present(ac, animated: true)
             }
             else {
+                 if let errorCode = AuthErrorCode(rawValue: error!._code) {
+                    var message = ""
+                    switch errorCode{
+                    case .missingEmail:
+                        message = "Please enter an email."
+                    case .invalidEmail:
+                        message = "Please enter a valid email."
+                    case .userNotFound:
+                        message = "There is no record of an account with this email. Please check that your email is correct."
+                    default:
+                        break
+                    }
+                    let ac = UIAlertController(title: "Problem Resetting Password", message: message, preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    ac.addAction(okAction)
+                    self.present(ac, animated: true, completion: nil)
+                }
                 print("Error in trying to reset passsword: \(String(describing: error?.localizedDescription))")
             }
         }
+    }
+    
+    func dimissSelf() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     private func getEmail() -> (String) {
