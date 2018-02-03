@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //let barController = MainViewController()
         window = UIWindow(frame: UIScreen.main.bounds)
-        let navForLogIn = UINavigationController(rootViewController: UserLogInViewController())
+        let navForLogIn = UINavigationController(rootViewController: UserLogInVC())
         window?.rootViewController = navForLogIn
         window?.makeKeyAndVisible()
         

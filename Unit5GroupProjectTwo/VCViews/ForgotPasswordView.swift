@@ -15,7 +15,7 @@
 
 import UIKit
 
-class ResetPasswordView: UIView {
+class ForgotPasswordView: UIView {
     
     lazy var emailTextField: UITextField = {
         let tf = UITextField()

@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-class FeedView: UIView {
+class GlobalPostFeedView: UIView {
 
     lazy var tableView: UITableView = {
         let tv = UITableView()

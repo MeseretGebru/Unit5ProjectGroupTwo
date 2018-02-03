@@ -8,11 +8,11 @@
 
 import UIKit
 
-extension PostDetailViewController: UITableViewDelegate {
+extension PostDetailVC: UITableViewDelegate {
     
 }
 
-extension PostDetailViewController: UITableViewDataSource {
+extension PostDetailVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return comments.count
     }

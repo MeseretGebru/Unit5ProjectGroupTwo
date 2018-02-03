@@ -12,9 +12,9 @@ import Firebase
 
 /*User clicks button -> Segues to this view controller -> User enters email and clicks button -> A pop up displays saying email was sent to them -> User clicks okay and is sent back to login view controller */
 
-class ResetPasswordViewController: UIViewController {
+class ForgotPasswordVC: UIViewController {
 
-    let resetView = ResetPasswordView()
+    let resetView = ForgotPasswordView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
