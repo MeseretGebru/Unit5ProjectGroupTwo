@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserPostsViewController: UIViewController {
+class UserPostsVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

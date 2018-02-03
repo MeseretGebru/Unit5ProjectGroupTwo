@@ -43,6 +43,7 @@ struct Post {
         self.userRef = value?["userRef"] as! DatabaseReference
 //        self.key = value?["key"] as? String ?? ""
 //        self.postId = value?["postId"] as?  String ?? ""
+
         self.postImageStringUrl = value?["postImageStringUrl"] as? String ?? ""
         self.postContent = value?["postContent"] as? String ?? ""
         self.postTitle = value?["postTitle"] as? String ?? ""

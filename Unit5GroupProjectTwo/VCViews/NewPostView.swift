@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class NewPostView: UIView {
     convenience init() {
@@ -58,43 +59,61 @@ class NewPostView: UIView {
     }
     lazy var postButton: UIButton = customPostButton()
     
+    private func customCV() -> UICollectionView {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.backgroundColor = .blue
+        return cv
+    }
+    lazy var tagsCV: UICollectionView = customCV()
+    
     // MARK:- Set Constraints
     private func setupViews() {
         setupTitleTextfield()
         setupPostImageView()
         setupAddImageButton()
+        setupTagsCV()
         setupPostButton()
     }
     
     private func setupTitleTextfield() {
         addSubview(titleTextfield)
-        titleTextfield.translatesAutoresizingMaskIntoConstraints = false
-        [titleTextfield.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 40),
-         titleTextfield.centerXAnchor.constraint(equalTo: centerXAnchor),
-         titleTextfield.widthAnchor.constraint(equalToConstant: 150)].forEach{$0.isActive = true}
+        titleTextfield.snp.makeConstraints { (make) in
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(40)
+            make.centerX.equalTo(snp.centerX)
+            make.width.equalTo(150)
+        }
     }
-    
     private func setupPostImageView() {
         addSubview(postImageView)
-        postImageView.translatesAutoresizingMaskIntoConstraints = false
-        [postImageView.topAnchor.constraint(equalTo: titleTextfield.bottomAnchor, constant: 1),
-         postImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-         postImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-         postImageView.heightAnchor.constraint(equalTo: postImageView.widthAnchor)].forEach{$0.isActive = true}
+        postImageView.snp.makeConstraints { (make) in
+            make.top.equalTo(titleTextfield.snp.bottom).offset(1)
+            make.leading.equalTo(snp.leading)
+            make.trailing.equalTo(snp.trailing)
+            make.height.equalTo(postImageView.snp.width)
+        }
     }
-    
     private func setupAddImageButton() {
         addSubview(addImageButton)
-        addImageButton.translatesAutoresizingMaskIntoConstraints = false
-        [addImageButton.topAnchor.constraint(equalTo: postImageView.topAnchor),
-         addImageButton.bottomAnchor.constraint(equalTo: postImageView.bottomAnchor),
-         addImageButton.leadingAnchor.constraint(equalTo: postImageView.leadingAnchor),
-         addImageButton.trailingAnchor.constraint(equalTo: postImageView.trailingAnchor)].forEach{$0.isActive = true}
+        addImageButton.snp.makeConstraints { (make) in
+            make.edges.equalTo(postImageView.snp.edges)
+        }
+    }
+    private func setupTagsCV() {
+        addSubview(tagsCV)
+        let padding: CGFloat = 10
+        tagsCV.snp.makeConstraints { (make) in
+            make.top.equalTo(addImageButton.snp.bottom).offset(padding)
+            make.leading.equalTo(addImageButton.snp.leading).offset(padding)
+            make.trailing.equalTo(addImageButton.snp.trailing).offset(padding)
+            make.height.equalTo(snp.height).multipliedBy(0.2)
+        }
     }
     private func setupPostButton() {
         addSubview(postButton)
         postButton.translatesAutoresizingMaskIntoConstraints = false
-        [postButton.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 20),
+        [postButton.topAnchor.constraint(equalTo: tagsCV.bottomAnchor, constant: 20),
          postButton.centerXAnchor.constraint(equalTo: centerXAnchor)].forEach{$0.isActive = true}
     }
 }

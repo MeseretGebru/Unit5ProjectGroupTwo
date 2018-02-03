@@ -13,7 +13,7 @@ import SnapKit
 //text fields accordingly
 //tableView
 
-class UserProfileViewController: UIViewController {
+class UserProfileVC: UIViewController {
 
     let userProfileView = UserProfileView()
     
