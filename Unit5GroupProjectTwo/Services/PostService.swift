@@ -24,6 +24,7 @@ struct PostService {
     private var currentUser: User!
     
     public func getDB()-> DatabaseReference { return dbRef }
+    public func getPostsRef() -> DatabaseReference {return postRef}
     public func getPosts()-> [Post] {
         var posts = [Post]()
         postRef.observe(.value) { (dataSnapShop) in
