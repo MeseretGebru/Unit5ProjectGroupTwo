@@ -38,7 +38,7 @@ struct UserProfile {
     
     // transform info previous to save
     func toAnyObject() -> [String: Any] {
-        return["ref" : ref, "lastLogin" : lastLogin, "numberOfFlags" : numberOfFlags ]
+        return["ref" : ref, "user": user, "lastLogin" : lastLogin, "numberOfFlags" : numberOfFlags ]
     }
     
 }
