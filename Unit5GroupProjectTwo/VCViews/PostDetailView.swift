@@ -29,7 +29,7 @@ class PostDetailView: UIView {
     
     lazy var upVote: UIButton = {
         let button = UIButton()
-        button.setTitle("👍🏽", for: .normal)
+        button.setImage(#imageLiteral(resourceName: "DownVoteIco"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -37,13 +37,14 @@ class PostDetailView: UIView {
     lazy var numVotes: UILabel = {
         let label = UILabel()
         label.text = "# 0"
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var downVote: UIButton = {
         let button = UIButton()
-        button.setTitle("👎🏽", for: .normal)
+        button.setImage(#imageLiteral(resourceName: "DownVoteIco"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

@@ -9,6 +9,7 @@
 import Foundation
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
 
 struct UserService {
     private init() {
@@ -36,10 +37,22 @@ struct UserService {
     }
     
     
-    public func saveNewUser() {
+    public func saveNewUser(imageProfile: UIImage) {
         let user = UserProfile(ref: userRef, user: currentUser, lastLogin: getDate(), numberOfFlags: 0)
         let newUser = userRef.childByAutoId()
-        newUser.setValue(user.toAnyObject())
+        newUser.setValue(user.toAnyObject()){ (error, dbRef) in
+            if let error = error {
+                print("addJob error: \(error)")
+            } else {
+                print("job added @ database reference: \(dbRef)")
+                
+                // add an image to storage
+                StorageService.manager.storeImage(image: imageProfile, postId: self.currentUser.uid)
+                
+                // TODO: add image to database
+            }
+        }
+        
     }
     
     public func addFlagToUser(from user: User) {
@@ -55,6 +68,23 @@ struct UserService {
             }
         }
         reference.updateChildValues(["numberOfFlags": numFlags])
+    }
+    
+    public func SaveImageProfile(image: UIImage, user: User) {
+        guard let data = UIImageJPEGRepresentation(image, 1.0) else { print("image is nil"); return }
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        StorageService.manager.getImagesRef().child(user.uid).putData(data, metadata: metadata) { (storageMetadata, error) in
+            if let error = error {
+                print("uploadTask error: \(error)")
+            } else if let storageMetadata = storageMetadata {
+                print("storageMetadata: \(storageMetadata)")
+            }
+        }
+    }
+    
+    public func getImageProfile(image: UIImage, user: User) {
+        
     }
     
     private func getDate() -> String {
