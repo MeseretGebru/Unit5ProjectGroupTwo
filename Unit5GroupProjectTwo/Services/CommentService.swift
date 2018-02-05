@@ -42,4 +42,5 @@ struct CommentService {
         let comment = Comment(ref: newComment, user: Auth.auth().currentUser!, postId: postKey, textComment: content)
         newComment.setValue(comment.toAnyObject())
     }
+    
 }
