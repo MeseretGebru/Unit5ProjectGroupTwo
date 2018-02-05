@@ -9,7 +9,6 @@
 import Foundation
 import Firebase
 import FirebaseDatabase
-//import FirebaseAuth
 
 struct Comment {
     var ref: DatabaseReference
