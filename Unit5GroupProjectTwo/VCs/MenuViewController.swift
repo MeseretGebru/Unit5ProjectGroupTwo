@@ -59,6 +59,7 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let segueIdentifier: String
+        var currentView = FeedViewController()
         switch indexPath.row {
         case 0:
             segueIdentifier = "Profile"
