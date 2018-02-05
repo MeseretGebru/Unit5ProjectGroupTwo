@@ -23,7 +23,6 @@ struct Post {
     
     // preparing info to save into firebase
     init(ref: DatabaseReference,
-         userRef: DatabaseReference,
          user: User, postContent: String,
          postTitle: String){
         
@@ -45,7 +44,7 @@ struct Post {
     
     // transform info previous to save
     func toAnyObject() -> [String: Any] {
-        return ["ref" : ref, "userRef" : userRef, "user": user, "postContent" : postContent, "postTitle" : postTitle ]
+        return ["ref" : ref, "user": user, "postContent" : postContent, "postTitle" : postTitle ]
     }
     
 }
