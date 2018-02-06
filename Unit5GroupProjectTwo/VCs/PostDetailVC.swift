@@ -55,7 +55,7 @@ class PostDetailVC: UIViewController {
     }
     
     func saveComment(text: String) {
-        CommentService.manager.saveNewPost(postKey: self.post.ref.key, content: text)
+        CommentService.manager.saveNewComment(postKey: self.post.ref.key, content: text)
     }
     
 }

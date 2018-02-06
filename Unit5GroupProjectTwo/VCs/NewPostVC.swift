@@ -34,11 +34,9 @@ class NewPostVC: UIViewController {
     
     private func setupViews() {
         view.addSubview(newPostView)
-        newPostView.translatesAutoresizingMaskIntoConstraints = false
-        [newPostView.topAnchor.constraint(equalTo: view.topAnchor),
-         newPostView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-         newPostView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-         newPostView.trailingAnchor.constraint(equalTo: view.trailingAnchor)].forEach{$0.isActive = true}
+        newPostView.snp.makeConstraints { (make) in
+            make.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)
+        }
     }
     
     @objc private func postButtonPressed() {
@@ -50,33 +48,26 @@ class NewPostVC: UIViewController {
             let noTitleAlert = UIAlertController(title: "No Title", message: "Please pick a title for your post before posting", preferredStyle: .alert)
             noTitleAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(noTitleAlert, animated: true, completion: nil)
-            
-//            private func savePost(text: String) {
-                //        let id = Database.database().reference().child("posts").childByAutoId()
-                //        let post = Post(postId: id.key, postImageStringUrl: "No post image so far", userImageStringUrl: "No user image so far", content: text, userName: "User1")
-                //        id.setValue(post.toAnyObject())
-                //        self.loadData()
-            
-//            }
-            
-            
             return
         }
+        
         guard  newPostView.postImageView.image != #imageLiteral(resourceName: "addImagePlaceholder") else {
             let noTitleAlert = UIAlertController(title: "No Image", message: "Please pick an image for your post before posting", preferredStyle: .alert)
             noTitleAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(noTitleAlert, animated: true, completion: nil)
-            
             return
         }
-        print(title)
+        
+        guard  let image = newPostView.postImageView.image else {
+            let noTitleAlert = UIAlertController(title: "No Image", message: "Please pick an image for your post before posting", preferredStyle: .alert)
+            noTitleAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(noTitleAlert, animated: true, completion: nil)
+            return
+        }
+        //print(title)
         // TODO: Make new post and upload it
         // TODO: replace with PostService class
-        let text = newPostView.titleTextfield.text
-        let postId = Database.database().reference().child("posts").childByAutoId()
-        let post = Post(ref: postId, userRef: getUser()!, postImageStringUrl: "", postContent: "", postTitle: text!)
-        postId.setValue(post)
-//        self.loadData()
+        PostService.manager.saveNewPost(content: title, title: title, image: image)
     }
     
     // TODO: remove function and let UserService class handle this
@@ -84,8 +75,6 @@ class NewPostVC: UIViewController {
         let currentUser = Auth.auth().currentUser
         let user = Database.database().reference().child("users").queryEqual(toValue: currentUser).value(forKey: "userRef") as? DatabaseReference
         return user
-        
-        
     }
     
     @objc private func addImageButtonPressed() {
