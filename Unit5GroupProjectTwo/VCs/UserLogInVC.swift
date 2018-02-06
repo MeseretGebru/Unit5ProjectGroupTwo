@@ -43,6 +43,7 @@ class UserLogInVC: UIViewController {
         userSignUpViewConstraints()
         userCreateAccountConstraints()
     }
+
     
     func getUserNameEmailPW() -> (String, String, String ) {
         let userName = userSignUpView.usernameTextField.text!
@@ -127,7 +128,11 @@ class UserLogInVC: UIViewController {
             
             
             if user != nil {
-                self.present(MainVC(), animated: true, completion: nil)
+                //self.present(MainVC(), animated: true, completion: nil)
+                let storyboard = UIStoryboard(name: "GlobalPostFeed", bundle: nil)
+                let revealVC = storyboard.instantiateViewController(withIdentifier: "SWRealViewController")
+             // self.navigationController?.pushViewController(revealVC, animated: true)
+                self.present(revealVC, animated: true, completion: nil)
             }
         }
         
@@ -234,11 +239,11 @@ class UserLogInVC: UIViewController {
     
     
     //To check if user is logged in and switch screens if true
-    private func getStarted() {
-        let navBar = MainVC()
-        navigationController?.pushViewController(navBar, animated: true)
-        
-    }
+//    private func getStarted() {
+//        let navBar = MainVC()
+//        navigationController?.pushViewController(navBar, animated: true)
+//
+//    }
     
     
     func setUpAccountView() {
