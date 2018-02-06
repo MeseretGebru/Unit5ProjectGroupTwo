@@ -14,6 +14,8 @@ class PostDetailView: UIView {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.image = #imageLiteral(resourceName: "c4q-logo")
+        image.layer.cornerRadius = image.frame.size.width / 2
+        image.clipsToBounds = true
         return image
     }()
     
@@ -130,6 +132,13 @@ class PostDetailView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // make profile image a circle
+        profileImageView.setNeedsLayout()
+        //profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2
     }
     
     private func commonInit() {
