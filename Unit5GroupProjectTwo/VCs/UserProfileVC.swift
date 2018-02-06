@@ -48,7 +48,7 @@ class UserProfileVC: UIViewController {
     }
     
     @objc private func posts(){
-            let userPostVC = UserPostsViewController()
+            let userPostVC = UserPostsVC()
             let navController = UINavigationController(rootViewController: userPostVC)
             self.present(navController, animated: true, completion: nil)
         
