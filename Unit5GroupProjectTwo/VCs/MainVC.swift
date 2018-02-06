@@ -8,7 +8,7 @@
 
 import UIKit
 import SnapKit
-
+/*
 class MainVC: UITabBarController {
 
 //    var menuLeftRight: ConstraintMakerExtendable!
@@ -47,3 +47,4 @@ class MainVC: UITabBarController {
     }
     
 }
+ */

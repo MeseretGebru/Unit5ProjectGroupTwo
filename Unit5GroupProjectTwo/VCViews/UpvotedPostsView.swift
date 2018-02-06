@@ -38,7 +38,7 @@ class UpvotedView: UIView {
     
     lazy var postImage: UIImageView = {
         let image = UIImageView()
-        image.image = #imageLiteral(resourceName: "PrettyCat")
+        image.image = #imageLiteral(resourceName: "uggDog")
         return image
     }()
     
@@ -46,7 +46,7 @@ class UpvotedView: UIView {
     lazy var addButton: UIButton = {
         let button = UIButton()
         //        button.setTitle("+" , for: .normal)
-        button.setImage(#imageLiteral(resourceName: "Add"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "uggDog"), for: .normal)
         button.setTitleColor(.blue, for: .normal)
         return button
     }()
@@ -60,7 +60,7 @@ class UpvotedView: UIView {
     lazy var minusButton: UIButton = {
         let button = UIButton()
         //button.setTitle("-" , for: .normal)
-        button.setImage(#imageLiteral(resourceName: "minus"), for: .normal)
+      //  button.setImage(#imageLiteral(resourceName: "uggDog"), for: .normal)
         button.setTitleColor(.blue, for: .normal)
         return button
     }()

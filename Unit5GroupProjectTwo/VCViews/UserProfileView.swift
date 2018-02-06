@@ -18,7 +18,7 @@ class UserProfileView: UIView {
     }()
     lazy var profileImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "PrettyCat")
+        imageView.image = #imageLiteral(resourceName: "profile64")
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()

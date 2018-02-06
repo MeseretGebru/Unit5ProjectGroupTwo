@@ -20,6 +20,8 @@ class SettingsVC: UIViewController {
     let settingView = SettingsView()
     
     
+    let menuButt = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton"), style: .plain, target: self, action: nil)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavBar()
@@ -41,6 +43,20 @@ class SettingsVC: UIViewController {
     private func addSubViews(){
         view.addSubview(settingView)
         addConstraints()
+         navigationItem.leftBarButtonItem = menuButt
+        
+        if self.revealViewController() != nil {
+            menuButt.target = self.revealViewController()
+            menuButt.action = #selector(SWRevealViewController.revealToggle(_:))
+            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+    }
+    
+    
+    public static func storyboardInstance() -> SettingsVC {
+        let storyboard = UIStoryboard(name: "GlobalPostFeed", bundle: nil)
+        let settingVC = storyboard.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
+        return settingVC
     }
     
     /* @objc private func changePicture(){

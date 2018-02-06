@@ -18,63 +18,67 @@ import Firebase
 
 class MenuVC: UIViewController {
     
-    let menuView = MenuView() 
     
-    let menuTitles = ["Profile", "Post History", "Upvoted Posts", "Settings", "Logout"]
+    @IBOutlet weak var userImageView: UIImageView!
     
+    @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var tableView: UITableView!
+    let menuView = MenuView()
+    
+    let menuTitles = ["Post", "Profile", "Upvoted", "Settings"]
+    let images: [UIImage] = [#imageLiteral(resourceName: "post64"), #imageLiteral(resourceName: "profile64"), #imageLiteral(resourceName: "thumbs64"), #imageLiteral(resourceName: "settings64")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(menuView)
-        menuViewConstraints()
-        self.view.backgroundColor = .cyan
-        menuView.menuTableView.delegate = self
-        menuView.menuTableView.dataSource = self
+        tableView.delegate = self
+        tableView.dataSource = self
+        self.view.backgroundColor = .white
+        
         
     }
-    
-    private func menuViewConstraints() {
-        menuView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(view.snp.width)
-            make.height.equalTo(view.snp.height).multipliedBy(0.7)
-            make.centerX.equalTo(view.snp.centerX)
-            make.centerY.equalTo(view.snp.centerY).offset(10)
-        }
-    }
+ 
 
+    @IBAction func signoutButtonPressed(_ sender: UIButton) {
+        FirebaseAPIClient.manager.logOutCurrentUser()
+        let loginVC = UserLogInVC()
+        present(loginVC, animated: true, completion: nil)
+    }
+    
 }
 
 
 extension MenuVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return menuTitles.count
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = menuView.menuTableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath)
         let title = menuTitles[indexPath.row]
         cell.textLabel?.text = title
+        cell.imageView?.image = images[indexPath.row]
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let segueIdentifier: String
+     
         switch indexPath.row {
         case 0:
-            segueIdentifier = "Profile"
+            performSegue(withIdentifier: "Posts", sender: self)
         case 1:
-            segueIdentifier = "Post History"
+             performSegue(withIdentifier: "Profile", sender: self)
         case 2:
-            segueIdentifier = "Upvoted Posts"
+             performSegue(withIdentifier: "Upvoted", sender: self)
         case 3:
-            segueIdentifier = "Settings"
-        case 4:
-            segueIdentifier = "Logout"
-            FirebaseAPIClient.manager.logOutCurrentUser()
+             performSegue(withIdentifier: "Settings", sender: self)
         default:
-            segueIdentifier = "Logout"
+           break
         }
-        performSegue(withIdentifier: segueIdentifier, sender: self)
+     
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
     }
     
 }
+
