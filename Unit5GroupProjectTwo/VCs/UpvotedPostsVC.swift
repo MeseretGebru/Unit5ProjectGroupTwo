@@ -9,7 +9,21 @@
 import UIKit
 import SnapKit
 class UpvotedPostsVC: UIViewController {
-
+    
+    
+    let menuButt = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton"), style: .plain, target: self, action: nil)
+    
+    
+    public static func storyboardInstance() -> UpvotedPostsVC {
+        let storyboard = UIStoryboard(name: "GlobalPostFeed", bundle: nil)
+        let upvoteVC = storyboard.instantiateViewController(withIdentifier: "UpvotedPostsVC") as! UpvotedPostsVC
+        return upvoteVC
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
     let upVotedView = UpvotedView()
     
     
@@ -20,44 +34,54 @@ class UpvotedPostsVC: UIViewController {
         view.backgroundColor = .yellow
         addSubViews()
         
+        navigationItem.leftBarButtonItem = menuButt
+        
+        if self.revealViewController() != nil {
+            menuButt.target = self.revealViewController()
+            menuButt.action = #selector(SWRevealViewController.revealToggle(_:))
+            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+        
     }
-    private func configureNavBar() {
+    func configureNavBar() {
         navigationItem.title = "Upvoted"
         let backButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(back))
         navigationItem.leftBarButtonItem = backButton
         //            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
+        
     }
     
-    private func addSubViews(){
+    func addSubViews(){
         view.addSubview(upVotedView)
         addConstraints()
     }
     
     
-    @objc private func back(){
+    @objc func back(){
         
     }
     
-    @objc private func dismissView() {
+    @objc func dismissView() {
         dismiss(animated: true, completion: nil)
     }
     
-    private func addConstraints(){
+    func addConstraints(){
         upVotedView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
     }
     
-   
-        
+    
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
+    
 }
