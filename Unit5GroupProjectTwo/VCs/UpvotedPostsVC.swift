@@ -7,21 +7,49 @@
 //
 
 import UIKit
-
+import SnapKit
 class UpvotedPostsVC: UIViewController {
 
+    let upVotedView = UpvotedView()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        configureNavBar()
+        upVotedView.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .yellow
+        addSubViews()
+        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    private func configureNavBar() {
+        navigationItem.title = "Upvoted"
+        let backButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(back))
+        navigationItem.leftBarButtonItem = backButton
+        //            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
     }
     
-
+    private func addSubViews(){
+        view.addSubview(upVotedView)
+        addConstraints()
+    }
+    
+    
+    @objc private func back(){
+        
+    }
+    
+    @objc private func dismissView() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    private func addConstraints(){
+        upVotedView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self.view)
+        }
+    }
+    
+   
+        
     /*
     // MARK: - Navigation
 
