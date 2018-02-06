@@ -74,7 +74,7 @@ class NewPostView: UIView {
         setupPostImageView()
         setupAddImageButton()
         setupTagsCV()
-        setupPostButton()
+        //setupPostButton()
     }
     
     private func setupTitleTextfield() {
@@ -102,12 +102,18 @@ class NewPostView: UIView {
     }
     private func setupTagsCV() {
         addSubview(tagsCV)
+        tagsCV.addSubview(postButton)
         let padding: CGFloat = 10
         tagsCV.snp.makeConstraints { (make) in
             make.top.equalTo(addImageButton.snp.bottom).offset(padding)
-            make.leading.equalTo(addImageButton.snp.leading).offset(padding)
-            make.trailing.equalTo(addImageButton.snp.trailing).offset(padding)
-            make.height.equalTo(snp.height).multipliedBy(0.2)
+            make.leading.equalTo(snp.leading).offset(padding)
+            make.trailing.equalTo(snp.trailing).offset(padding)
+            make.bottom.equalTo(snp.bottom).offset(-padding)
+        }
+        
+        postButton.snp.makeConstraints { (make) in
+            make.centerX.equalTo(tagsCV.snp.centerX)
+            make.centerY.equalTo(tagsCV.snp.centerY)
         }
     }
     private func setupPostButton() {

@@ -37,7 +37,7 @@ struct CommentService {
         return comments
     }
     
-    public func saveNewPost(postKey: String, content: String) {
+    public func saveNewComment(postKey: String, content: String) {
         let newComment = commentRef.childByAutoId()
         let comment = Comment(ref: newComment, user: Auth.auth().currentUser!, postId: postKey, textComment: content)
         newComment.setValue(comment.toAnyObject())
