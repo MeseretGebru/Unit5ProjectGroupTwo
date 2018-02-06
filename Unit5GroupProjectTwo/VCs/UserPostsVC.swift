@@ -7,19 +7,76 @@
 //
 
 import UIKit
+import FirebaseDatabase
+import FirebaseAuth
+import SnapKit
 
 class UserPostsVC: UIViewController {
 
+    let userPostsView = UserPostsView()
+    var post: Post!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        configureNavBar()
+        userPostsView.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .yellow
+        //userPostsView.postTableView.delegate = self
+        //userPostsView.postTableView.dataSource = self
+        addSubViews()
+        loadData()
+        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    private func configureNavBar() {
+        navigationItem.title = "Posts"
+        let backButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(back))
+        navigationItem.leftBarButtonItem = backButton
+        //            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
     }
+    
+    private func addSubViews(){
+        view.addSubview(userPostsView)
+        addConstraints()
+    }
+    
+    
+    @objc private func back(){
+        dismissView()
+    }
+    
+    @objc private func dismissView() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    private func addConstraints(){
+        userPostsView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self.view)
+        }
+    }
+    
+    
+    
+    private func loadData() {
+        // userPostView.userNameLabel.text = post.user
+        //userPostView.profileImage.image = #imageLiteral(resourceName: "PrettyCat")
+        
+    }
+}
+//extension UserPostsViewController: UITableViewDataSource, UITableViewDelegate {
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? UserPostsTableViewCell
+//
+//        return UITableViewCell()
+//    }
+
+    
+    
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        //TODO: Add array count check if there is a post??
+//        return 1
+//
+//    }
+
     
 
     /*
@@ -32,4 +89,4 @@ class UserPostsVC: UIViewController {
     }
     */
 
-}
+
