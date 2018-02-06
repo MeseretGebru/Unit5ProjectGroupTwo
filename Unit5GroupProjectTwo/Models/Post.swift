@@ -16,35 +16,40 @@ import FirebaseAuth
 
 struct Post {
     var ref: DatabaseReference
-    var user: User
+    var postId: String
+    var user: String
     var postContent: String
     var postTitle: String
-
+    var imageURL: String
     
     // preparing info to save into firebase
     init(ref: DatabaseReference,
          user: User, postContent: String,
-         postTitle: String){
+         postTitle: String,
+         imageURL: String){
         
         self.ref = ref
-        self.user = user
+        self.postId = ref.key
+        self.user = user.uid
         self.postContent = postContent
         self.postTitle = postTitle
+        self.imageURL = imageURL
     }
     
     // take info from firebase
     init(snapShot: DataSnapshot){
         let value = snapShot.value as? [String: Any]
         self.ref = snapShot.ref
-        self.user = value?["user"] as! User
+        self.postId = snapShot.ref.key
+        self.user = value?["user"] as? String ?? ""
         self.postContent = value?["postContent"] as? String ?? ""
         self.postTitle = value?["postTitle"] as? String ?? ""
-        
+        self.imageURL = value?["imageURL"] as? String ?? ""
     }
     
     // transform info previous to save
     func toAnyObject() -> [String: Any] {
-        return ["ref" : ref, "user": user, "postContent" : postContent, "postTitle" : postTitle ]
+        return ["postId" : postId, "user": user, "postContent" : postContent, "postTitle" : postTitle, "imageURL": imageURL]
     }
     
 }
