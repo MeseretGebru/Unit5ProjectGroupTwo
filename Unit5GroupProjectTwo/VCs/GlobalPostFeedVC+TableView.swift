@@ -11,13 +11,13 @@ import UIKit
 extension GlobalPostFeedVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard posts.count > 0 else {
-            return
-        }
-        let post = posts[indexPath.row]
+//        guard posts.count > 0 else {
+//            return
+//        }
+      //  let post = posts[indexPath.row]
         // TODO: replace with dependency injection
         let commentVC = PostDetailVC()
-        commentVC.post = post
+      //  commentVC.post = post
         navigationController?.pushViewController(commentVC, animated: true)
     }
     
@@ -34,6 +34,8 @@ extension GlobalPostFeedVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell
         cell.layoutIfNeeded()
+        cell.moreButton.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
+        
         guard posts.count > 0 else {
             switch indexPath.row {
             case 0:
@@ -55,9 +57,14 @@ extension GlobalPostFeedVC: UITableViewDataSource {
         }
         let post = posts[indexPath.row]
         cell.titleLabel.text = post.postTitle
+
+       // cell.userLabel.text = post.userRef.key
+
+
         //cell.userLabel.text = post.userRef.key
 //        cell.textLabel?.text = post.postContent
 //        cell.detailTextLabel?.text = "User1"
+
         return cell
     }
 }
