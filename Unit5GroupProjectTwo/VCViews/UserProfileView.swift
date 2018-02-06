@@ -9,49 +9,138 @@ import UIKit
 import SnapKit
 
 class UserProfileView: UIView {
-    //TOD:
-    // create a table view
-    //set up initializers
-    //set up properties
     
-    
-    lazy var userPostImage: UIImageView = {
-        let userPostImage = UIImageView()
-        userPostImage.image = #imageLiteral(resourceName: "noImage")
-        return userPostImage
+    lazy var userNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Default User"
+        label.textAlignment = .center
+        return label
+    }()
+    lazy var profileImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "PrettyCat")
+        imageView.contentMode = .scaleAspectFill
+        return imageView
     }()
     
-    lazy var descriptionLabel: UILabel = {
+    lazy var changePictureButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Change Pictuer" , for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        // button.imageView?.contentMode = .scaleAspectFill
+        return button
+    }()
+    
+    // Number of posts label
+    lazy var numberOfPostsLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
-        label.text = "Description"
+        label.text = "Number of Posts: 20"
         return label
     }()
     
+    //number of Flags Label
+    lazy var numberofFlagsLabel: UILabel = {
+        let label = UILabel()
+        // label.numberOfLines = 0
+        label.text = "Number of flags: 0"
+        return label
+    }()
+    
+    //number of upvotes
+    lazy var numberofUpvotesLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Number of upvote recived: 16"
+        return label
+    }()
+    
+    // Labels StackView
+    lazy var labelsStack: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = UILayoutConstraintAxis.vertical
+        stackView.distribution = UIStackViewDistribution.fill
+        stackView.spacing = 16.0
+        return stackView
+    }()
+    
+    
+    // A button that shows posts View
+    lazy var postsButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Posts" , for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        return button
+    }()
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // make profile image a circle
+        profileImage.layer.cornerRadius = profileImage.bounds.width/2.0
+        profileImage.layer.masksToBounds = true
+    }
+    
     override init(frame: CGRect) {
-        super.init(frame: frame)
+        super.init(frame: UIScreen.main.bounds)
         commonInit()
     }
+    
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
+        fatalError("init(coder:) has not been implemented")
     }
+    
     private func commonInit() {
         backgroundColor = .white
         setupViews()
     }
     
     private func setupViews() {
-        addSubview(userPostImage)
-        addSubview(descriptionLabel)
-        
-        userPostImage.snp.makeConstraints { (image) in
-            image.edges.equalTo(self)
+        setupHeader()
+        setupContent()
+        setupButton()
+    }
+    
+    private func setupHeader() {
+        addSubview(userNameLabel)
+        addSubview(profileImage)
+        addSubview(changePictureButton)
+        userNameLabel.snp.makeConstraints { (label) in
+            label.top.equalTo(snp.top).offset(16)
+            label.centerX.equalTo(snp.centerX)
         }
-        descriptionLabel.snp.makeConstraints { (label) in
-            //label.trailing.leading.equalTo(self).inset(8)
-            label.centerX.equalTo(self.snp.centerX)
-            label.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-20)
+        
+        profileImage.snp.makeConstraints { (image) in
+            image.top.equalTo(userNameLabel.snp.bottom).offset(8)
+            image.centerX.equalTo(snp.centerX)
+            image.width.height.equalTo(snp.width).multipliedBy(0.4)
+        }
+        
+        changePictureButton.snp.makeConstraints { (button) in
+            button.top.equalTo(profileImage.snp.bottom).offset(16)
+            button.centerX.equalTo(snp.centerX)
         }
     }
+    
+    private func setupContent() {
+        addSubview(labelsStack)
+        labelsStack.addArrangedSubview(numberOfPostsLabel)
+        labelsStack.addArrangedSubview(numberofFlagsLabel)
+        labelsStack.addArrangedSubview(numberofUpvotesLabel)
+        
+        labelsStack.snp.makeConstraints { (stack) in
+            stack.top.equalTo(changePictureButton.snp.bottom).offset(32)
+            stack.centerX.equalTo(snp.centerX)
+        }
+        
+    }
+    
+    private func setupButton() {
+        addSubview(postsButton)
+        postsButton.snp.makeConstraints { (button) in
+            button.bottom.equalTo(snp.bottom).offset(-32)
+            button.centerX.equalTo(snp.centerX)
+        }
+    }
+
+    
 }
+
+
