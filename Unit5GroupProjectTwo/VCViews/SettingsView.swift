@@ -10,78 +10,71 @@ import UIKit
 import SnapKit
 
 class SettingsView: UIView {
-    
-    lazy var settingTitleLabel: UILabel = {
-        let lab = UILabel()
-        lab.text = "Settings"
-        lab.textAlignment = .center
-        lab.font = UIFont(name: "Arial", size: 25)
-        lab.numberOfLines = 0
-        lab.backgroundColor = .green
-        return lab
-    }()
-    
-    lazy var changeNameTextField: UITextField = {
-        let txt = UITextField()
-        txt.backgroundColor = .green
-        return txt
-    }()
-    
+  
     lazy var changeNameLabel: UILabel = {
-        let lab = UILabel()
-        lab.text = "Change User Name:"
-        lab.font = UIFont(name: "Arial", size: 15)
-        lab.backgroundColor = .green
-        lab.numberOfLines = 0
-        return lab
+        let label = UILabel()
+        //label.numberOfLines = 0
+        label.text = "Change User Name:"
+        return label
     }()
     
-    lazy var changePassTextField: UITextField = {
-        let txt = UITextField()
-        txt.backgroundColor = .green
-        return txt
+    lazy var changePasswordLabel: UILabel = {
+        let label = UILabel()
+        //label.numberOfLines = 0
+        label.text = "Change Password:"
+        return label
     }()
     
-    lazy var changePassLabel: UILabel = {
-        let lab = UILabel()
-        lab.text = "Change Password:"
-        lab.font = UIFont(name: "Arial", size: 15)
-        lab.backgroundColor = .green
-        lab.numberOfLines = 0
-        return lab
+    
+    
+    lazy var enterUserNameTextfield: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "enter user name"
+        return textField
     }()
     
-    lazy var changeUserPicTextField: UITextField = {
-        let txt = UITextField()
-        txt.backgroundColor = .green
-        return txt
-        
+    
+    lazy var enterPasswordTextfield: UITextField  = {
+        let textField = UITextField()
+        textField.placeholder = " enter password"
+        return textField
     }()
     
-    lazy var changeUserPicLabel: UILabel = {
-        let lab = UILabel()
-        lab.text = "Upload A Picture"
-        lab.font = UIFont(name: "Arial", size: 15)
-        lab.backgroundColor = .green
-        lab.numberOfLines = 0
-        return lab
+    lazy var profilePictureLabel: UILabel = {
+        let label = UILabel()
+        //label.numberOfLines = 0
+        label.text = "Upload profile Picture"
+        return label
     }()
     
-    lazy var uploadPicButton: UIButton = {
-        let butt = UIButton()
-        butt.titleLabel?.text = "Upload"
-        butt.backgroundColor = .blue
-        butt.titleLabel?.textColor = .black
-        //When pressed, the button will show an alert sheet!
-        return butt
+    lazy var profileImage: UIImageView = {
+        let profileImage = UIImageView()
+        profileImage.image = #imageLiteral(resourceName: "noImage")
+        return profileImage
+    }()
+    
+    //Stack views
+    lazy var leftsideStacks: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = UILayoutConstraintAxis.vertical
+        stackView.distribution = UIStackViewDistribution.fillEqually
+        stackView.spacing = 10.0
+        return stackView
+    }()
+    
+    lazy var rightsideStacks: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = UILayoutConstraintAxis.vertical
+        stackView.distribution = UIStackViewDistribution.fillEqually
+        stackView.spacing = 10.0
+        return stackView
     }()
     
     lazy var saveButton: UIButton = {
-        let butt = UIButton()
-        butt.titleLabel?.text = "Save"
-        butt.backgroundColor = .green
-        butt.titleLabel?.textColor = .black
-        return butt
+        let button = UIButton()
+        button.setTitle("Save" , for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        return button
     }()
     
     
@@ -97,103 +90,56 @@ class SettingsView: UIView {
     
     private func commonInit() {
         backgroundColor = .white
-        setupViews()
+        addSubViews()
+        addConstraints()
     }
     
-    private func setupViews() {
-        let views = [settingTitleLabel, changeNameLabel, changeNameTextField, changePassLabel, changePassTextField, changeUserPicLabel, changeUserPicTextField, uploadPicButton, saveButton] as [UIView]
-        views.forEach { addSubview($0); ($0).translatesAutoresizingMaskIntoConstraints = false }
-        setUpSettingsLabel()
-        setUpChangeNameLabel()
-        setUpChangeNameTF()
-        setUpChangePWLab()
-        setUpChangePWTF()
-        setUpChangeUserPicLab()
-        setUpChangeUserPicTF()
-        setUpUploadButt()
-        setUpSaveButt()
-    }
-    
-    private func setUpSettingsLabel() {
-        settingTitleLabel.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.1)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.8)
-            make.centerY.equalTo(safeAreaLayoutGuide.snp.centerY).offset(-210)
-            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
-            
-        }
-    }
-    
-    private func setUpChangeNameLabel() {
-        changeNameLabel.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.1)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.43)
-            make.top.equalTo(settingTitleLabel.snp.bottom).offset(30)
-            make.left.equalTo(safeAreaLayoutGuide.snp.left).offset(5)
-        }
-    }
-    
-    private func setUpChangeNameTF() {
-        changeNameTextField.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(changeNameLabel.snp.height)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.52)
-            make.top.equalTo(settingTitleLabel.snp.bottom).offset(30)
-            make.left.equalTo(changeNameLabel.snp.right).offset(5)
-        }
-    }
-    
-    private func setUpChangePWLab() {
-        changePassLabel.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(changeNameLabel.snp.height)
-            make.width.equalTo(changeNameLabel.snp.width)
-            make.top.equalTo(changeNameLabel.snp.bottom).offset(20)
-            make.left.equalTo(safeAreaLayoutGuide.snp.left).offset(5)
-        }
-    }
-    
-    private func setUpChangePWTF() {
-        changePassTextField.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(changeNameTextField.snp.height)
-            make.width.equalTo(changeNameTextField.snp.width)
-            make.top.equalTo(changeNameTextField.snp.bottom).offset(20)
-            make.left.equalTo(changePassLabel.snp.right).offset(5)
-        }
+    func addSubViews(){
+        //view.addSubview(titleLabel)
+        addSubview(leftsideStacks)
+        addSubview(rightsideStacks)
+        addSubview(profilePictureLabel)
+        addSubview(profileImage)
+        addSubview(saveButton)
+        
+        leftsideStacks.addArrangedSubview(changeNameLabel)
+        leftsideStacks.addArrangedSubview(changePasswordLabel)
+        
+        rightsideStacks.addArrangedSubview(enterUserNameTextfield)
+        rightsideStacks.addArrangedSubview(enterPasswordTextfield)
         
     }
     
-    private func setUpChangeUserPicLab() {
-        changeUserPicLabel.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(changeNameLabel.snp.height)
-            make.width.equalTo(changeNameLabel.snp.width)
-            make.top.equalTo(changePassLabel.snp.bottom).offset(20)
-            make.left.equalTo(safeAreaLayoutGuide.snp.left).offset(5)
+    private func addConstraints(){
+        
+        leftsideStacks.snp.makeConstraints {(left) -> Void in
+            left.top.equalTo(self.safeAreaLayoutGuide).offset(80)
+            left.left.equalTo(self.snp.left).offset(20)
+            left.width.equalTo(self.snp.width).multipliedBy(0.4)
+            
         }
-    }
-    
-    private func setUpChangeUserPicTF() {
-        changeUserPicTextField.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(changeNameTextField.snp.height)
-            make.width.equalTo(changeNameTextField.snp.width)
-            make.top.equalTo(changePassTextField.snp.bottom).offset(20)
-            make.left.equalTo(changeUserPicLabel.snp.right).offset(5)
+        
+        rightsideStacks.snp.makeConstraints {(right) -> Void in
+            right.top.equalTo(leftsideStacks.snp.top)
+            right.left.equalTo(leftsideStacks.snp.right).offset(20)
+            right.right.equalTo(self.snp.right).offset(-20)
+            
         }
-    }
-    
-    private func setUpUploadButt() {
-        uploadPicButton.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(changeUserPicTextField.snp.bottom).offset(10)
-            make.height.equalTo(changeUserPicTextField.snp.height)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.3)
-            make.right.equalTo(safeAreaLayoutGuide.snp.right).offset(-5)
+        profilePictureLabel.snp.makeConstraints {(make) in
+            make.top.equalTo(self.snp.centerY).offset(-150)
+            make.centerX.equalTo(self.snp.centerX)
         }
-    }
-    
-    private func setUpSaveButt() {
-        saveButton.snp.makeConstraints { (make) -> Void in
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-20)
-            make.height.equalTo(uploadPicButton.snp.height)
-            make.width.equalTo(uploadPicButton.snp.width)
-            make.centerX.equalTo(settingTitleLabel.snp.centerX)
+        profileImage.snp.makeConstraints { (make) in
+            make.top.equalTo(profilePictureLabel.snp.bottom).offset(20)
+            make.centerX.equalTo(self.snp.centerX)
+            make.width.height.equalTo(300)
+        }
+        
+        saveButton.snp.makeConstraints { (save) in
+            save.top.equalTo(profileImage.snp.bottom).offset(50)
+            save.centerX.equalTo(self)
+            save.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-60)
+            save.height.equalTo(40)
         }
     }
 }
