@@ -48,9 +48,20 @@ struct PostService {
         return posts
     }
     
-    public func saveNewPost(content: String, title: String) {
+    public func saveNewPost(content: String, title: String, image: UIImage) {
         let newPost = postRef.childByAutoId()
-        let post = Post(ref: newPost, user: currentUser, postContent: content, postTitle: title)
-        newPost.setValue(post.toAnyObject())
+        let post = Post(ref: newPost, user: currentUser, postContent: content, postTitle: title, imageURL: "")
+        newPost.setValue(post.toAnyObject()){ (error, dbRef) in
+            if let error = error {
+                print("addPost error: \(error)")
+            } else {
+                print("Post added @ database reference: \(dbRef)")
+                
+                // add an image to storage
+                StorageService.manager.storeImage(image: image, postId: newPost.key, userId: nil)
+                // TODO: add image to database
+            }
+        }
+        
     }
 }
