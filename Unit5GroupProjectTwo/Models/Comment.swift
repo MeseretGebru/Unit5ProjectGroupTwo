@@ -9,31 +9,37 @@
 import Foundation
 import Firebase
 import FirebaseDatabase
-import FirebaseStorage
 
 struct Comment {
-    var userRef: DatabaseReference
-    var postRef: DatabaseReference
+    var ref: DatabaseReference
+    var commentId: String
+    var postId: String
+    var user: String
     var textComment: String
 
-    init(userRef: DatabaseReference, postRef: DatabaseReference, textComment: String) {
-        self.userRef = userRef
-        self.postRef = postRef
+    init(ref: DatabaseReference, user: User, postId: String, textComment: String) {
+        self.ref = ref
+        self.commentId = ref.key
+        self.postId = postId
+        self.user = user.uid
         self.textComment = textComment
-    
     }
     
  
-    init(snapShot: DataSnapshot, userRef: DatabaseReference, postRef: DatabaseReference){
+    init(snapShot: DataSnapshot){
         let value = snapShot.value as? [String: Any]
+        self.ref = snapShot.ref
+        self.commentId = snapShot.ref.key
+        self.postId = value?["postId"] as? String ?? ""
+        self.user = value?["user"] as? String ?? ""
         self.textComment = value?["textComment"] as? String ?? ""
-        self.userRef = userRef
-        self.postRef = postRef
-    
     }
 
     func toAnyObject() -> [String: Any] {
-        return["userRef": userRef, "postRef" : postRef, "textComment" : textComment]
+        return["commentId": ref.key,
+               "postId" : postId,
+               "user" : user,
+               "textComment": textComment]
     }
     
 }

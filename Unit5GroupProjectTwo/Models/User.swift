@@ -14,43 +14,37 @@ import FirebaseStorage
 import FirebaseAuth
 
 struct UserProfile {
-    var user: User
     var ref: DatabaseReference
-    var profileImageUrl: String
-    var email: String
-    var displayName: String
+    var userId: String
+    var user: String
     var lastLogin: String
-    var numberOfFlags: String
+    var numberOfFlags: Int
+    var imageURL: String
     
     // preparing info to save into firebase
-    init(user: User, ref: DatabaseReference, profileImageUrl: String, email: String, displayName: String, lastLogin: String, numberOfFlags: String){
-        
-        self.user = user
+    init(ref: DatabaseReference, user: User, lastLogin: String, numberOfFlags: Int, imageURL: String){
         self.ref = ref
-        self.profileImageUrl = profileImageUrl
-        self.email = email
-        self.displayName = displayName
+        self.userId = ref.key
+        self.user = user.uid
         self.lastLogin = lastLogin
         self.numberOfFlags = numberOfFlags
+        self.imageURL = imageURL
     }
-    
-
     
     // take info from firebase
     init(snapShot: DataSnapshot){
         let value = snapShot.value as? [String: Any]
-        self.user = value?["user"] as! User
         self.ref = snapShot.ref
-        self.profileImageUrl = value?["profileImageStringUrl"] as? String ?? ""
-        self.email = value?["email"] as? String ?? ""
-        self.displayName = value?["displayName"] as? String ?? ""
+        self.userId = snapShot.ref.key
+        self.user = value?["user"] as! String
         self.lastLogin = value?["lastLogin"] as? String ?? ""
-        self.numberOfFlags = value?["numberOfFlags"] as? String ?? ""
+        self.numberOfFlags = value?["numberOfFlags"] as? Int ?? 0
+        self.imageURL = value?["imageURL"] as? String ?? ""
     }
     
     // transform info previous to save
     func toAnyObject() -> [String: Any] {
-        return["ref" : ref, "profileImageUrl" : profileImageUrl, "email": email, "displayName": displayName, "lastLogin" : lastLogin, "numberOfFlags" : numberOfFlags ]
+        return["userId" : ref.key, "user": user, "lastLogin" : lastLogin, "numberOfFlags" : numberOfFlags, "imageURL": imageURL]
     }
     
 }

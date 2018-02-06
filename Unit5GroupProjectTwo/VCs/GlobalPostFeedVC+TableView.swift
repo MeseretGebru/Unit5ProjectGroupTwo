@@ -57,7 +57,13 @@ extension GlobalPostFeedVC: UITableViewDataSource {
         }
         let post = posts[indexPath.row]
         cell.titleLabel.text = post.postTitle
-        cell.userLabel.text = post.userRef.key
+
+       // cell.userLabel.text = post.userRef.key
+
+
+        //cell.userLabel.text = post.userRef.key
+//        cell.textLabel?.text = post.postContent
+//        cell.detailTextLabel?.text = "User1"
 
         return cell
     }

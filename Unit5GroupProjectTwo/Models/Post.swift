@@ -16,43 +16,40 @@ import FirebaseAuth
 
 struct Post {
     var ref: DatabaseReference
-    var userRef: DatabaseReference
-//    var key: String
-//    var postId: String
-    var postImageStringUrl: String
+    var postId: String
+    var user: String
     var postContent: String
     var postTitle: String
-
+    var imageURL: String
     
     // preparing info to save into firebase
-    init(ref: DatabaseReference, userRef: DatabaseReference, postImageStringUrl: String, postContent: String, postTitle: String){
+    init(ref: DatabaseReference,
+         user: User, postContent: String,
+         postTitle: String,
+         imageURL: String){
         
         self.ref = ref
-        self.userRef = userRef
-//        self.key = key
-//        self.postId = postId
-        self.postImageStringUrl = postImageStringUrl
+        self.postId = ref.key
+        self.user = user.uid
         self.postContent = postContent
         self.postTitle = postTitle
+        self.imageURL = imageURL
     }
     
     // take info from firebase
     init(snapShot: DataSnapshot){
         let value = snapShot.value as? [String: Any]
         self.ref = snapShot.ref
-        self.userRef = value?["userRef"] as! DatabaseReference
-//        self.key = value?["key"] as? String ?? ""
-//        self.postId = value?["postId"] as?  String ?? ""
-
-        self.postImageStringUrl = value?["postImageStringUrl"] as? String ?? ""
+        self.postId = snapShot.ref.key
+        self.user = value?["user"] as? String ?? ""
         self.postContent = value?["postContent"] as? String ?? ""
         self.postTitle = value?["postTitle"] as? String ?? ""
-        
+        self.imageURL = value?["imageURL"] as? String ?? ""
     }
     
     // transform info previous to save
     func toAnyObject() -> [String: Any] {
-        return ["ref" : ref, "userRef" : userRef, "postImageStringUrl" : postImageStringUrl, "postContent" : postContent, "postTitle" : postTitle ]
+        return ["postId" : postId, "user": user, "postContent" : postContent, "postTitle" : postTitle, "imageURL": imageURL]
     }
     
 }

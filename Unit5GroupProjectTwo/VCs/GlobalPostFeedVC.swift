@@ -9,20 +9,7 @@
 import UIKit
 import SnapKit
 import Firebase
-/*
-// get data from our "jobs" reference
-DBService.manager.getJobRef().observe(.value) { (snapshot) in
-    var jobs = [Job]()
-    for child in snapshot.children {
-        let dataSnapshot = child as! DataSnapshot
-        if let dict = dataSnapshot.value as? [String: Any] {
-            let job = Job(jobDict: dict)
-            jobs.append(job)
-        }
-    }
-    self.jobs = jobs
-}
- */
+
 class GlobalPostFeedVC: UIViewController {
   
     let feedView  = GlobalPostFeedView()
@@ -34,7 +21,7 @@ class GlobalPostFeedVC: UIViewController {
     var posts = [Post]() {
         didSet {
         DispatchQueue.main.async {
-            feedView.tableView.reloadData()
+            self.feedView.tableView.reloadData()
         }
         }
     }
@@ -67,17 +54,17 @@ class GlobalPostFeedVC: UIViewController {
         
         if self.revealViewController() != nil {
             menuButt.target = self.revealViewController()
-            menuButt.action = "revealToggle:"
+            menuButt.action = #selector(SWRevealViewController.revealToggle(_:))
     self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPost))
         
         // get data from "postRef"
-        PostService.manager.getPostRef().observe(.value) { (snapshot) in
+        PostService.manager.getPostsRef().observe(.value) { (snapshot) in
             var posts = [Post]()
-            for child in snapshot.children as DataSnapshot {
-                    let post = Post(snapShot: child)
+            for child in snapshot.children {
+                    let post = Post(snapShot: child as! DataSnapshot)
                   posts.append(post)
             }
             self.posts = posts
