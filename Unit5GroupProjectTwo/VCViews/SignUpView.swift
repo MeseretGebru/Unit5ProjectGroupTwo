@@ -15,6 +15,13 @@ class SignUpView: UIView {
     //        return lab
     //    }()
     
+    lazy var uploadImageButton: UIButton = {
+        let butt = UIButton()
+        butt.setImage(#imageLiteral(resourceName: "profile64"), for: .normal)
+        butt.contentMode = UIViewContentMode.scaleToFill
+        return butt
+    }()
+    
     lazy var usernameTextField: UITextField = {
         let txt = UITextField()
         txt.placeholder = "Username"
@@ -65,8 +72,9 @@ class SignUpView: UIView {
     }
     
     private func setupViews() {
-        let views = [usernameTextField, emailTextField, passwordTextField, createAccountButton] as [UIView]
+        let views = [uploadImageButton, usernameTextField, emailTextField, passwordTextField, createAccountButton] as [UIView]
         views.forEach { ($0).translatesAutoresizingMaskIntoConstraints = false; addSubview($0)}
+        setupUploadIV()
         setUpUserNameTF()
         setUpEmailTF()
         setUpPWTF()
@@ -74,11 +82,22 @@ class SignUpView: UIView {
         
     }
     
+    private func setupUploadIV() {
+        uploadImageButton.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(self).offset(10)
+            make.height.equalTo(self).multipliedBy(0.2)
+            make.width.equalTo(self).multipliedBy(0.2)
+            make.centerX.equalTo(self)
+//            make.centerY.equalTo(self)
+        }
+    }
+    
+    
     private func setUpUserNameTF() {
         usernameTextField.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(self).multipliedBy(0.9)
             make.height.equalTo(self).multipliedBy(0.1)
-            make.top.equalTo(self).offset(50)
+            make.top.equalTo(uploadImageButton.snp.bottom).offset(20)
             make.centerX.equalTo(self)
         }
     }

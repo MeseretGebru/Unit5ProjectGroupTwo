@@ -26,7 +26,7 @@ class UserLoginView: UIView {
         return txt
     }()
     
-    lazy var passWordField: UITextField = {
+    lazy var passwordTextField: UITextField = {
         let txt = UITextField()
         txt.placeholder = "Password"
 //        txt.backgroundColor = .red
@@ -83,7 +83,7 @@ class UserLoginView: UIView {
     }
     
     private func setupViews() {
-        let views = [emailTextField, passWordField, submitInfoButton, forgotPWButton] as [UIView]
+        let views = [emailTextField, passwordTextField, submitInfoButton, forgotPWButton] as [UIView]
         views.forEach { addSubview($0); ($0).translatesAutoresizingMaskIntoConstraints = false}
     
     }
@@ -98,7 +98,7 @@ class UserLoginView: UIView {
     }
     
     private func setUpPWTF () {
-        passWordField.snp.makeConstraints { (make) -> Void in 
+        passwordTextField.snp.makeConstraints { (make) -> Void in 
             make.width.equalTo(self).multipliedBy(0.9)
             make.height.equalTo(self).multipliedBy(0.1)
             make.top.equalTo(emailTextField.snp.bottom).offset(20)
@@ -110,7 +110,7 @@ class UserLoginView: UIView {
         submitInfoButton.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(self).multipliedBy(0.3)
             make.height.equalTo(self).multipliedBy(0.1)
-            make.top.equalTo(passWordField.snp.bottom).offset(20)
+            make.top.equalTo(passwordTextField.snp.bottom).offset(20)
             make.centerX.equalTo(self)
             
             submitInfoButton.layer.cornerRadius = 10

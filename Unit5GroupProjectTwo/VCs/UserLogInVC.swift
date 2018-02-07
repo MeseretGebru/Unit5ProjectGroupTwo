@@ -42,6 +42,7 @@ class UserLogInVC: UIViewController {
         userLoginView.submitInfoButton.addTarget(self, action: #selector(login), for: .touchUpInside)
         userSignUpView.createAccountButton.addTarget(self, action: #selector(signUp), for: .touchUpInside)
         userLoginView.forgotPWButton.addTarget(self, action: #selector(reset), for: .touchUpInside)
+        userSignUpView.uploadImageButton.addTarget(self, action: #selector(saveUser), for: .touchUpInside)
         
         self.verificationTimer = Timer.scheduledTimer(timeInterval: 200, target: self, selector: #selector(UserLogInVC.signUp) , userInfo: nil, repeats: true)
         
@@ -77,7 +78,7 @@ class UserLogInVC: UIViewController {
     @objc private func login() {
         guard let email = userLoginView.emailTextField.text else { self.alertForErrors(with: "Please enter an email."); return }
         guard !email.isEmpty else { self.alertForErrors(with: "Please enter an email."); return }
-        guard let password = userLoginView.passWordField.text else { self.alertForErrors(with: "Please enter a password."); return }
+        guard let password = userLoginView.passwordTextField.text else { self.alertForErrors(with: "Please enter a password."); return }
         guard !password.isEmpty else { self.alertForErrors(with: "Please enter a password."); return }
         FirebaseAPIClient.manager.login(with: email, an: password) { (user, error) in
             if Auth.auth().currentUser?.isEmailVerified != true {
@@ -149,6 +150,9 @@ class UserLogInVC: UIViewController {
                     }
                     
                 }
+                
+//                UserService.manager.saveNewUser(imageProfile: <#T##UIImage#>)
+                
                 Auth.auth().currentUser?.sendEmailVerification { (error) in
                     if error == nil {
                         let ac = UIAlertController(title: "Email Verification Sent", message: "Email verification is needed. Please check your email and follow the instructions.", preferredStyle: .alert)
@@ -192,6 +196,8 @@ class UserLogInVC: UIViewController {
         }
     }
     
+    
+    
     //    func isEmailVerfied() {
     //        Auth.auth().currentUser?.reload{ (error) in
     //            if error == nil {
@@ -218,6 +224,10 @@ class UserLogInVC: UIViewController {
         resetVC.modalTransitionStyle = .coverVertical
         resetVC.modalPresentationStyle = .pageSheet
         self.present(ForgotPasswordVC(), animated: true, completion: nil)
+    }
+    
+    @objc private func saveUser() {
+        
     }
     
     
