@@ -30,7 +30,9 @@ struct CommentService {
         commentRef.observe(.value) { (dataSnapShop) in
             for comment in dataSnapShop.children {
                 let postCom = Comment(snapShot: comment as! DataSnapshot)
-                comments.insert(postCom, at: 0)
+                if postCom.postId == post {
+                    comments.insert(postCom, at: 0)
+                }
             }
             completion(comments)
         }
