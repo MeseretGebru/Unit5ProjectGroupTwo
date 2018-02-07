@@ -13,22 +13,44 @@ import Firebase
 /*User clicks button -> Segues to this view controller -> User enters email and clicks button -> A pop up displays saying email was sent to them -> User clicks okay and is sent back to login view controller */
 
 class ForgotPasswordVC: UIViewController {
-
+    
+    
+    
+    
     let resetView = ForgotPasswordView()
+    
+    lazy var backButtonView: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .yellow
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(backButtonView)
         view.addSubview(resetView)
+        setUpBlackView()
         setUpResetView()
         resetView.submitButton.addTarget(self, action: #selector(resetPassword), for: .touchUpInside)
-       
+        resetView.dismissButton.addTarget(self, action: #selector(disMissSelfForButton), for: .touchUpInside)
+        backButtonView.addTarget(self, action: #selector(disMissSelfForButton), for: .touchUpInside)
+        //       gestureTap(<#T##sender: UITapGestureRecognizer##UITapGestureRecognizer#>)
     }
-
+    
     private func setUpResetView() {
         resetView.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20))
         }
     }
+    
+    private func setUpBlackView() {
+        backButtonView.snp.makeConstraints { (make) -> Void in
+            make.edges.equalTo(view.snp.edges)
+        }
+        backButtonView.alpha = 0.5
+        
+    }
+    
     
     @objc private func resetPassword() {
         let email = getEmail()
@@ -43,7 +65,7 @@ class ForgotPasswordVC: UIViewController {
                 self.present(ac, animated: true)
             }
             else {
-                 if let errorCode = AuthErrorCode(rawValue: error!._code) {
+                if let errorCode = AuthErrorCode(rawValue: error!._code) {
                     var message = ""
                     switch errorCode{
                     case .missingEmail:
@@ -65,13 +87,31 @@ class ForgotPasswordVC: UIViewController {
         }
     }
     
+    @objc func disMissSelfForButton() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    
     func dimissSelf() {
         self.dismiss(animated: true, completion: nil)
     }
+    
+ 
+    
     
     private func getEmail() -> (String) {
         let email = resetView.emailTextField.text!
         return email
     }
-
+    
+    
+    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    //        //broken
+    //         self.dismiss(animated: true, completion: nil)
+    //    }
+    
+    
+    
+    
 }

@@ -18,7 +18,6 @@ class SignUpView: UIView {
     lazy var usernameTextField: UITextField = {
         let txt = UITextField()
         txt.placeholder = "Username"
-        txt.backgroundColor = .green
         txt.autocapitalizationType = .none
         return txt
     }()
@@ -26,7 +25,6 @@ class SignUpView: UIView {
     lazy var emailTextField: UITextField = {
         let txt = UITextField()
         txt.placeholder = "Email Address"
-        txt.backgroundColor = .green
         txt.autocapitalizationType = .none
         return txt
     }()
@@ -34,7 +32,6 @@ class SignUpView: UIView {
     lazy var passwordTextField: UITextField  = {
         let txt = UITextField()
         txt.placeholder = "Password"
-        txt.backgroundColor = .green
         txt.autocapitalizationType = .none
         txt.isSecureTextEntry = true
         return txt
@@ -42,7 +39,8 @@ class SignUpView: UIView {
     
     lazy var createAccountButton: UIButton = {
         let butt = UIButton()
-        butt.backgroundColor = .yellow
+        butt.setTitle("Sign Up", for: .normal)
+        butt.backgroundColor = .orange
         return butt
     }()
     
@@ -62,7 +60,7 @@ class SignUpView: UIView {
     }
     
     private func commonInit() {
-        backgroundColor = .purple
+        backgroundColor = .white
         setupViews()
     }
     
@@ -112,6 +110,9 @@ class SignUpView: UIView {
             make.top.equalTo(passwordTextField.snp.bottom).offset(20)
             make.centerX.equalTo(self)
             
+            
+            createAccountButton.layer.cornerRadius = 10
+            createAccountButton.layer.masksToBounds = true
         }
     }
 }

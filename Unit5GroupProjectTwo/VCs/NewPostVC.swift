@@ -74,8 +74,8 @@ class NewPostVC: UIViewController {
         // TODO: replace with PostService class
         let text = newPostView.titleTextfield.text
         let postId = Database.database().reference().child("posts").childByAutoId()
-        let post = Post(ref: postId, userRef: getUser()!, postImageStringUrl: "", postContent: "", postTitle: text!)
-        postId.setValue(post)
+//        let post = Post(ref: postId, userRef: getUser()!, postImageStringUrl: "", postContent: "", postTitle: text!)
+//        postId.setValue(post)
 //        self.loadData()
     }
     
