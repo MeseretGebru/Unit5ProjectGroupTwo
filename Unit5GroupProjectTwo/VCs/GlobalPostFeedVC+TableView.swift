@@ -16,9 +16,17 @@ extension GlobalPostFeedVC: UITableViewDelegate {
 //        }
       //  let post = posts[indexPath.row]
         // TODO: replace with dependency injection
-        let commentVC = PostDetailVC()
+        var selectedPost: Post!
+        switch tableView {
+        case feedView.tableView:
+            selectedPost = self.posts[indexPath.row]
+        default:
+            selectedPost = self.populatedPosts[indexPath.row]
+        }
+        let commentVC = PostDetailVC(post: selectedPost)
       //  commentVC.post = post
         navigationController?.pushViewController(commentVC, animated: true)
+        
     }
     
 }
@@ -32,10 +40,13 @@ extension GlobalPostFeedVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        if tableView == feedView.tableView {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell
         cell.layoutIfNeeded()
         cell.moreButton.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
-        
+        cell.upvoteButton.tag = indexPath.row
+            cell.upvoteButton.addTarget(self, action: #selector(upvotePressed(sender:)), for: .touchUpInside)
         guard posts.count > 0 else {
             switch indexPath.row {
             case 0:
@@ -65,6 +76,12 @@ extension GlobalPostFeedVC: UITableViewDataSource {
 //        cell.textLabel?.text = post.postContent
 //        cell.detailTextLabel?.text = "User1"
 
+        return cell
+        } else if tableView == popularFeedView.tableView {
+             let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell
+            cell.titleLabel.text = "it's popular feed cell"
+            return cell
+        }
         return cell
     }
 }

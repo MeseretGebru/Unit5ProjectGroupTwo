@@ -20,7 +20,7 @@ struct UserProfile {
     var lastLogin: String
     var numberOfFlags: Int
     var imageURL: String
-    
+   // var voteGave: Int
     // preparing info to save into firebase
     init(ref: DatabaseReference, user: User, lastLogin: String, numberOfFlags: Int, imageURL: String){
         self.ref = ref

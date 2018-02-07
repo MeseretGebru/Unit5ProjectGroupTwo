@@ -25,15 +25,18 @@ struct PostService {
     
     public func getDB()-> DatabaseReference { return dbRef }
     public func getPostsRef() -> DatabaseReference {return postRef}
-    public func getPosts()-> [Post] {
-        var posts = [Post]()
-        postRef.observe(.value) { (dataSnapShop) in
-            for post in dataSnapShop.children {
-                let post = Post(snapShot: post as! DataSnapshot)
+    public func getPosts(completionHandler: @escaping([Post]) -> Void) {
+    
+        postRef.observe(.value) { (snapShop) in
+            var posts = [Post]()
+            for child in snapShop.children {
+                let dataSnapShot = child as! DataSnapshot
+                let post = Post(snapShot: dataSnapShot)
                 posts.append(post)
             }
+            completionHandler(posts)
         }
-        return posts
+    
     }
     public func getUserPosts(from user: User) -> [Post] {
         var posts = [Post]()
@@ -50,7 +53,7 @@ struct PostService {
     
     public func saveNewPost(content: String, title: String, image: UIImage) {
         let newPost = postRef.childByAutoId()
-        let post = Post(ref: newPost, user: currentUser, postContent: content, postTitle: title, imageURL: "")
+        let post = Post(ref: newPost, user: currentUser, postContent: content, postTitle: title, imageURL: "", /*vote: nil,*/ countOfUp: 0)
         newPost.setValue(post.toAnyObject()){ (error, dbRef) in
             if let error = error {
                 print("addPost error: \(error)")
@@ -64,4 +67,11 @@ struct PostService {
         }
         
     }
+    public func updateVote(of post: Post) {
+      var currentUps = post.countOfUp
+       let updatedCount = currentUps + 1
+        post.ref.child("countOfUp").setValue(updatedCount)
+      
+        
+}
 }

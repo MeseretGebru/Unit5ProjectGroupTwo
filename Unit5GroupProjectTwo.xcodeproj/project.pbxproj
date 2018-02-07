@@ -47,6 +47,7 @@
 		81B9AE592020333D0045622F /* NewPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B9AE582020333D0045622F /* NewPostView.swift */; };
 		81D7285D202117D9006F6B7D /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D7285C202117D9006F6B7D /* UserProfileView.swift */; };
 		81DA3258202A442F00E5DE0A /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DA3256202A404600E5DE0A /* SWRevealViewController.m */; };
+		81DA327D202A810C00E5DE0A /* GlobalFeedSegmentedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DA327C202A810C00E5DE0A /* GlobalFeedSegmentedViewController.swift */; };
 		81E66DA020291AB500A37D8F /* UserPostsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E66D9F20291AB500A37D8F /* UserPostsTableViewCell.swift */; };
 		81E7C415202628C70067136B /* UpvotedPostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E7C414202628C70067136B /* UpvotedPostsVC.swift */; };
 		81E7C417202630880067136B /* GlobalPostFeedVC+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E7C416202630880067136B /* GlobalPostFeedVC+TableView.swift */; };
@@ -105,6 +106,7 @@
 		81DA3254202A37F000E5DE0A /* Unit5GroupProjectTwo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Unit5GroupProjectTwo-Bridging-Header.h"; sourceTree = "<group>"; };
 		81DA3255202A404200E5DE0A /* SWRevealViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = "../../../../../../Downloads/SWRevealViewController-master/SWRevealViewController/SWRevealViewController.h"; sourceTree = "<group>"; };
 		81DA3256202A404600E5DE0A /* SWRevealViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = "../../../../../../Downloads/SWRevealViewController-master/SWRevealViewController/SWRevealViewController.m"; sourceTree = "<group>"; };
+		81DA327C202A810C00E5DE0A /* GlobalFeedSegmentedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFeedSegmentedViewController.swift; sourceTree = "<group>"; };
 		81E66D9F20291AB500A37D8F /* UserPostsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostsTableViewCell.swift; sourceTree = "<group>"; };
 		81E7C414202628C70067136B /* UpvotedPostsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpvotedPostsVC.swift; sourceTree = "<group>"; };
 		81E7C416202630880067136B /* GlobalPostFeedVC+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlobalPostFeedVC+TableView.swift"; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				81157D522023EBA6000B765B /* ForgotPasswordVC.swift */,
 				8172792D201FD01D002EE595 /* GlobalPostFeedVC.swift */,
 				81E7C416202630880067136B /* GlobalPostFeedVC+TableView.swift */,
+				81DA327C202A810C00E5DE0A /* GlobalFeedSegmentedViewController.swift */,
 				81624CE220228E7000D9EAD4 /* MenuVC.swift */,
 				8172792F201FD03A002EE595 /* UserProfileVC.swift */,
 				810C65BD2020114F00A3AB6F /* SettingsVC.swift */,
@@ -477,6 +480,7 @@
 				81E7C4212026382A0067136B /* CommentService.swift in Sources */,
 				8172792A201FCFC8002EE595 /* MainVC.swift in Sources */,
 				81E7C417202630880067136B /* GlobalPostFeedVC+TableView.swift in Sources */,
+				81DA327D202A810C00E5DE0A /* GlobalFeedSegmentedViewController.swift in Sources */,
 				81157D472023B66C000B765B /* PostDetailVC+Extension.swift in Sources */,
 				81157D3F2023A5B0000B765B /* Vote.swift in Sources */,
 				81157D432023B5D8000B765B /* CommentTVCell.swift in Sources */,

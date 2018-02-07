@@ -12,45 +12,73 @@ import Firebase
 
 class GlobalPostFeedVC: UIViewController {
   
+    // segmentView for Nav bar item
+    lazy var segmentView: UISegmentedControl = {
+        let seg = UISegmentedControl(items: ["Recent", "Popular"])
+        seg.selectedSegmentIndex = 0
+        seg.accessibilityNavigationStyle = .combined
+        seg.layer.borderWidth = 0
+        return seg
+    }()
+    // implement pageControl
+    //lazy var width = view.safeAreaLayoutGuide.layoutFrame.width
+    lazy var height = view.safeAreaLayoutGuide.layoutFrame.height
+    let width = UIScreen.main.bounds.width
+   // let height = UIScreen.main.bounds.height
+    lazy var scrollView = UIScrollView(frame: CGRect(x:0, y:0, width: width, height: height))
+    var colors:[UIColor] = [UIColor.red, UIColor.blue]
+    var frame: CGRect = CGRect(x:0, y:0, width:0, height:0)
+    
+   lazy var pageControl : UIPageControl = UIPageControl(frame: CGRect(x:60,y: height, width: width / 2, height: 50))
+   
+    // feedView
     let feedView  = GlobalPostFeedView()
+    let popularFeedView = GlobalPostFeedView()
    // let menuButt = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton"), style: .plain, target: self, action: #selector(showMenu))
     
     let menuButt = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton"), style: .plain, target: self, action: nil)
 
     // MARK: Data Model
+    var populatedPosts = [Post]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.popularFeedView.tableView.reloadData()
+                
+            }
+        }
+    }
     var posts = [Post]() {
         didSet {
         DispatchQueue.main.async {
             self.feedView.tableView.reloadData()
+            
         }
         }
     }
     
-    private func loadData() {
-        // TODO: hide away behind abstraction of PostService class
-        let postRef = Database.database().reference().child("posts")
-        postRef.observe(.value) { (snapShot) in
-            var posts = [Post]()
-            for post in snapShot.children {
-//              let newPost = Post(snapShot: post as! DataSnapshot)
-                let newPost = Post(snapShot: snapShot)
-                posts.insert(newPost, at: 0)
-            }
-            self.posts = posts
+    func loadPosts() {
+      
+        PostService.manager.getPosts { (onlinePosts) in
+            self.posts = onlinePosts
+            let sortedPosts = onlinePosts.sorted(by: {$0.countOfUp > $1.countOfUp })
+            self.populatedPosts = sortedPosts
         }
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadData()
+        loadPosts()
         view.backgroundColor = .orange
-        view.addSubview(feedView)
+       // view.addSubview(feedView)
         feedView.tableView.delegate = self
         feedView.tableView.dataSource = self
+        popularFeedView.tableView.delegate = self
+        popularFeedView.tableView.dataSource = self
         
         navigationItem.leftBarButtonItem = menuButt
         feedView.tableView.rowHeight = UITableViewAutomaticDimension
-        
+        popularFeedView.tableView.rowHeight = UITableViewAutomaticDimension
         
         if self.revealViewController() != nil {
             menuButt.target = self.revealViewController()
@@ -60,15 +88,17 @@ class GlobalPostFeedVC: UIViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPost))
         
-        // get data from "postRef"
-        PostService.manager.getPostsRef().observe(.value) { (snapshot) in
-            var posts = [Post]()
-            for child in snapshot.children {
-                    let post = Post(snapShot: child as! DataSnapshot)
-                  posts.append(post)
-            }
-            self.posts = posts
-        }
+     // setup segmentView
+        segmentView.addTarget(self, action: #selector(segmentValueChanged), for: .valueChanged)
+        navigationItem.titleView = segmentView
+        
+        // set scrollView delegate
+        scrollView.delegate = self
+        scrollView.isPagingEnabled = true
+      
+        setupScrollView()
+        
+        configurePageControl()
     }
 // create instance for storyBoard
     public static func storyboardInstance() -> GlobalPostFeedVC {
@@ -76,7 +106,6 @@ class GlobalPostFeedVC: UIViewController {
         let feedVC = storyboard.instantiateViewController(withIdentifier: "GlobalPostFeedVC") as! GlobalPostFeedVC
         return feedVC
     }
-    
    
     
     @objc func showMenu() {
@@ -106,6 +135,10 @@ class GlobalPostFeedVC: UIViewController {
         alert.addAction(flagActionSheet)
         alert.addAction(cancelActionSheet)
         present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func upvotePressed(sender: UIButton) {
+        PostService.manager.updateVote(of: self.posts[sender.tag])
     }
     
 }
