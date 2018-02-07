@@ -16,7 +16,9 @@ import SnapKit
 class UserProfileVC: UIViewController {
 
     let userProfileView = UserProfileView()
-    
+
+    let menuButt = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton"), style: .plain, target: self, action: nil)
+
     // Title should be big, bold and center
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -96,62 +98,78 @@ class UserProfileVC: UIViewController {
         stackView.spacing = 2.0
         return stackView
     }()
+
+    var post: Post!
+    var user: UserProfile!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .gray
+        configureNavBar()
+        userProfileView.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        
+        userProfileView.changePictureButton.addTarget(self, action: #selector(changePicture), for: .touchUpInside)
+        userProfileView.postsButton.addTarget(self, action: #selector(posts), for: .touchUpInside)
         addSubViews()
-        addConstraints()
+        //configureData(user: user, post: Post)
+        
+    }
+    private func configureNavBar() {
+        navigationItem.title = "User Profile"
+      
     }
     
-    func addSubViews(){
-        // view.addSubview(userProfileView)
-        view.addSubview(titleLabel)
-        view.addSubview(leftsideStacks)
-        view.addSubview(rightsideStacks)
-        
-        leftsideStacks.addArrangedSubview(userNameLabel)
-        leftsideStacks.addArrangedSubview(lastLoginLabel)
-        leftsideStacks.addArrangedSubview(numberOfPostsLabel)
-        leftsideStacks.addArrangedSubview(numberofFlagsLabel)
-        
-        rightsideStacks.addArrangedSubview(userNameTextfield)
-        rightsideStacks.addArrangedSubview(lastLoginDisplayLabel)
-        rightsideStacks.addArrangedSubview(numberOfPostsDisplayLabel)
-        rightsideStacks.addArrangedSubview(numberofFlagsDisplayLabel)
-        
+    private func addSubViews(){
         view.addSubview(userProfileView)
+        addConstraints()
+         navigationItem.leftBarButtonItem = menuButt
+        
+        if self.revealViewController() != nil {
+            menuButt.target = self.revealViewController()
+            menuButt.action = #selector(SWRevealViewController.revealToggle(_:))
+            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+    }
+    
+    public static func storyboardInstance() -> UserProfileVC {
+        let storyboard = UIStoryboard(name: "GlobalPostFeed", bundle: nil)
+        let profileVC = storyboard.instantiateViewController(withIdentifier: "UserProfileVC") as! UserProfileVC
+        return profileVC
+    }
+    
+    @objc private func changePicture(){
+        
+    }
+    
+    @objc private func posts(){
+            let userPostVC = UserPostsVC()
+            let navController = UINavigationController(rootViewController: userPostVC)
+            self.present(navController, animated: true, completion: nil)
+        
+    }
+    
+    @objc private func back(){
+        
+    }
+    
+    @objc private func dismissView() {
+        dismiss(animated: true, completion: nil)
     }
     
     private func addConstraints(){
-        titleLabel.snp.makeConstraints {(title) in
-            title.width.equalTo(view)
-            title.top.equalTo(view).offset(30)
-            title.centerX.equalTo(view)
-        }
-        leftsideStacks.snp.makeConstraints {(left) -> Void in
-            left.left.equalTo(view.snp.left).offset(20)
-            left.top.equalTo(titleLabel.snp.bottom).offset(50)
-            left.right.equalTo(rightsideStacks.snp.left).offset(20)
-            left.height.equalTo(view.snp.height).multipliedBy(0.4)
-        }
-        
-        rightsideStacks.snp.makeConstraints {(right) -> Void in
-            right.left.equalTo(leftsideStacks.snp.right).offset(20)
-            right.top.equalTo(titleLabel.snp.bottom).offset(50)
-            right.right.equalTo(view.snp.right).offset(40)
-            right.height.equalTo(view.snp.height).multipliedBy(0.4)
-        }
         userProfileView.snp.makeConstraints { (make) in
-            make.top.equalTo(rightsideStacks.snp.bottom)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
-            make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
+            make.edges.equalTo(self.view.safeAreaLayoutGuide.snp.edges)
         }
-        
     }
     
+    //    public func configureData(user: UserProfile,post: Post) {
+    //        userProfileView.calculatedNumberofPostsLabel.text = ""
+    //        userProfileView.calculatedNumberofFlagsLabel.text = "\(user.numberOfFlags)"
+    //        //userProfileView.calculatedNumberofUpvotesLabel.text =
+    //
+    //    }
+    
+    
 }
-
-
 

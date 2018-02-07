@@ -13,7 +13,9 @@ class PostDetailView: UIView {
     lazy var postImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
-        image.image = #imageLiteral(resourceName: "c4q-logo")
+        image.image = #imageLiteral(resourceName: "panda")
+        image.layer.cornerRadius = image.frame.size.width / 2
+        image.clipsToBounds = true
         return image
     }()
     
@@ -67,14 +69,14 @@ class PostDetailView: UIView {
     
     lazy var newComment: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "icoComment"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "CommentIcon"), for: .normal)
         return button
     }()
     
     lazy var headerL2: UIStackView = {
         let stView = UIStackView()
         stView.axis  = UILayoutConstraintAxis.horizontal
-        stView.distribution  = UIStackViewDistribution.fillEqually
+        stView.distribution  = UIStackViewDistribution.fill
         stView.alignment = UIStackViewAlignment.center
         stView.spacing   = 8.0
         return stView
@@ -87,7 +89,7 @@ class PostDetailView: UIView {
         image.layer.borderWidth = 1.5
         image.layer.cornerRadius = image.frame.size.width / 2
         image.clipsToBounds = true
-        image.image = #imageLiteral(resourceName: "mrugama")
+        image.image = #imageLiteral(resourceName: "panda")
         return image
     }()
     
@@ -118,8 +120,8 @@ class PostDetailView: UIView {
     
     lazy var tableView: UITableView = {
         let tv = UITableView()
-        tv.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.register(CommentTVCell.self, forCellReuseIdentifier: "Cell")
+        //tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
     }()
     
@@ -130,6 +132,13 @@ class PostDetailView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // make profile image a circle
+        profileImageView.setNeedsLayout()
+        //profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2
     }
     
     private func commonInit() {
@@ -160,24 +169,23 @@ class PostDetailView: UIView {
         commentStackView.snp.makeConstraints { (make) in
             make.centerX.equalTo(headerStackView.snp.centerX)
             make.bottom.equalTo(headerStackView.snp.bottom).offset(-8)
-            //make.width.equalTo(headerStackView.snp.width)
-            //make.height.equalTo(40)
         }
         profileImageView.snp.makeConstraints { (make) in
             make.height.width.equalTo(40)
             make.left.equalTo(self.snp.left).offset(16)
-            //make.centerY.equalTo(commentStackView.snp.centerY)
         }
         commentTextField.snp.makeConstraints { (make) in
             make.left.equalTo(profileImageView.snp.right).offset(16)
             make.right.equalTo(commentStackView.snp.right)
         }
-        headerL2.snp.makeConstraints { (make) in
-            make.width.equalTo(headerStackView.snp.width)
-            make.centerX.equalTo(headerStackView.snp.centerX)
-            make.height.equalTo(32)
-            make.bottom.equalTo(commentStackView.snp.top).offset(-8)
-        }
+        
+        
+//        headerL2.snp.makeConstraints { (make) in
+//            make.width.equalTo(headerStackView.snp.width)
+//            make.centerX.equalTo(headerStackView.snp.centerX)
+//            make.height.equalTo(32)
+//            make.bottom.equalTo(commentStackView.snp.top).offset(-8)
+//        }
         titleLabel.snp.makeConstraints { (make) in
             make.width.equalTo(headerStackView.snp.width)
             make.bottom.equalTo(headerL2.snp.top)

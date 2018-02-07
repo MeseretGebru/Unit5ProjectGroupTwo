@@ -56,6 +56,12 @@ class FeedTableViewCell: UITableViewCell {
          butt.imageView?.contentMode = .scaleAspectFit
         return butt
     }()
+    lazy var moreButton: UIButton = {
+        let butt = UIButton()
+        butt.setImage(#imageLiteral(resourceName: "more"), for: .normal)
+        butt.imageView?.contentMode = .scaleAspectFit
+        return butt
+    }()
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: "FeedTableCell")
         commonInit()
@@ -140,6 +146,7 @@ class FeedTableViewCell: UITableViewCell {
         actionsStackView.addSubview(upvoteButton)
         actionsStackView.addSubview(downvoteButton)
         actionsStackView.addSubview(commentButton)
+        actionsStackView.addSubview(moreButton)
         
         upvoteButton.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
@@ -158,6 +165,13 @@ class FeedTableViewCell: UITableViewCell {
         commentButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(snp.centerX)
             make.centerY.equalToSuperview()
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.width.equalTo(25)
+        }
+        moreButton.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview()
+            make.trailingMargin.equalToSuperview().offset(-15)
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
             make.width.equalTo(25)

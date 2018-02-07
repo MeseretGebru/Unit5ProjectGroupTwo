@@ -11,34 +11,34 @@ import SnapKit
 import Firebase
 
 class GlobalPostFeedVC: UIViewController {
-    // NOTE:  MENU BUTTON DOES NOT WORK. YOU WILL NOT HAVE A GOOD TIME IF YOU TOUCHY!
+  
     let feedView  = GlobalPostFeedView()
-    let menuButt = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton"), style: .plain, target: self, action: #selector(showMenu))
+   // let menuButt = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton"), style: .plain, target: self, action: #selector(showMenu))
     
+    let menuButt = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton"), style: .plain, target: self, action: nil)
+
     // MARK: Data Model
     var posts = [Post]() {
         didSet {
-            feedView.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.feedView.tableView.reloadData()
+            }
         }
     }
     
     private func loadData() {
         // TODO: hide away behind abstraction of PostService class
-        let postRef = Database.database().reference().child("posts")
-        postRef.observe(.value) { (snapShot) in
-            var posts = [Post]()
-            for post in snapShot.children {
-//              let newPost = Post(snapShot: post as! DataSnapshot)
-                let newPost = Post(snapShot: snapShot)
-                posts.insert(newPost, at: 0)
+        PostService.manager.getPosts { (postOnline) in
+            if let posts = postOnline {
+                self.posts = posts
             }
-            self.posts = posts
         }
+        
+        print(posts.count)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadData()
         view.backgroundColor = .orange
         view.addSubview(feedView)
         feedView.tableView.delegate = self
@@ -48,9 +48,25 @@ class GlobalPostFeedVC: UIViewController {
         feedView.tableView.rowHeight = UITableViewAutomaticDimension
         
         
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(showMenu))
+        if self.revealViewController() != nil {
+            menuButt.target = self.revealViewController()
+            menuButt.action = #selector(SWRevealViewController.revealToggle(_:))
+    self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPost))
+        
+        
+        loadData()
     }
+// create instance for storyBoard
+    public static func storyboardInstance() -> GlobalPostFeedVC {
+        let storyboard = UIStoryboard(name: "GlobalPostFeed", bundle: nil)
+        let feedVC = storyboard.instantiateViewController(withIdentifier: "GlobalPostFeedVC") as! GlobalPostFeedVC
+        return feedVC
+    }
+    
+   
     
     @objc func showMenu() {
         let presentedMenuController = MenuVC()
@@ -59,14 +75,6 @@ class GlobalPostFeedVC: UIViewController {
         present(presentedMenuController, animated: true, completion: nil)
     }
     
-    
-    // feedView.tableView.estimatedRowHeight = 300
-    //    feedView.tableView.rowHeight = UITableViewAutomaticDimension
-    //
-    //
-    //    navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(showMenue))
-    //    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
-    //}
     
     
     @objc func addPost() {
@@ -78,38 +86,17 @@ class GlobalPostFeedVC: UIViewController {
 //        present(PostViewController(), animated: true, completion: nil)
 //        navigationController?.pushViewController(PostViewController(), animated: true)
     }
+    @objc func moreButtonPressed() {
+    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let flagActionSheet = UIAlertAction(title: "Report", style: .default) {[weak self] (action) in
+            // TODO: configure flag action
+        }
+        let cancelActionSheet = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        alert.addAction(flagActionSheet)
+        alert.addAction(cancelActionSheet)
+        present(alert, animated: true, completion: nil)
+    }
+    
 }
-//extension GlobalPostFeedVC: UITableViewDelegate {
-//    //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//    //        return 300
-//    //    }
-//}
-//extension GlobalPostFeedVC: UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 20
-//    }
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell
-//        cell.layoutIfNeeded()
-//        switch indexPath.row {
-//        case 0:
-//            cell.feedImageView.image = #imageLiteral(resourceName: "dogs")
-//        case 1:
-//            cell.feedImageView.image = #imageLiteral(resourceName: "panda")
-//        case 2:
-//            cell.feedImageView.image = #imageLiteral(resourceName: "ThumbUp")
-//        case 3:
-//            cell.feedImageView.image = #imageLiteral(resourceName: "uggDog")
-//        case 4:
-//            cell.feedImageView.image = #imageLiteral(resourceName: "cards")
-//        case 5:
-//            cell.feedImageView.image = #imageLiteral(resourceName: "Dakota_instaweb")
-//        default:
-//            cell.feedImageView.image = #imageLiteral(resourceName: "ante")
-//        }
-//        
-//        return cell
-//        
-//    }
-//}
-//
+
+

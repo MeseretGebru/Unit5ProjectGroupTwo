@@ -25,19 +25,18 @@ struct CommentService {
     private var currentUser: User!
     
     public func getDB()-> DatabaseReference { return dbRef }
-    public func getPostComments(from post: String)-> [Comment] {
+    public func getPostComments(from post: String, completion: @escaping ([Comment]?) -> Void) {
         var comments = [Comment]()
-        let userComments = commentRef.child(post)
-        userComments.observe(.value) { (dataSnapShop) in
+        commentRef.observe(.value) { (dataSnapShop) in
             for comment in dataSnapShop.children {
                 let postCom = Comment(snapShot: comment as! DataSnapshot)
-                comments.append(postCom)
+                comments.insert(postCom, at: 0)
             }
+            completion(comments)
         }
-        return comments
     }
     
-    public func saveNewPost(postKey: String, content: String) {
+    public func saveNewComment(postKey: String, content: String) {
         let newComment = commentRef.childByAutoId()
         let comment = Comment(ref: newComment, user: Auth.auth().currentUser!, postId: postKey, textComment: content)
         newComment.setValue(comment.toAnyObject())
