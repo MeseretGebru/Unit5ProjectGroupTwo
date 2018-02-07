@@ -40,7 +40,6 @@ class CommentTVCell: UITableViewCell {
     }
     
     func configureCell(comment: Comment) {
-        
         commentLabel.text = comment.textComment
     }
     
