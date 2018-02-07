@@ -36,7 +36,9 @@ extension PostDetailVC: UITableViewDataSource {
             }
             let comment = comments[indexPath.row]
             cell.configureCell(comment: comment)
-            cell.setNeedsLayout()
+            cell.profileImageView.layer.cornerRadius = cell.profileImageView.frame.size.width / 2
+            //cell.setNeedsLayout()
+            
             return cell
         }
         
