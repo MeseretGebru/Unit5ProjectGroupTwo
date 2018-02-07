@@ -43,7 +43,7 @@ class SegmentedControlView: UIView {
     private func commonInit() {
         backgroundColor = .blue
         setupViews()
-        configure()
+//        configure()
     }
     
     private func setupViews() {
@@ -67,25 +67,25 @@ class SegmentedControlView: UIView {
         
         
         
-        let selectedBackgroundColor = UIColor(red: 19/255, green: 59/255, blue: 85/255, alpha: 0.5)
-        var sortedViews: [UIView]!
-        var currentIndex: Int = 0
-        
+//        let selectedBackgroundColor = UIColor(red: 19/255, green: 59/255, blue: 85/255, alpha: 0.5)
+//        var sortedViews: [UIView]!
+//        var currentIndex: Int = 0
+
 
         
-private func configure() {
-            sortedViews = self.subviews.sorted(by:{$0.frame.origin.x < $1.frame.origin.x})
-            changeSelectedIndex(to: currentIndex)
-        }
-        
-        func changeSelectedIndex(to newIndex: Int) {
-            sortedViews[currentIndex].backgroundColor = UIColor.clear
-            currentIndex = newIndex
-            segmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment
-            sortedViews[currentIndex].backgroundColor = selectedBackgroundColor
-        }
-    }
-    
+//private func configure() {
+//            sortedViews = self.subviews.sorted(by:{$0.frame.origin.x < $1.frame.origin.x})
+//            changeSelectedIndex(to: currentIndex)
+//        }
+//
+//        func changeSelectedIndex(to newIndex: Int) {
+//            sortedViews[currentIndex].backgroundColor = UIColor.clear
+//            currentIndex = newIndex
+//            segmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment
+//            sortedViews[currentIndex].backgroundColor = selectedBackgroundColor
+//        }
+//    }
+
 //    private func setUpUserView() {
 //        borderForViews.snp.makeConstraints { (make) -> Void in
 //            make.height.equalTo(self).multipliedBy(0.8)
@@ -94,7 +94,7 @@ private func configure() {
 //            make.centerX.equalTo(segmentedControl.snp.centerX)
 //        }
 //
-//    }
+    }
     
     
 

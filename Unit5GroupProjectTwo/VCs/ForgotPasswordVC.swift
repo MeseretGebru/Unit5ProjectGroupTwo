@@ -21,7 +21,7 @@ class ForgotPasswordVC: UIViewController {
     
     lazy var backButtonView: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .yellow
+        button.backgroundColor = .black
         return button
     }()
     
@@ -47,7 +47,7 @@ class ForgotPasswordVC: UIViewController {
         backButtonView.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(view.snp.edges)
         }
-        backButtonView.alpha = 0.5
+        backButtonView.alpha = 0.1
         
     }
     
