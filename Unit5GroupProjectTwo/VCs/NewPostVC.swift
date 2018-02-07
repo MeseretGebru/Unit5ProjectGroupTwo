@@ -67,7 +67,9 @@ class NewPostVC: UIViewController {
         //print(title)
         // TODO: Make new post and upload it
         // TODO: replace with PostService class
+
         PostService.manager.saveNewPost(content: title, title: title, image: image)
+
     }
     
     // TODO: remove function and let UserService class handle this
