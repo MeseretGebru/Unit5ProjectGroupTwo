@@ -34,10 +34,8 @@ extension GlobalPostFeedVC: UITableViewDataSource {
         print(posts.count)
         let post = posts[indexPath.row]
         cell.titleLabel.text = post.postTitle
-        
         //cell.userImageView.image = PostService.manager.getImagePost(urlImage: post.imageURL)
         cell.setNeedsLayout()
-       
         return cell
     }
 }
