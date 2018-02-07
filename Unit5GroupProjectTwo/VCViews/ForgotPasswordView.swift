@@ -17,10 +17,15 @@ import UIKit
 
 class ForgotPasswordView: UIView {
     
+    lazy var dismissButton: UIButton = {
+        let butt = UIButton()
+        butt.setImage(#imageLiteral(resourceName: "add"), for: .normal)
+        return butt
+    }()
+    
     lazy var emailTextField: UITextField = {
         let tf = UITextField()
         tf.placeholder = "Enter email"
-        tf.backgroundColor = .purple
         tf.autocapitalizationType = .none
         return tf
     }()
@@ -29,14 +34,14 @@ class ForgotPasswordView: UIView {
         let lab = UILabel()
         lab.text = "Reset your password here"
         lab.numberOfLines = 0
-        lab.backgroundColor = UIColor.green
+        lab.textColor = .orange
         return lab
     }()
     
     lazy var submitButton: UIButton = {
         let butt = UIButton()
-        butt.titleLabel?.text = "Reset"
-        butt.backgroundColor = UIColor.darkGray
+        butt.setTitle("Submit", for: .normal)
+        butt.backgroundColor = UIColor.orange
         return butt
     }()
     
@@ -56,12 +61,24 @@ class ForgotPasswordView: UIView {
         setupViews()
     }
     
+
+    
     private func setupViews() {
-        let views = [emailTextField, resetLabel, submitButton] as [UIView]
+        let views = [dismissButton,emailTextField, resetLabel, submitButton] as [UIView]
         views.forEach{ addSubview($0) }
+        setUpDismissButt()
         setUpTF()
         setUpLabel()
         setUpSubButt()
+    }
+    
+    private func setUpDismissButt() {
+        dismissButton.snp.makeConstraints { (make) in
+            make.top.equalTo(self.snp.top)
+            make.left.equalTo(self.snp.left)
+            make.size.equalTo(self.snp.size).multipliedBy(0.1)
+            
+        }
     }
     
     private func setUpTF() {
@@ -91,6 +108,9 @@ class ForgotPasswordView: UIView {
             make.centerX.equalTo(self.snp.centerX)
             make.width.equalTo(self.snp.width).multipliedBy(0.8)
             make.height.equalTo(self.snp.height).multipliedBy(0.1)
+            
+            submitButton.layer.cornerRadius = 10
+            submitButton.layer.masksToBounds = true
         }
     }
     

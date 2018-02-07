@@ -280,9 +280,8 @@
 				81DA3256202A404600E5DE0A /* SWRevealViewController.m */,
 				81DA3254202A37F000E5DE0A /* Unit5GroupProjectTwo-Bridging-Header.h */,
 			);
-			name = SWRevealViewController;
-			path = "/Users/c4q/Desktop/Class Playgrounds/Unit 5 Project/Unit5ProjectGroupTwo/Unit5GroupProjectTwo/SWRevealViewController";
-			sourceTree = "<absolute>";
+			path = SWRevealViewController;
+			sourceTree = "<group>";
 		};
 		81E7C40F20261F780067136B /* Meseret */ = {
 			isa = PBXGroup;
