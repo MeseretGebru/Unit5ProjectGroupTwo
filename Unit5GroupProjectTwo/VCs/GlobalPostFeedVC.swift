@@ -20,29 +20,25 @@ class GlobalPostFeedVC: UIViewController {
     // MARK: Data Model
     var posts = [Post]() {
         didSet {
-        DispatchQueue.main.async {
-            self.feedView.tableView.reloadData()
-        }
+            DispatchQueue.main.async {
+                self.feedView.tableView.reloadData()
+            }
         }
     }
     
     private func loadData() {
         // TODO: hide away behind abstraction of PostService class
-        let postRef = Database.database().reference().child("posts")
-        postRef.observe(.value) { (snapShot) in
-            var posts = [Post]()
-            for post in snapShot.children {
-//              let newPost = Post(snapShot: post as! DataSnapshot)
-                let newPost = Post(snapShot: snapShot)
-                posts.insert(newPost, at: 0)
+        PostService.manager.getPosts { (postOnline) in
+            if let posts = postOnline {
+                self.posts = posts
             }
-            self.posts = posts
         }
+        
+        print(posts.count)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadData()
         view.backgroundColor = .orange
         view.addSubview(feedView)
         feedView.tableView.delegate = self
@@ -60,15 +56,8 @@ class GlobalPostFeedVC: UIViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPost))
         
-        // get data from "postRef"
-        PostService.manager.getPostsRef().observe(.value) { (snapshot) in
-            var posts = [Post]()
-            for child in snapshot.children {
-                    let post = Post(snapShot: child as! DataSnapshot)
-                  posts.append(post)
-            }
-            self.posts = posts
-        }
+        
+        loadData()
     }
 // create instance for storyBoard
     public static func storyboardInstance() -> GlobalPostFeedVC {
