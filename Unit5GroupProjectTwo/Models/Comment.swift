@@ -11,11 +11,11 @@ import Firebase
 import FirebaseDatabase
 
 struct Comment {
-    var ref: DatabaseReference
-    var commentId: String
-    var postId: String
-    var user: String
-    var textComment: String
+    let ref: DatabaseReference
+    let commentId: String
+    let postId: String
+    let user: String
+    let textComment: String
 
     init(ref: DatabaseReference, user: User, postId: String, textComment: String) {
         self.ref = ref
