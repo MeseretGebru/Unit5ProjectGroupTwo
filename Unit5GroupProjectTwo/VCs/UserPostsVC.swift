@@ -14,8 +14,8 @@ import SnapKit
 class UserPostsVC: UIViewController {
     
     let userPostsView = UserPostsView()
-    
-    var user: User!
+    var user: UserProfile!
+  
     public var posts = [Post](){
         didSet{
             userPostsView.postTableView.reloadData()
@@ -34,12 +34,14 @@ class UserPostsVC: UIViewController {
         view.backgroundColor = .yellow
         userPostsView.postTableView.delegate = self
         userPostsView.postTableView.dataSource = self
+        userPostsView.postTableView.rowHeight = 150
+//        userPostsView.postTableView.estimatedRowHeight = 200
         addSubViews()
         loadData()
-        fetchPosts()
-        if let user = Auth.auth().currentUser {
-            self.user = user
-        }
+//        fetchPosts()
+//        if let user = Auth.auth().currentUser {
+//            self.user = user
+//        }
         
     }
     private func configureNavBar() {
@@ -54,8 +56,8 @@ class UserPostsVC: UIViewController {
         addConstraints()
     }
     
-    func fetchPosts(){
-        
+//    func fetchPosts(){
+    
 //        Database.database().reference().child("posts").observeEventType(.childAdded, withBlock: {(snapshot) in
 //            if let dictionary = snapshot.value as? [String: AnyObject] {
 //                let posts = [Post]()
@@ -68,7 +70,7 @@ class UserPostsVC: UIViewController {
 //                posts.description = dictionary["name"]
 //            }
 //        }, withCancelBlock: nil)
-   }
+//   }
     
     
     @objc private func back(){
@@ -87,18 +89,18 @@ class UserPostsVC: UIViewController {
     
     
     private func loadData() {
+        if let currentUser = Auth.auth().currentUser {
+            userPostsView.userNameLabel.text! = currentUser.displayName ?? "No user's name"
+            userPostsView.NumberofPostsLabel.text! = "Number of posts: \(posts.count)"
+            PostService.manager.getUserPosts(from: currentUser.uid, completion: { (postsOnline) in
+                if let posts = postsOnline {
+                    self.posts = posts
+                }
+            })
+            
+        }
         
     }
-//        PostService.manager.getImagePost(urlImage: posts.imageURL) { (onlineimage) in
-//
-//            user = UserService.manager.getUsers(user)
-//
-//            userPostView.profileImage.image = UserService.manager.getImageProfile(urlImage: user.imageURL)
-//            
-//            //#imageLiteral(resourceName: "PrettyCat")
-//            userPostsView.postTableView.reloadData()
-//        }
-    
 }
 
 extension UserPostsVC: UITableViewDataSource, UITableViewDelegate {
@@ -117,7 +119,8 @@ extension UserPostsVC: UITableViewDataSource, UITableViewDelegate {
             cell?.layoutIfNeeded()
         }
         cell?.descriptionLabel.text = post.postContent
-        //cell.userImageView.image = PostService.manager.getImagePost(urlImage: post.imageURL)
+        
+        
         return cell!
 
     }
