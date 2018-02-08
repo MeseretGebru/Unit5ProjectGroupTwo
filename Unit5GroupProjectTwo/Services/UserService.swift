@@ -54,7 +54,7 @@ struct UserService {
     
     public func saveNewUser(imageProfile: UIImage) {
         let newUser = userRef.childByAutoId()
-        let user = UserProfile(ref: newUser, user: currentUser, lastLogin: getDate(), numberOfFlags: 0, imageURL: "")
+        let user = UserProfile(ref: newUser, user: currentUser, displayName: currentUser.displayName!, email: currentUser.email!, lastLogin: getDate(), numberOfFlags: 0, imageURL: "")
         newUser.setValue(user.toAnyObject()){ (error, dbRef) in
             if let error = error {
                 print("addUser error: \(error)")
@@ -62,7 +62,7 @@ struct UserService {
                 print("User added @ database reference: \(dbRef)")
                 
                 // add an image to storage
-                StorageService.manager.storeImage(image: imageProfile, postId: newUser.key, userId: self.currentUser.uid)
+                StorageService.manager.storeImage(image: imageProfile, postId: nil, userId: newUser.key)
                 // TODO: add image to database
             }
         }
@@ -75,6 +75,7 @@ struct UserService {
                 image.kf.setImage(with: imageURL, placeholder: UIImage.init(named: "uggDog"), options: nil, progressBlock: nil) { (image, error, cacheType, url) in
                     if let error = error {
                         print(error)
+                        return
                     }
                     if let image = image {
                         completion(image)
@@ -105,5 +106,18 @@ struct UserService {
         let myDate = Date()
         let dateStr: String = formatter.string(from: myDate)
         return dateStr
+    }
+    
+    private func setUserImage(image: UIImage) {
+        userRef.observe(.value) { (snapShot) in
+            for user in snapShot.children {
+                let userSaved = UserProfile(snapShot: user as! DataSnapshot)
+                if userSaved.user == self.currentUser.uid {
+                    StorageService.manager.storeImage(image: image, postId: nil, userId: userSaved.userId)
+                }
+            }
+        }
+        
+        
     }
 }

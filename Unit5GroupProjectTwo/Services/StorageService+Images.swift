@@ -44,8 +44,8 @@ extension StorageService {
             
             // set job's imageURL
             let imageURL = String(describing: snapshot.metadata!.downloadURL()!)
-            if let postId = postId, let _ = userId {
-                UserService.manager.getUsersRef().child("\(postId)/imageURL").setValue(imageURL)
+            if let userId = userId {
+                UserService.manager.getUsersRef().child("\(userId)/imageURL").setValue(imageURL)
             } else if let postId = postId {
                 PostService.manager.getPostsRef().child("\(postId)/imageURL").setValue(imageURL)
                 
