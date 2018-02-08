@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import FirebaseAuth
 
 // will have titleLabel,userNameLabel,lastLoginLabel,numberOfPostsLabel and latestPostLabel
 //text fields accordingly
@@ -16,6 +17,15 @@ import SnapKit
 class UserProfileVC: UIViewController {
 
     let userProfileView = UserProfileView()
+    
+    private var users = [UserProfile]() {
+        didSet {
+            DispatchQueue.main.async {
+//                self.userProfileView.
+                //userNameLabel.text =
+            }
+        }
+    }
 
     let menuButt = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton"), style: .plain, target: self, action: nil)
 
@@ -100,8 +110,7 @@ class UserProfileVC: UIViewController {
     }()
 
     var post: Post!
-    var user: UserProfile!
-
+    var userProfile: UserProfile!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,7 +122,7 @@ class UserProfileVC: UIViewController {
         userProfileView.postsButton.addTarget(self, action: #selector(posts), for: .touchUpInside)
         addSubViews()
         //configureData(user: user, post: Post)
-        
+        loadData()
     }
     private func configureNavBar() {
         navigationItem.title = "User Profile"
@@ -130,6 +139,14 @@ class UserProfileVC: UIViewController {
             menuButt.action = #selector(SWRevealViewController.revealToggle(_:))
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
+    }
+    
+    func loadData() {
+        if let user = Auth.auth().currentUser {
+            userProfile = UserService.manager.getUser(user: user)
+        }
+        users = UserService.manager.getUsers()
+        
     }
     
     public static func storyboardInstance() -> UserProfileVC {
@@ -169,6 +186,12 @@ class UserProfileVC: UIViewController {
     //        //userProfileView.calculatedNumberofUpvotesLabel.text =
     //
     //    }
+//    private func getUser() -> DatabaseReference? {
+//        let currentUser = Auth.auth().currentUser
+//        let user = Database.database().reference().child("users").queryEqual(toValue: currentUser).value(forKey: "userRef") as? DatabaseReference
+//        return user
+//    }
+    
     
     
 }
