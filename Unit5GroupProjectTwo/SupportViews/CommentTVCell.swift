@@ -40,7 +40,7 @@ class CommentTVCell: UITableViewCell {
     }
     
     func configureCell(comment: Comment) {
-        
+        constraintsViews()
         commentLabel.text = comment.textComment
     }
     
@@ -49,13 +49,13 @@ class CommentTVCell: UITableViewCell {
         mainStackView.addArrangedSubview(profileImageView)
         mainStackView.addArrangedSubview(commentLabel)
         profileImageView.snp.makeConstraints { (make) in
-            make.height.width.equalTo(64)
+            make.height.width.equalTo(32)
             make.top.equalTo(snp.top).offset(8)
             make.left.equalTo(snp.left).offset(8)
         }
         commentLabel.snp.makeConstraints { (make) in
-            make.height.equalTo(64)
-            make.left.equalTo(profileImageView).offset(16)
+            //make.height.equalTo(64)
+            make.left.equalTo(profileImageView.snp.right).offset(16)
             make.right.equalTo(snp.right).offset(-8)
             make.centerY.equalTo(profileImageView.snp.centerY)
         }

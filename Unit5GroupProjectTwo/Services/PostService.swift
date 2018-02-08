@@ -10,7 +10,7 @@ import Foundation
 import FirebaseAuth
 import FirebaseDatabase
 
-struct PostService {
+class PostService {
     private init() {
         dbRef = Database.database().reference()
         postRef = dbRef.child("posts")
@@ -25,30 +25,29 @@ struct PostService {
     
     public func getDB()-> DatabaseReference { return dbRef }
     public func getPostsRef() -> DatabaseReference {return postRef}
-    public func getPosts(completionHandler: @escaping([Post]) -> Void) {
-    
-        postRef.observe(.value) { (snapShop) in
-            var posts = [Post]()
-            for child in snapShop.children {
-                let dataSnapShot = child as! DataSnapshot
-                let post = Post(snapShot: dataSnapShot)
-                posts.append(post)
+
+    public func getPosts(completionHandler: @escaping ([Post]?) -> Void) {
+        var posts = [Post]()
+        postRef.observe(.value) { (snapShot) in
+            for post in snapShot.children {
+                let newPost = Post(snapShot: post as! DataSnapshot)
+                posts.insert(newPost, at: 0)
             }
             completionHandler(posts)
         }
-    
     }
-    public func getUserPosts(from user: User) -> [Post] {
+    
+    public func getUserPosts(from user: User, completion: @escaping ([Post]?) -> Void) {
         var posts = [Post]()
-        let userPosts = postRef.child("posts").queryEqual(toValue: user, childKey: "user")
+        let userPosts = postRef.queryEqual(toValue: user, childKey: "user")
         userPosts.observe(.value) { (dataSnapShot) in
             let postsOnline = dataSnapShot.children
             for post in postsOnline {
                 let post = Post(snapShot: post as! DataSnapshot)
                 posts.append(post)
             }
+            completion(posts)
         }
-        return posts
     }
     
     public func saveNewPost(content: String, title: String, image: UIImage) {
@@ -65,7 +64,22 @@ struct PostService {
                 // TODO: add image to database
             }
         }
-        
+    }
+    
+    public func getImagePost(urlImage: String, completion: @escaping (UIImage) -> Void) {
+        let image = UIImageView()
+        if let imageURL = URL(string: urlImage) {
+            DispatchQueue.main.async {
+                image.kf.setImage(with: imageURL, placeholder: UIImage.init(named: "uggDog"), options: nil, progressBlock: nil) { (image, error, cacheType, url) in
+                    if let error = error {
+                        print(error)
+                    }
+                    if let image = image {
+                        completion(image)
+                    }
+                }
+            }
+        }
     }
     public func updateUpVote(of post: Post) {
       var currentUps = post.countOfUp
@@ -84,3 +98,4 @@ struct PostService {
         post.ref.child("flaged").setValue(true)
     }
 }
+

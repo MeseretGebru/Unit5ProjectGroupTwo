@@ -59,15 +59,19 @@ class GlobalPostFeedVC: UIViewController {
     func loadPosts() {
       
         PostService.manager.getPosts { (onlinePosts) in
-            self.posts = onlinePosts
-            let sortedPosts = onlinePosts.sorted(by: {$0.countOfUp > $1.countOfUp })
+            if let safePosts = onlinePosts {
+            self.posts = safePosts
+            let sortedPosts = safePosts.sorted(by: {$0.countOfUp > $1.countOfUp })
             self.populatedPosts = sortedPosts
         }
+        }
     }
+    
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         loadPosts()
         view.backgroundColor = .orange
        // view.addSubview(feedView)
@@ -87,7 +91,7 @@ class GlobalPostFeedVC: UIViewController {
         }
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPost))
-        
+
      // setup segmentView
         segmentView.addTarget(self, action: #selector(segmentValueChanged), for: .valueChanged)
         navigationItem.titleView = segmentView
@@ -99,6 +103,7 @@ class GlobalPostFeedVC: UIViewController {
         setupScrollView()
         
         configurePageControl()
+
     }
 // create instance for storyBoard
     public static func storyboardInstance() -> GlobalPostFeedVC {

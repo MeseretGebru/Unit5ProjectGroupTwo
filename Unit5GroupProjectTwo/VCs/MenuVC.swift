@@ -61,7 +61,10 @@ extension MenuVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-     
+
+        let segueIdentifier: String
+//        var currentView = FeedViewController()
+
         switch indexPath.row {
         case 0:
             performSegue(withIdentifier: "Posts", sender: self)

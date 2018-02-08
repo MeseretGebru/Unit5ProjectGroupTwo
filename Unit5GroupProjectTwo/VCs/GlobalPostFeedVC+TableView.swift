@@ -11,11 +11,9 @@ import UIKit
 extension GlobalPostFeedVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        guard posts.count > 0 else {
-//            return
-//        }
-      //  let post = posts[indexPath.row]
+        let post = posts[indexPath.row]
         // TODO: replace with dependency injection
+
         var selectedPost: Post!
         switch tableView {
         case feedView.tableView:
@@ -24,7 +22,7 @@ extension GlobalPostFeedVC: UITableViewDelegate {
             selectedPost = self.populatedPosts[indexPath.row]
         }
         let commentVC = PostDetailVC(post: selectedPost)
-      //  commentVC.post = post
+
         navigationController?.pushViewController(commentVC, animated: true)
         
     }
@@ -33,9 +31,7 @@ extension GlobalPostFeedVC: UITableViewDelegate {
 
 extension GlobalPostFeedVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard posts.count > 0 else {
-            return 20
-        }
+        
         return posts.count
     }
     
@@ -72,16 +68,13 @@ extension GlobalPostFeedVC: UITableViewDataSource {
             }
             return cell
         }
+
+        print(posts.count)
+
         let post = posts[indexPath.row]
         cell.titleLabel.text = post.postTitle
-
-       // cell.userLabel.text = post.userRef.key
-
-
-        //cell.userLabel.text = post.userRef.key
-//        cell.textLabel?.text = post.postContent
-//        cell.detailTextLabel?.text = "User1"
-
+        //cell.userImageView.image = PostService.manager.getImagePost(urlImage: post.imageURL)
+        cell.setNeedsLayout()
         return cell
         } else if tableView == popularFeedView.tableView {
              let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell

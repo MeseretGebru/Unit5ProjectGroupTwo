@@ -14,8 +14,10 @@ import SnapKit
 class PostDetailVC: UIViewController {
     var comments = [Comment]() {
         didSet {
-            commentView.tableView.reloadData()
-            commentView.numComments.text = "\(self.comments.count) comment(s)"
+            DispatchQueue.main.async {
+                self.commentView.tableView.reloadData()
+                self.commentView.numComments.text = "\(self.comments.count) comment(s)"
+            }
         }
     }
     
@@ -31,12 +33,11 @@ class PostDetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         navigationItem.title = "Comments"
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "add"), style: .done, target: self, action: #selector(addComment))
+        delegates()
         viewContraints()
         loadData()
-        view.backgroundColor = .white
-        delegates()
     }
     
     private func delegates() {
@@ -52,12 +53,22 @@ class PostDetailVC: UIViewController {
         }
     }
     
+    
+    
     private func loadData() {
         commentView.titleLabel.text = post.postContent
-        let postRef = self.post.ref
-        self.comments = CommentService.manager.getPostComments(from: postRef.key)
-        commentView.tableView.delegate = self
-        commentView.tableView.dataSource = self
+        PostService.manager.getImagePost(urlImage: post.imageURL) { (image) in
+            self.commentView.postImageView.image = image
+        }
+        loadComments()
+    }
+    
+    func loadComments() {
+        CommentService.manager.getPostComments(from: post.postId) { (commentsOnline) in
+            if let comments = commentsOnline {
+                self.comments = comments
+            }
+        }
     }
     
     func saveComment(text: String) {
