@@ -38,14 +38,17 @@ struct UserService {
         return users
     }
     
-    public func getUser(user: User) -> UserProfile {
-        var user: UserProfile!
-        userRef.child("users").queryEqual(toValue: user, childKey: "user").observe(.value, with: { (dataSnapShot) in
-            let userP = UserProfile(snapShot: dataSnapShot.children.allObjects[0] as! DataSnapshot)
-            user = userP
-            
-        })
-        return user
+    public func getUser(uid: String, completion: @escaping (UserProfile?) -> Void) {
+        var customUser: UserProfile!
+        userRef.child("users").observe(.value) { (snapShot) in
+            for user in snapShot.children {
+                let onlineUser = UserProfile(snapShot: user as! DataSnapshot)
+                if onlineUser.userId == uid {
+                    customUser = onlineUser
+                }
+            }
+            completion(customUser)
+        }
     }
     
     
@@ -59,22 +62,26 @@ struct UserService {
                 print("User added @ database reference: \(dbRef)")
                 
                 // add an image to storage
-                StorageService.manager.storeImage(image: imageProfile, postId: nil, userId: self.currentUser.uid)
+                StorageService.manager.storeImage(image: imageProfile, postId: newUser.key, userId: self.currentUser.uid)
                 // TODO: add image to database
             }
         }
     }
     
-    public func getImageProfile(urlImage: String) -> UIImage {
+    public func getImageProfile(urlImage: String, completion: @escaping (UIImage?) -> Void) {
         let image = UIImageView()
         if let imageURL = URL(string: urlImage) {
             DispatchQueue.main.async {
                 image.kf.setImage(with: imageURL, placeholder: UIImage.init(named: "uggDog"), options: nil, progressBlock: nil) { (image, error, cacheType, url) in
-                    
+                    if let error = error {
+                        print(error)
+                    }
+                    if let image = image {
+                        completion(image)
+                    }
                 }
             }
         }
-        return image.image ?? #imageLiteral(resourceName: "uggDog")
     }
     
     public func addFlagToUser(from user: User) {
