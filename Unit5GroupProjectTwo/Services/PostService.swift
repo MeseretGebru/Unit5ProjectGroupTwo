@@ -37,14 +37,14 @@ class PostService {
         }
     }
     
-    public func getUserPosts(from user: User, completion: @escaping ([Post]?) -> Void) {
+    public func getUserPosts(from user: String, completion: @escaping ([Post]?) -> Void) {
         var posts = [Post]()
-        let userPosts = postRef.queryEqual(toValue: user, childKey: "user")
-        userPosts.observe(.value) { (dataSnapShot) in
-            let postsOnline = dataSnapShot.children
-            for post in postsOnline {
-                let post = Post(snapShot: post as! DataSnapshot)
-                posts.append(post)
+        postRef.observe(.value) { (snapShopt) in
+            for post in snapShopt.children {
+                let postModel = Post(snapShot: post as! DataSnapshot)
+                if postModel.user == user {
+                    posts.insert(postModel, at: 0)
+                }
             }
             completion(posts)
         }
