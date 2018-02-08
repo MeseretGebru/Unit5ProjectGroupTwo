@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import FirebaseAuth
+import Kingfisher
 
 // will have titleLabel,userNameLabel,lastLoginLabel,numberOfPostsLabel and latestPostLabel
 //text fields accordingly
@@ -73,6 +74,9 @@ class UserProfileVC: UIViewController {
             userProfileView.userNameLabel.text = "\(user.displayName ?? "No user name")"
             userProfileView.numberofUpvotesLabel.text = "Number of Upvotes: \(posts.filter{$0.countOfUp > 0}.count)"
         }
+        if let url = URL(string: user.imageURL) {
+            userProfileView.profileImage.kf.setImage(with: url)
+        }
 //        UserService.manager.getImageProfile(urlImage: user.imageURL) { (image) in
 //            if let image = image {
 //                self.userProfileView.profileImage.image = image
@@ -111,6 +115,6 @@ class UserProfileVC: UIViewController {
             make.edges.equalTo(self.view.safeAreaLayoutGuide.snp.edges)
         }
     }
-    
+
 }
 

@@ -15,15 +15,15 @@ import FirebaseAuth
 //Use this to retrieve User Profile Feature "Latest Post"
 
 struct Post {
-    var ref: DatabaseReference
-    var postId: String
-    var user: String
-    var postContent: String
-    var postTitle: String
-    var imageURL: String
-    var countOfUp: Int
-    var countOfDown: Int
-    var flaged: Bool
+    let ref: DatabaseReference
+    let postId: String
+    let user: String
+    let postContent: String
+    let postTitle: String
+    let imageURL: String
+    let countOfUp: Int
+    let countOfDown: Int
+    let flaged: Bool
     // preparing info to save into firebase
     init(ref: DatabaseReference,
          user: User, postContent: String,
