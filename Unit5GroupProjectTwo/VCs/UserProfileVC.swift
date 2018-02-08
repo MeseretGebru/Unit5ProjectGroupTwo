@@ -18,94 +18,10 @@ class UserProfileVC: UIViewController {
 
     let userProfileView = UserProfileView()
     var user: UserProfile!
-    let numberOfPosts: Int!
-    let numberOfUpVotes: Int!
 
     let menuButt = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton"), style: .plain, target: self, action: nil)
 
-    // Title should be big, bold and center
-    lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = " User Profile"
-        label.textAlignment = .center
-        return label
-    }()
-    
-    //Stack of right side labels
-    lazy var userNameLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.text = "User Name:"
-        return label
-    }()
-    
-    lazy var lastLoginLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.text = "Last Login:"
-        return label
-    }()
-    
-    lazy var numberOfPostsLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.text = "Number of Posts:"
-        return label
-    }()
-    
-    lazy var numberofFlagsLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.text = "Number of flags:"
-        return label
-    }()
-    
-    // Outputs: stack of left side labels execpt for user name
-    lazy var userNameTextfield: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "enter user name"
-        return textField
-    }()
-    
-    
-    lazy var lastLoginDisplayLabel: UILabel = {
-        let label = UILabel()
-        label.text = " loging" //last login date shoul popup from the database
-        return label
-    }()
-    
-    lazy var numberOfPostsDisplayLabel: UILabel = {
-        let label = UILabel()
-        label.text = "number" //number of posts should be calculated..
-        return label
-    }()
-    lazy var numberofFlagsDisplayLabel: UILabel = {
-        let label = UILabel()
-        label.text = "number"
-        return label
-    }()
-    
-    //Stack views
-    lazy var leftsideStacks: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = UILayoutConstraintAxis.vertical
-        stackView.distribution = UIStackViewDistribution.fillEqually
-        stackView.spacing = 2.0
-        return stackView
-    }()
-    
-    lazy var rightsideStacks: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = UILayoutConstraintAxis.vertical
-        stackView.distribution = UIStackViewDistribution.fillEqually
-        stackView.alignment = .center
-        stackView.spacing = 2.0
-        return stackView
-    }()
 
-    var post: Post!
-    var userProfile: UserProfile!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavBar()
@@ -136,22 +52,28 @@ class UserProfileVC: UIViewController {
     }
     
     func loadData() {
-        if let uid = Auth.auth().currentUser?.uid {
-            UserService.manager.getUser(uid: uid, completion: { (userOnline) in
+        if let user = Auth.auth().currentUser {
+            UserService.manager.getUser(uid: user.uid, completion: { (userOnline) in
                 if let userFirebase = userOnline {
                     self.user = userFirebase
                 }
             })
+            var posts = [Post]()
+            PostService.manager.getUserPosts(from: user.uid, completion: { (postsOnline) in
+                if let postFirebase = postsOnline {
+                    posts = postFirebase
+                }
+            })
+            userProfileView.numberOfPostsLabel.text = "Number of posts: \(posts.count)"
+            userProfileView.numberofFlagsLabel.text = "Number of Flags: \(posts.filter{$0.flaged}.count)"
+            userProfileView.userNameLabel.text = "\(user.displayName)"
+            userProfileView.numberofUpvotesLabel.text = "Number of Upvotes: \(posts.filter{$0.countOfUp > 0}.count)"
         }
-        
-        var posts = [Post]()
-        PostService.manager.getUserPosts(from: user.userId) { (postsOnline) in
-            if let postsFirebase = postsOnline {
-                posts = postsFirebase
-            }
-        }
-        
-        
+//        UserService.manager.getImageProfile(urlImage: user.imageURL) { (image) in
+//            if let image = image {
+//                self.userProfileView.profileImage.image = image
+//            }
+//        }
     }
     
     public static func storyboardInstance() -> UserProfileVC {
@@ -184,18 +106,6 @@ class UserProfileVC: UIViewController {
             make.edges.equalTo(self.view.safeAreaLayoutGuide.snp.edges)
         }
     }
-    
-    //    public func configureData(user: UserProfile,post: Post) {
-    //        userProfileView.calculatedNumberofPostsLabel.text = ""
-    //        userProfileView.calculatedNumberofFlagsLabel.text = "\(user.numberOfFlags)"
-    //        //userProfileView.calculatedNumberofUpvotesLabel.text =
-    //
-    //    }
-//    private func getUser() -> DatabaseReference? {
-//        let currentUser = Auth.auth().currentUser
-//        let user = Database.database().reference().child("users").queryEqual(toValue: currentUser).value(forKey: "userRef") as? DatabaseReference
-//        return user
-//    }
     
     
     

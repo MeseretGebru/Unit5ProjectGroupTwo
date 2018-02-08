@@ -68,16 +68,20 @@ struct UserService {
         }
     }
     
-    public func getImageProfile(urlImage: String) -> UIImage {
+    public func getImageProfile(urlImage: String, completion: @escaping (UIImage?) -> Void) {
         let image = UIImageView()
         if let imageURL = URL(string: urlImage) {
             DispatchQueue.main.async {
                 image.kf.setImage(with: imageURL, placeholder: UIImage.init(named: "uggDog"), options: nil, progressBlock: nil) { (image, error, cacheType, url) in
-                    
+                    if let error = error {
+                        print(error)
+                    }
+                    if let image = image {
+                        completion(image)
+                    }
                 }
             }
         }
-        return image.image ?? #imageLiteral(resourceName: "uggDog")
     }
     
     public func addFlagToUser(from user: User) {

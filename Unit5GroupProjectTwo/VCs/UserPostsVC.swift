@@ -12,8 +12,10 @@ import FirebaseAuth
 import SnapKit
 
 class UserPostsVC: UIViewController {
-    var user: User!
+    
     let userPostsView = UserPostsView()
+    
+    var user: User!
     public var posts = [Post](){
         didSet{
             userPostsView.postTableView.reloadData()
@@ -53,11 +55,7 @@ class UserPostsVC: UIViewController {
     }
     
     func fetchPosts(){
-        PostService.manager.getUserPosts(from: user) { (posts) in
-            if let posts = posts {
-                self.posts = posts
-            }
-        }
+        
 //        Database.database().reference().child("posts").observeEventType(.childAdded, withBlock: {(snapshot) in
 //            if let dictionary = snapshot.value as? [String: AnyObject] {
 //                let posts = [Post]()
@@ -89,14 +87,8 @@ class UserPostsVC: UIViewController {
     
     
     private func loadData() {
-        if let user = user {
-            let userProfile = UserService.manager.getUser(user: user)
-            self.userPostsView.userNameLabel.text = userProfile.user
-            PostService.manager.getImagePost(urlImage: userProfile.imageURL, completion: { (image) in
-                self.userPostsView.profileImage.image = image
-            })
-        }
         
+    }
 //        PostService.manager.getImagePost(urlImage: posts.imageURL) { (onlineimage) in
 //
 //            user = UserService.manager.getUsers(user)
@@ -106,7 +98,7 @@ class UserPostsVC: UIViewController {
 //            //#imageLiteral(resourceName: "PrettyCat")
 //            userPostsView.postTableView.reloadData()
 //        }
-    }
+    
 }
 
 extension UserPostsVC: UITableViewDataSource, UITableViewDelegate {
