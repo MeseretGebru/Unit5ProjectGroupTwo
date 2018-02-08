@@ -9,7 +9,15 @@
 import UIKit
 
 extension GlobalPostFeedVC: UIScrollViewDelegate {
-
+    private func setUpScrollViewConstraints() {
+        scrollView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(view.snp.width)
+            make.height.equalTo(view.safeAreaLayoutGuide.snp.height)
+            make.centerX.equalTo(view.safeAreaLayoutGuide.snp.centerX)
+            make.centerY.equalTo(view.safeAreaLayoutGuide.snp.centerY)
+            
+        }
+    }
     @objc func segmentValueChanged(sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             pageControl.currentPage = 0
@@ -55,9 +63,11 @@ extension GlobalPostFeedVC: UIScrollViewDelegate {
     
     func setupScrollView() {
         self.view.addSubview(scrollView)
+        setUpScrollViewConstraints()
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.bounces = false
+        scrollView.scrollsToTop = true
         
         scrollView.contentSize = CGSize(width: self.scrollView.frame.size.width * 2, height: self.scrollView.frame.size.height)
     for index in 0...1 {

@@ -38,20 +38,23 @@ struct UserService {
         return users
     }
     
-    public func getUser(user: User) -> UserProfile {
-        var user: UserProfile!
-        userRef.child("users").queryEqual(toValue: user, childKey: "user").observe(.value, with: { (dataSnapShot) in
-            let userP = UserProfile(snapShot: dataSnapShot.children.allObjects[0] as! DataSnapshot)
-            user = userP
-            
-        })
-        return user
+    public func getUser(uid: String, completion: @escaping (UserProfile?) -> Void) {
+        var customUser: UserProfile!
+        userRef.child("users").observe(.value) { (snapShot) in
+            for user in snapShot.children {
+                let onlineUser = UserProfile(snapShot: user as! DataSnapshot)
+                if onlineUser.userId == uid {
+                    customUser = onlineUser
+                }
+            }
+            completion(customUser)
+        }
     }
     
     
     public func saveNewUser(imageProfile: UIImage) {
         let newUser = userRef.childByAutoId()
-        let user = UserProfile(ref: newUser, user: currentUser, lastLogin: getDate(), numberOfFlags: 0, imageURL: "")
+        let user = UserProfile(ref: newUser, user: currentUser, displayName: currentUser.displayName!, email: currentUser.email!, lastLogin: getDate(), numberOfFlags: 0, imageURL: "")
         newUser.setValue(user.toAnyObject()){ (error, dbRef) in
             if let error = error {
                 print("addUser error: \(error)")
@@ -59,22 +62,27 @@ struct UserService {
                 print("User added @ database reference: \(dbRef)")
                 
                 // add an image to storage
-                StorageService.manager.storeImage(image: imageProfile, postId: nil, userId: self.currentUser.uid)
+                StorageService.manager.storeImage(image: imageProfile, postId: nil, userId: newUser.key)
                 // TODO: add image to database
             }
         }
     }
     
-    public func getImageProfile(urlImage: String) -> UIImage {
+    public func getImageProfile(urlImage: String, completion: @escaping (UIImage?) -> Void) {
         let image = UIImageView()
         if let imageURL = URL(string: urlImage) {
             DispatchQueue.main.async {
                 image.kf.setImage(with: imageURL, placeholder: UIImage.init(named: "uggDog"), options: nil, progressBlock: nil) { (image, error, cacheType, url) in
-                    
+                    if let error = error {
+                        print(error)
+                        return
+                    }
+                    if let image = image {
+                        completion(image)
+                    }
                 }
             }
         }
-        return image.image ?? #imageLiteral(resourceName: "uggDog")
     }
     
     public func addFlagToUser(from user: User) {
@@ -98,5 +106,18 @@ struct UserService {
         let myDate = Date()
         let dateStr: String = formatter.string(from: myDate)
         return dateStr
+    }
+    
+    private func setUserImage(image: UIImage) {
+        userRef.observe(.value) { (snapShot) in
+            for user in snapShot.children {
+                let userSaved = UserProfile(snapShot: user as! DataSnapshot)
+                if userSaved.user == self.currentUser.uid {
+                    StorageService.manager.storeImage(image: image, postId: nil, userId: userSaved.userId)
+                }
+            }
+        }
+        
+        
     }
 }
