@@ -98,7 +98,9 @@ class SettingsVC: UIViewController {
     
     @objc private func saveChanges() {
         //Where user saves image and/or color changes
+        let currentUser = Auth.auth().currentUser
         
+       
     }
     
     @objc private func dismissView() {

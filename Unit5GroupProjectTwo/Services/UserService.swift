@@ -108,7 +108,7 @@ struct UserService {
         return dateStr
     }
     
-    private func setUserImage(image: UIImage) {
+    func setUserImage(image: UIImage) {
         userRef.observe(.value) { (snapShot) in
             for user in snapShot.children {
                 let userSaved = UserProfile(snapShot: user as! DataSnapshot)
