@@ -24,10 +24,12 @@ class ForgotPasswordView: UIView {
     }()
     
     lazy var emailTextField: UITextField = {
-        let tf = UITextField()
-        tf.placeholder = "Enter email"
-        tf.autocapitalizationType = .none
-        return tf
+        let txt = UITextField()
+        txt.placeholder = "Enter email"
+        txt.autocapitalizationType = .none
+        txt.borderStyle = .none
+        underLine(from: txt)
+        return txt
     }()
     
     lazy var resetLabel: UILabel = {
@@ -104,14 +106,25 @@ class ForgotPasswordView: UIView {
     
     private func setUpSubButt() {
         submitButton.snp.makeConstraints { (make) -> Void in
-            make.centerY.equalTo(self.snp.centerY).offset(70)
+            make.centerY.equalTo(self.snp.centerY).offset(90)
             make.centerX.equalTo(self.snp.centerX)
             make.width.equalTo(self.snp.width).multipliedBy(0.8)
             make.height.equalTo(self.snp.height).multipliedBy(0.1)
             
-            submitButton.layer.cornerRadius = 10
+            submitButton.layer.cornerRadius = 15
             submitButton.layer.masksToBounds = true
         }
+    }
+    
+    func underLine(from txt: UITextField) {
+        let border = UIView()
+        border.backgroundColor = UIColor(displayP3Red: (229/255), green: (229/255), blue: (229/255), alpha: 1.0)
+        border.translatesAutoresizingMaskIntoConstraints = false
+        txt.addSubview(border)
+        border.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        border.widthAnchor.constraint(equalTo: txt.widthAnchor).isActive = true
+        border.bottomAnchor.constraint(equalTo: txt.bottomAnchor, constant: -1).isActive = true
+        border.leftAnchor.constraint(equalTo: txt.leftAnchor).isActive = true
     }
     
 }

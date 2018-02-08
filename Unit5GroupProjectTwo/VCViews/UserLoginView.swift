@@ -20,19 +20,22 @@ class UserLoginView: UIView {
     lazy var emailTextField: UITextField = {
         let txt = UITextField()
         txt.placeholder = "Email"
-//        txt.backgroundColor = .red
         txt.autocapitalizationType = .none
         txt.borderStyle = .none
+        underLine(from: txt)
         return txt
+        
+        
+       
     }()
     
     lazy var passwordTextField: UITextField = {
         let txt = UITextField()
         txt.placeholder = "Password"
-//        txt.backgroundColor = .red
         txt.borderStyle = .none
         txt.isSecureTextEntry = true
         txt.autocapitalizationType = .none
+        underLine(from: txt)
         return txt
     }()
     
@@ -113,7 +116,7 @@ class UserLoginView: UIView {
             make.top.equalTo(passwordTextField.snp.bottom).offset(20)
             make.centerX.equalTo(self)
             
-            submitInfoButton.layer.cornerRadius = 10
+            submitInfoButton.layer.cornerRadius = 15
             submitInfoButton.layer.masksToBounds = true
         }
         
@@ -126,20 +129,24 @@ class UserLoginView: UIView {
             make.top.equalTo(submitInfoButton.snp.bottom).offset(20)
             make.centerX.equalTo(self)
             
-            forgotPWButton.layer.cornerRadius = 10
+            forgotPWButton.layer.cornerRadius = 15
         forgotPWButton.layer.masksToBounds = true
         }
     }
     
-    func underlined(){
-        let border = CALayer()
-        let width = CGFloat(1.0)
-        border.borderColor = UIColor.lightGray.cgColor
-        border.frame = CGRect(x: 0, y: self.frame.size.height - width, width:  self.frame.size.width, height: self.frame.size.height)
-        border.borderWidth = width
-        self.layer.addSublayer(border)
-        self.layer.masksToBounds = true
+    func underLine(from txt: UITextField) {
+        let border = UIView()
+        border.backgroundColor = UIColor(displayP3Red: (229/255), green: (229/255), blue: (229/255), alpha: 1.0)
+        border.translatesAutoresizingMaskIntoConstraints = false
+        txt.addSubview(border)
+        border.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        border.widthAnchor.constraint(equalTo: txt.widthAnchor).isActive = true
+        border.bottomAnchor.constraint(equalTo: txt.bottomAnchor, constant: -1).isActive = true
+        border.leftAnchor.constraint(equalTo: txt.leftAnchor).isActive = true
     }
+    
+
+  
 }
 
 //extension UITextView {
@@ -151,6 +158,18 @@ class UserLoginView: UIView {
 //        border.borderWidth = width
 //        self.layer.addSublayer(border)
 //        self.layer.masksToBounds = true
+//    }
+//    func underLine() {
+//    let border = UIView()
+//    border.backgroundColor = UIColor(red:0.61, green:0.61, blue:0.61, alpha:1.0)
+//    border.translatesAutoresizingMaskIntoConstraints = false
+//
+//    self.addSubview(border)
+//
+//    border.heightAnchor.constraint(equalToConstant: 1).isActive = true
+//    border.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+//    border.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -1).isActive = true
+//    border.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
 //    }
 //}
 

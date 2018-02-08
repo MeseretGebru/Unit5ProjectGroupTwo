@@ -11,10 +11,9 @@ import SnapKit
 import Firebase
 
 /*TO-DO:
- - Timer for reset password and verification
  - Check if user is logged in
  - Theme and fix constraints
- - Add logo */
+ */
 
 class UserLogInVC: UIViewController {
     
@@ -40,7 +39,14 @@ class UserLogInVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-  
+        //To check if user is already logged in.
+        if Auth.auth().currentUser != nil {
+            let storyboard = UIStoryboard(name: "GlobalPostFeed", bundle: nil)
+            let revealVC = storyboard.instantiateViewController(withIdentifier: "SWRealViewController")
+            self.present(revealVC, animated: true, completion: nil)
+        }
+        
+        
         let views = [viewContainer, userLoginView, userSignUpView, logoImage] as [UIView]
     
         views.forEach{ ($0).translatesAutoresizingMaskIntoConstraints = false; self.view.addSubview($0) }
@@ -48,6 +54,7 @@ class UserLogInVC: UIViewController {
         viewContainer.segmentedControl.selectedSegmentIndex = 0
         viewContainer.segmentedControl.addTarget(self, action: #selector(segmentControlPressed), for: .valueChanged)
         viewContainer.segmentedControl.setTitleTextAttributes([NSAttributedStringKey.foregroundColor : UIColor.green], for: .selected)
+  
         
         //For buttons
         userLoginView.submitInfoButton.addTarget(self, action: #selector(login), for: .touchUpInside)
@@ -66,18 +73,7 @@ class UserLogInVC: UIViewController {
     }
     
     
-//    func getUserNameEmailPW() -> (String, String, String ) {
-//        let userName = userSignUpView.usernameTextField.text!
-//        let email = userSignUpView.emailTextField.text!
-//        let password = userSignUpView.passwordTextField.text!
-//        return (userName, email, password)
-//    }
-    
-    //    func getEmailPW() -> (String, String) {
-    //        let email = userLoginView.emailTextField.text!
-    //        let password = userLoginView.passWordField.text!
-    //        return (email, password)
-    //    }
+   
     
     
     @objc private func login() {
@@ -233,6 +229,7 @@ class UserLogInVC: UIViewController {
         self.present(ForgotPasswordVC(), animated: true, completion: nil)
     }
     
+    
     @objc private func getImageFromUser() {
         let addImageActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         //        UIAlertAction(title: "take a photo", style: .default, handler: nil)
@@ -257,7 +254,7 @@ class UserLogInVC: UIViewController {
         
         addImageActionSheet.addAction(openCamera)
         addImageActionSheet.addAction(openGallery)
-        addImageActionSheet.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil) )
+        addImageActionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil) )
         self.present(addImageActionSheet, animated: true, completion: nil)
         
     }
@@ -283,7 +280,7 @@ class UserLogInVC: UIViewController {
         viewContainer.snp.makeConstraints { (make) -> Void in
             //            make.height.equalTo(view.snp.height).multipliedBy(0.8)
             //            make.width.equalTo(view.snp.width).multipliedBy(0.9)
-            make.height.equalTo(view.snp.height).multipliedBy(0.65)
+            make.height.equalTo(view.snp.height).multipliedBy(0.6)
             make.width.equalTo(view.snp.width)
             make.centerX.equalTo(view.snp.centerX)
             //            make.centerY.equalTo(view.snp.centerY).offset(20)
@@ -338,9 +335,30 @@ class UserLogInVC: UIViewController {
             
             
         }
+//
+//        for item in viewContainer.segmentedControl.subviews {
+//
+//            if let subview = item as? UIControl {
+//                if subview.isSelected {
+//                    subview.backgroundColor = .lightGray
+//                }
+//            }
+//        }
+//        let sortedViews = sender.subviews.sorted { $0.frame.origin.x < $1.frame.origin.x }
+//
+//        for (index, view) in sortedViews.enumerated() {
+//            if index == sender.selectedSegmentIndex {
+//                view.tintColor = UIColor.lightGray
+//            } else {
+//                  view.tintColor = UIColor.lightGray
+//            }
+        
+            
+            
+        }
     }
     
-}
+
 
 extension UserLogInVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
