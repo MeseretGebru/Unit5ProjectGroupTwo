@@ -62,6 +62,10 @@ class UserProfileVC: UIViewController {
             PostService.manager.getUserPosts(from: user.uid, completion: { (postsOnline) in
                 if let postFirebase = postsOnline {
                     posts = postFirebase
+                    self.userProfileView.numberOfPostsLabel.text = "Number of posts: \(posts.count)"
+                    self.userProfileView.numberofFlagsLabel.text = "Number of Flags: \(posts.filter{$0.flaged}.count)"
+                    self.userProfileView.userNameLabel.text = "\(user.displayName ?? "No user name")"
+                    self.userProfileView.numberofUpvotesLabel.text = "Number of Upvotes: \(posts.filter{$0.countOfUp > 0}.count)"
                 }
             })
             userProfileView.numberOfPostsLabel.text = "Number of posts: \(posts.count)"

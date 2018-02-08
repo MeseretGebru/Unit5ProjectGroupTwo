@@ -88,7 +88,7 @@ class UserPostsView: UIView {
         postTableView.snp.makeConstraints { (tableView) in
             tableView.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
             tableView.right.left.equalTo(self)
-            tableView.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.5)
+            tableView.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.7)
             
         }
     }
