@@ -68,7 +68,7 @@ struct UserService {
         }
     }
     
-    public func getImageProfile(urlImage: String, completion: @escaping (UIImage) -> Void) {
+    public func getImageProfile(urlImage: String, completion: @escaping (UIImage?) -> Void) {
         let image = UIImageView()
         if let imageURL = URL(string: urlImage) {
             DispatchQueue.main.async {
