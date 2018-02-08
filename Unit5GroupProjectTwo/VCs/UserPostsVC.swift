@@ -12,19 +12,34 @@ import FirebaseAuth
 import SnapKit
 
 class UserPostsVC: UIViewController {
-
+    
     let userPostsView = UserPostsView()
-    var post: Post!
+    
+    var user: User!
+    public var posts = [Post](){
+        didSet{
+            userPostsView.postTableView.reloadData()
+            DispatchQueue.main.async {
+                self.userPostsView.postTableView.reloadData()
+                //self.userPostsView.userNameLabel.text = "\(self.posts.user) comment(s)"
+        }
+      }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         configureNavBar()
         userPostsView.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .yellow
-        //userPostsView.postTableView.delegate = self
-        //userPostsView.postTableView.dataSource = self
+        userPostsView.postTableView.delegate = self
+        userPostsView.postTableView.dataSource = self
         addSubViews()
         loadData()
+        fetchPosts()
+        if let user = Auth.auth().currentUser {
+            self.user = user
+        }
         
     }
     private func configureNavBar() {
@@ -38,6 +53,22 @@ class UserPostsVC: UIViewController {
         view.addSubview(userPostsView)
         addConstraints()
     }
+    
+    func fetchPosts(){
+        
+//        Database.database().reference().child("posts").observeEventType(.childAdded, withBlock: {(snapshot) in
+//            if let dictionary = snapshot.value as? [String: AnyObject] {
+//                let posts = [Post]()
+//                posts.setValuesForkeyWithDictionary(dictionary)
+//                self.userPostsView.post.append(posts)
+//                dispatch_async(dispatch_get_main_queue(), {
+//
+//                    userPostsView.postTableView.reloadData()
+//                })
+//                posts.description = dictionary["name"]
+//            }
+//        }, withCancelBlock: nil)
+   }
     
     
     @objc private func back(){
@@ -55,38 +86,45 @@ class UserPostsVC: UIViewController {
     }
     
     
-    
     private func loadData() {
-        // userPostView.userNameLabel.text = post.user
-        //userPostView.profileImage.image = #imageLiteral(resourceName: "PrettyCat")
         
     }
+//        PostService.manager.getImagePost(urlImage: posts.imageURL) { (onlineimage) in
+//
+//            user = UserService.manager.getUsers(user)
+//
+//            userPostView.profileImage.image = UserService.manager.getImageProfile(urlImage: user.imageURL)
+//            
+//            //#imageLiteral(resourceName: "PrettyCat")
+//            userPostsView.postTableView.reloadData()
+//        }
+    
 }
-//extension UserPostsViewController: UITableViewDataSource, UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? UserPostsTableViewCell
-//
-//        return UITableViewCell()
-//    }
 
+extension UserPostsVC: UITableViewDataSource, UITableViewDelegate {
     
-    
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        //TODO: Add array count check if there is a post??
-//        return 1
-//
-//    }
-
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //TODO: Add array count check if there is a post??
+        return posts.count
+        
     }
-    */
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? UserPostsTableViewCell
+        let post = posts[indexPath.row]
+        
+        PostService.manager.getImagePost(urlImage: post.imageURL) { (image) in
+            cell?.userPostImage.image = image
+            cell?.layoutIfNeeded()
+        }
+        cell?.descriptionLabel.text = post.postContent
+        //cell.userImageView.image = PostService.manager.getImagePost(urlImage: post.imageURL)
+        return cell!
+
+    }
+
+    
+   
+}
+    
 
 
