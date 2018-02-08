@@ -98,7 +98,6 @@ class SettingsVC: UIViewController {
     
     @objc private func saveChanges() {
         //Where user saves image and/or color changes
-        let currentUser = UserService.manager.getUser(user: Auth.auth().currentUser!)
         
     }
     
