@@ -10,72 +10,52 @@ import UIKit
 import SnapKit
 
 class SettingsView: UIView {
-  
-    lazy var changeNameLabel: UILabel = {
-        let label = UILabel()
-        //label.numberOfLines = 0
-        label.text = "Change User Name:"
-        return label
-    }()
-    
-    lazy var changePasswordLabel: UILabel = {
-        let label = UILabel()
-        //label.numberOfLines = 0
-        label.text = "Change Password:"
-        return label
-    }()
-    
-    
-    
-    lazy var enterUserNameTextfield: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "enter user name"
-        return textField
-    }()
-    
-    
-    lazy var enterPasswordTextfield: UITextField  = {
-        let textField = UITextField()
-        textField.placeholder = " enter password"
-        return textField
-    }()
-    
-    lazy var profilePictureLabel: UILabel = {
-        let label = UILabel()
-        //label.numberOfLines = 0
-        label.text = "Upload profile Picture"
-        return label
+
+    lazy var imageContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
     }()
     
     lazy var profileImage: UIImageView = {
         let profileImage = UIImageView()
-        profileImage.image = #imageLiteral(resourceName: "noImage")
+        profileImage.image = #imageLiteral(resourceName: "profile64")
         return profileImage
     }()
     
-    //Stack views
-    lazy var leftsideStacks: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = UILayoutConstraintAxis.vertical
-        stackView.distribution = UIStackViewDistribution.fillEqually
-        stackView.spacing = 10.0
-        return stackView
+    lazy var editUserImageButton: UIButton = {
+        let butt = UIButton()
+        //label.numberOfLines = 0
+        butt.setTitle("Edit Photo", for: .normal )
+        butt.setTitleColor(.orange, for: .normal)
+        return butt
     }()
     
-    lazy var rightsideStacks: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = UILayoutConstraintAxis.vertical
-        stackView.distribution = UIStackViewDistribution.fillEqually
-        stackView.spacing = 10.0
-        return stackView
+    lazy var settingLabel: UILabel = {
+        let lab = UILabel()
+        lab.text = "Account Settings"
+        lab.textAlignment = .left
+        lab.numberOfLines = 0
+        lab.textColor = .darkGray
+        return lab
     }()
     
-    lazy var saveButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Save" , for: .normal)
-        button.setTitleColor(.blue, for: .normal)
-        return button
+    lazy var settingOptionsTV: UITableView = {
+        let tv = UITableView()
+        tv.register(UITableViewCell.self, forCellReuseIdentifier: "SettingsCell")
+        tv.isScrollEnabled = false
+        
+        
+        return tv
     }()
+    
+    lazy var saveChangesButton: UIButton = {
+        let butt = UIButton()
+        butt.setTitle("Save Changes", for: .normal)
+        butt.setTitleColor(.orange, for: .normal)
+        return butt
+    }()
+    
     
     
     override init(frame: CGRect) {
@@ -89,57 +69,93 @@ class SettingsView: UIView {
     }
     
     private func commonInit() {
-        backgroundColor = .white
-        addSubViews()
-        addConstraints()
+        backgroundColor =  UIColor(displayP3Red: (229/255), green: (229/255), blue: (229/255), alpha: 1.0)
+        setupViews()
     }
     
-    func addSubViews(){
-        //view.addSubview(titleLabel)
-        addSubview(leftsideStacks)
-        addSubview(rightsideStacks)
-        addSubview(profilePictureLabel)
-        addSubview(profileImage)
-        addSubview(saveButton)
-        
-        leftsideStacks.addArrangedSubview(changeNameLabel)
-        leftsideStacks.addArrangedSubview(changePasswordLabel)
-        
-        rightsideStacks.addArrangedSubview(enterUserNameTextfield)
-        rightsideStacks.addArrangedSubview(enterPasswordTextfield)
-        
+    private func setupViews() {
+        let view = [ imageContainer, profileImage, editUserImageButton, settingLabel, settingOptionsTV, saveChangesButton] as [UIView]
+        view.forEach{ addSubview($0)}
+        setUpImageContainer()
+        setUpProfileImage()
+        setupeditUserImageButton()
+        setUpSettingLab()
+        setUpTableView()
+        setUpSaveButton()
     }
     
-    private func addConstraints(){
-        
-        leftsideStacks.snp.makeConstraints {(left) -> Void in
-            left.top.equalTo(self.safeAreaLayoutGuide).offset(80)
-            left.left.equalTo(self.snp.left).offset(20)
-            left.width.equalTo(self.snp.width).multipliedBy(0.4)
-            
-        }
-        
-        rightsideStacks.snp.makeConstraints {(right) -> Void in
-            right.top.equalTo(leftsideStacks.snp.top)
-            right.left.equalTo(leftsideStacks.snp.right).offset(20)
-            right.right.equalTo(self.snp.right).offset(-20)
-            
-        }
-        profilePictureLabel.snp.makeConstraints {(make) in
-            make.top.equalTo(self.snp.centerY).offset(-150)
+    private func setUpImageContainer() {
+        imageContainer.snp.makeConstraints { (make) in
+            make.width.equalTo(self.snp.width)
+            make.height.equalTo(self.snp.height).multipliedBy(0.3)
+            make.top.equalTo(self.snp.top)
             make.centerX.equalTo(self.snp.centerX)
         }
+        imageContainer.layer.cornerRadius = 5
+        imageContainer.layer.shadowColor = UIColor.black.cgColor
+        imageContainer.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        imageContainer.layer.shadowRadius = 2.0
+        imageContainer.layer.shadowOpacity = 2.0
+        imageContainer.layer.masksToBounds = true
+    }
+    
+    private func setUpProfileImage() {
         profileImage.snp.makeConstraints { (make) in
-            make.top.equalTo(profilePictureLabel.snp.bottom).offset(20)
-            make.centerX.equalTo(self.snp.centerX)
-            make.width.height.equalTo(300)
+            make.top.equalTo(imageContainer.snp.top).offset(10)
+            make.centerX.equalTo(imageContainer.snp.centerX)
+            //            make.centerY.equalTo(self.snp.centerY)
+            make.width.equalTo(self.snp.width).multipliedBy(0.2)
+            make.height.equalTo(self.snp.height).multipliedBy(0.2)
         }
         
-        saveButton.snp.makeConstraints { (save) in
-            save.top.equalTo(profileImage.snp.bottom).offset(50)
-            save.centerX.equalTo(self)
-            save.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-60)
-            save.height.equalTo(40)
+    }
+    
+    private func setupeditUserImageButton() {
+        editUserImageButton.snp.makeConstraints { (make) in
+            make.top.equalTo(profileImage.snp.bottom).offset(1)
+            make.centerX.equalTo(self.snp.centerX)
+            make.width.equalTo(self.snp.width).multipliedBy(0.3)
+            make.height.equalTo(self.snp.height).multipliedBy(0.1)
+        }
+    }
+    
+    private func setUpSettingLab() {
+        settingLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(imageContainer.snp.bottom).offset(5)
+            //            make.left.equalTo(self.snp.left).offset(10)
+            make.width.equalTo(self.snp.width)
+            make.height.equalTo(self.snp.height).multipliedBy(0.1)
+            
+        }
+    }
+    
+    private func setUpTableView() {
+        settingOptionsTV.snp.makeConstraints { (make) in
+            make.top.equalTo(settingLabel.snp.bottom).offset(10)
+            make.width.equalTo(self.snp.width).multipliedBy(0.9)
+            make.centerX.equalTo(self.snp.centerX)
+            make.height.equalTo(self.snp.height).multipliedBy(0.18)
+        }
+        
+        //to round the corners
+        settingOptionsTV.layer.borderWidth = 0.5
+        settingOptionsTV.layer.cornerRadius = 2
+        //Add shadow
+        settingOptionsTV.layer.shadowColor = UIColor.black.cgColor
+        settingOptionsTV.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        settingOptionsTV.layer.shadowRadius = 1.0
+        settingOptionsTV.layer.shadowOpacity = 1.0
+        settingOptionsTV.layer.masksToBounds = true
+    }
+    
+    private func setUpSaveButton() {
+        saveChangesButton.snp.makeConstraints{ (make) in
+            make.centerX.equalTo(self.snp.centerX)
+            make.bottom.equalTo(self.snp.bottom).offset(5)
+            make.width.equalTo(self.snp.width).multipliedBy(0.5)
+            make.height.equalTo(self.snp.height).multipliedBy(0.1)
+            
         }
     }
 }
+
