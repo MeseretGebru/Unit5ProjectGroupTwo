@@ -26,6 +26,8 @@ class UserLogInVC: UIViewController {
         let iv = UIImageView()
         iv.image = #imageLiteral(resourceName: "profile64")
         iv.contentMode = UIViewContentMode.scaleToFill
+        iv.layer.cornerRadius = 20
+        iv.layer.masksToBounds = true
         return iv
     }()
     
@@ -48,13 +50,13 @@ class UserLogInVC: UIViewController {
         
         
         let views = [viewContainer, userLoginView, userSignUpView, logoImage] as [UIView]
-    
+        
         views.forEach{ ($0).translatesAutoresizingMaskIntoConstraints = false; self.view.addSubview($0) }
         userSignUpView.isHidden = true
         viewContainer.segmentedControl.selectedSegmentIndex = 0
         viewContainer.segmentedControl.addTarget(self, action: #selector(segmentControlPressed), for: .valueChanged)
         viewContainer.segmentedControl.setTitleTextAttributes([NSAttributedStringKey.foregroundColor : UIColor.green], for: .selected)
-  
+        
         
         //For buttons
         userLoginView.submitInfoButton.addTarget(self, action: #selector(login), for: .touchUpInside)
@@ -62,18 +64,36 @@ class UserLogInVC: UIViewController {
         userLoginView.forgotPWButton.addTarget(self, action: #selector(reset), for: .touchUpInside)
         userSignUpView.uploadImageButton.addTarget(self, action: #selector(getImageFromUser), for: .touchUpInside)
         
-//        self.verificationTimer = Timer.scheduledTimer(timeInterval: 200, target: self, selector: #selector(UserLogInVC.signUp) , userInfo: nil, repeats: true)
+        //        self.verificationTimer = Timer.scheduledTimer(timeInterval: 200, target: self, selector: #selector(UserLogInVC.signUp) , userInfo: nil, repeats: true)
         
         setUpAccountView()
         userSignUpViewConstraints()
         userCreateAccountConstraints()
         setUpLogoConstraints()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(UserLogInVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UserLogInVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
+
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 0{
+                self.view.frame.origin.y += keyboardSize.height
+            }
+        }
     }
     
     
-   
     
     
     @objc private func login() {
@@ -82,19 +102,6 @@ class UserLogInVC: UIViewController {
         guard let password = userLoginView.passwordTextField.text else { self.alertForErrors(with: "Please enter a password."); return }
         guard !password.isEmpty else { self.alertForErrors(with: "Please enter a password."); return }
         FirebaseAPIClient.manager.login(with: email, an: password) { (user, error) in
-            if Auth.auth().currentUser?.isEmailVerified != true {
-                print("User hasn't verified email")
-                
-                self.alertForErrors(with: "Please verify your email.")
-                return
-            }
-                
-            else {
-//                self.verificationTimer.invalidate()
-            }
-            
-            
-            
             
             if error != nil {
                 if let errorCode = AuthErrorCode(rawValue: error!._code) {
@@ -117,12 +124,21 @@ class UserLogInVC: UIViewController {
                 }
             }
             
+            if Auth.auth().currentUser?.isEmailVerified != true {
+                print("User hasn't verified email")
+                self.alertForErrors(with: "Please verify your email.")
+                return
+            }
+                
+            else {
+                //                self.verificationTimer.invalidate()
+            }
             
             if user != nil {
-                //self.present(MainVC(), animated: true, completion: nil)
+                
                 let storyboard = UIStoryboard(name: "GlobalPostFeed", bundle: nil)
                 let revealVC = storyboard.instantiateViewController(withIdentifier: "SWRealViewController")
-                // self.navigationController?.pushViewController(revealVC, animated: true)
+                
                 self.present(revealVC, animated: true, completion: nil)
             }
         }
@@ -201,27 +217,6 @@ class UserLogInVC: UIViewController {
     
     
     
-    //    func isEmailVerfied() {
-    //        Auth.auth().currentUser?.reload{ (error) in
-    //            if error == nil {
-    //                if Auth.auth().currentUser!.isEmailVerified {
-    //                    self.present(MainViewController(), animated: true, completion: nil)
-    //                    self.verificationTimer.invalidate()
-    //                }
-    //                else {
-    //                    print("User hasn't verified email")
-    //                    let ac = UIAlertController(title: "Email Not Verified", message: "Please verify your email.", preferredStyle: .alert)
-    //                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-    //                    ac.addAction(okAction)
-    //                    self.present(ac, animated: true, completion: nil)
-    //                }
-    //            }
-    //            else {
-    //                print("Error: \(String(describing: error?.localizedDescription))")
-    //            }
-    //        }
-    //    }
-    
     @objc private func reset() {
         let resetVC = ForgotPasswordVC()
         resetVC.modalTransitionStyle = .coverVertical
@@ -278,12 +273,9 @@ class UserLogInVC: UIViewController {
     
     func setUpAccountView() {
         viewContainer.snp.makeConstraints { (make) -> Void in
-            //            make.height.equalTo(view.snp.height).multipliedBy(0.8)
-            //            make.width.equalTo(view.snp.width).multipliedBy(0.9)
             make.height.equalTo(view.snp.height).multipliedBy(0.6)
             make.width.equalTo(view.snp.width)
             make.centerX.equalTo(view.snp.centerX)
-            //            make.centerY.equalTo(view.snp.centerY).offset(20)
             make.bottom.equalTo(view.snp.bottom)
             
         }
@@ -293,7 +285,6 @@ class UserLogInVC: UIViewController {
         userSignUpView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(viewContainer.segmentedControl.snp.bottom)
             make.width.equalTo(viewContainer.snp.width)
-            //            make.height.equalTo(viewContainer.borderForViews.snp.height).multipliedBy(0.99)
             make.bottom.equalTo(view.snp.bottom)
             make.centerX.equalTo(viewContainer.segmentedControl.snp.centerX)
         }
@@ -303,7 +294,6 @@ class UserLogInVC: UIViewController {
         userLoginView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(viewContainer.segmentedControl.snp.bottom)
             make.width.equalTo(viewContainer.snp.width)
-            //            make.height.equalTo(viewContainer.borderForViews.snp.height).multipliedBy(0.99)
             make.bottom.equalTo(view.snp.bottom)
             make.centerX.equalTo(viewContainer.segmentedControl.snp.centerX)
             
@@ -311,7 +301,7 @@ class UserLogInVC: UIViewController {
     }
     
     
-    func alertForErrors(with message: String) {
+    private func alertForErrors(with message: String) {
         let ac = UIAlertController(title: "Problem Logging In", message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         ac.addAction(okAction)
@@ -335,29 +325,9 @@ class UserLogInVC: UIViewController {
             
             
         }
-//
-//        for item in viewContainer.segmentedControl.subviews {
-//
-//            if let subview = item as? UIControl {
-//                if subview.isSelected {
-//                    subview.backgroundColor = .lightGray
-//                }
-//            }
-//        }
-//        let sortedViews = sender.subviews.sorted { $0.frame.origin.x < $1.frame.origin.x }
-//
-//        for (index, view) in sortedViews.enumerated() {
-//            if index == sender.selectedSegmentIndex {
-//                view.tintColor = UIColor.lightGray
-//            } else {
-//                  view.tintColor = UIColor.lightGray
-//            }
-        
-            
-            
-        }
     }
-    
+}
+
 
 
 extension UserLogInVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -368,3 +338,5 @@ extension UserLogInVC: UIImagePickerControllerDelegate, UINavigationControllerDe
         picker.dismiss(animated: true, completion: nil)
     }
 }
+
+

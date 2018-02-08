@@ -57,7 +57,7 @@ extension GlobalPostFeedVC: UIScrollViewDelegate {
         self.view.addSubview(scrollView)
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
-        scrollView.bounces = true
+        scrollView.bounces = false
         
         scrollView.contentSize = CGSize(width: self.scrollView.frame.size.width * 2, height: self.scrollView.frame.size.height)
     for index in 0...1 {

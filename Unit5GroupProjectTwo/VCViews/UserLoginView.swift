@@ -26,7 +26,7 @@ class UserLoginView: UIView {
         return txt
         
         
-       
+        
     }()
     
     lazy var passwordTextField: UITextField = {
@@ -54,16 +54,6 @@ class UserLoginView: UIView {
     }()
     
     
-    //    lazy var offerRegisterLabel: UILabel = {
-    //        let lab = UILabel()
-    //        return lab
-    //    }()
-    //
-    //    lazy var registerButton: UIButton = {
-    //        let butt = UIButton()
-    //        return butt
-    //    }()
-    
     
     override init(frame: CGRect) {
         super.init(frame: UIScreen.main.bounds)
@@ -76,19 +66,19 @@ class UserLoginView: UIView {
     }
     
     private func commonInit() {
-      backgroundColor = .white
+        backgroundColor = .white
         setupViews()
         setUpUserNameTF()
         setUpPWTF()
         setUpSubmitButt()
         setUpForgotPWB()
-
+        
     }
     
     private func setupViews() {
         let views = [emailTextField, passwordTextField, submitInfoButton, forgotPWButton] as [UIView]
         views.forEach { addSubview($0); ($0).translatesAutoresizingMaskIntoConstraints = false}
-    
+        
     }
     
     private func setUpUserNameTF () {
@@ -130,7 +120,7 @@ class UserLoginView: UIView {
             make.centerX.equalTo(self)
             
             forgotPWButton.layer.cornerRadius = 15
-        forgotPWButton.layer.masksToBounds = true
+            forgotPWButton.layer.masksToBounds = true
         }
     }
     
@@ -145,8 +135,8 @@ class UserLoginView: UIView {
         border.leftAnchor.constraint(equalTo: txt.leftAnchor).isActive = true
     }
     
-
-  
+    
+    
 }
 
 //extension UITextView {

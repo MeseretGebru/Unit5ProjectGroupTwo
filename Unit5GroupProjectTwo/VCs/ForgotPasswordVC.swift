@@ -14,9 +14,6 @@ import Firebase
 
 class ForgotPasswordVC: UIViewController {
     
-    
-    
-    
     let resetView = ForgotPasswordView()
     
     lazy var backButtonView: UIButton = {
@@ -34,7 +31,7 @@ class ForgotPasswordVC: UIViewController {
         resetView.submitButton.addTarget(self, action: #selector(resetPassword), for: .touchUpInside)
         resetView.dismissButton.addTarget(self, action: #selector(disMissSelfForButton), for: .touchUpInside)
         backButtonView.addTarget(self, action: #selector(disMissSelfForButton), for: .touchUpInside)
-        //       gestureTap(<#T##sender: UITapGestureRecognizer##UITapGestureRecognizer#>)
+
     }
     
     private func setUpResetView() {
