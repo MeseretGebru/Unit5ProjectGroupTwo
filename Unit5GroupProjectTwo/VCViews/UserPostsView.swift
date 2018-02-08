@@ -35,6 +35,14 @@ class UserPostsView: UIView {
         label.text = "username"
         return label
     }()
+    //#of postes calcualted
+    lazy var NumberofPostsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "numberofposts"
+        return label
+    }()
+    
+
     
     
     override init(frame: CGRect) {
@@ -55,6 +63,7 @@ class UserPostsView: UIView {
         addSubview(postTableView)
         addSubview(profileImage)
         addSubview(userNameLabel)
+        addSubview(NumberofPostsLabel)
     }
     
     
@@ -65,10 +74,15 @@ class UserPostsView: UIView {
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(40)
             make.width.equalTo(snp.width).multipliedBy(0.30)
             make.height.equalTo(profileImage.snp.width)
+            
         }
         userNameLabel.snp.makeConstraints { (name) in
             name.top.equalTo(profileImage.snp.bottom)
             name.centerX.equalTo(self.snp.centerX)
+        }
+        NumberofPostsLabel.snp.makeConstraints { (posts) in
+            posts.top.equalTo(userNameLabel.snp.bottom).offset(10)
+            posts.centerX.equalTo(self.snp.centerX)
         }
         
         postTableView.snp.makeConstraints { (tableView) in
