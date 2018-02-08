@@ -17,15 +17,9 @@ import FirebaseAuth
 class UserProfileVC: UIViewController {
 
     let userProfileView = UserProfileView()
-    
-    private var users = [UserProfile]() {
-        didSet {
-            DispatchQueue.main.async {
-//                self.userProfileView.
-                //userNameLabel.text =
-            }
-        }
-    }
+    var user: UserProfile!
+    let numberOfPosts: Int!
+    let numberOfUpVotes: Int!
 
     let menuButt = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton"), style: .plain, target: self, action: nil)
 
@@ -142,10 +136,21 @@ class UserProfileVC: UIViewController {
     }
     
     func loadData() {
-        if let user = Auth.auth().currentUser {
-            userProfile = UserService.manager.getUser(user: user)
+        if let uid = Auth.auth().currentUser?.uid {
+            UserService.manager.getUser(uid: uid, completion: { (userOnline) in
+                if let userFirebase = userOnline {
+                    self.user = userFirebase
+                }
+            })
         }
-        users = UserService.manager.getUsers()
+        
+        var posts = [Post]()
+        PostService.manager.getUserPosts(from: user.userId) { (postsOnline) in
+            if let postsFirebase = postsOnline {
+                posts = postsFirebase
+            }
+        }
+        
         
     }
     
