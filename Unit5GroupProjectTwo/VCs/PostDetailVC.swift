@@ -21,7 +21,13 @@ class PostDetailVC: UIViewController {
     
     var post: Post!
     let commentView = PostDetailView()
-    
+    init(post: Post) {
+        super.init(nibName: nil, bundle: nil)
+        self.post = post
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("decoder fail to build: \(aDecoder)")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

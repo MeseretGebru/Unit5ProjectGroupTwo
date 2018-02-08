@@ -126,11 +126,13 @@ class GlobalPostFeedVC: UIViewController {
 //        present(PostViewController(), animated: true, completion: nil)
 //        navigationController?.pushViewController(PostViewController(), animated: true)
     }
-    @objc func moreButtonPressed() {
+    @objc func moreButtonPressed(sender: UIButton) {
     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let flagActionSheet = UIAlertAction(title: "Report", style: .default) {[weak self] (action) in
-            // TODO: configure flag action
+        let flagActionSheet = UIAlertAction(title: "Report", style: .default) {(action) in
+            // configure flag action
+            PostService.manager.updateFlaged(of: self.posts[sender.tag])
         }
+        
         let cancelActionSheet = UIAlertAction(title: "Cancel", style: .default, handler: nil)
         alert.addAction(flagActionSheet)
         alert.addAction(cancelActionSheet)
@@ -138,9 +140,14 @@ class GlobalPostFeedVC: UIViewController {
     }
     
     @objc func upvotePressed(sender: UIButton) {
-        PostService.manager.updateVote(of: self.posts[sender.tag])
+        PostService.manager.updateUpVote(of: self.posts[sender.tag])
     }
-    
+    @objc func downvotePressed(sender: UIButton) {
+        PostService.manager.updateDownVote(of: self.posts[sender.tag])
+    }
+//    @objc func flagButtonPressed(sender: UIButton) {
+//        PostService.manager.updateFlaged(of: self.posts[sender.tag])
+//    }
 }
 
 

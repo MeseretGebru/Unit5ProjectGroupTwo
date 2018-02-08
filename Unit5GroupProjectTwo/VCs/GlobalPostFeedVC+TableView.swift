@@ -44,10 +44,16 @@ extension GlobalPostFeedVC: UITableViewDataSource {
         if tableView == feedView.tableView {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell
         cell.layoutIfNeeded()
+            // add handles to these buttons in cell
         cell.moreButton.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
         cell.upvoteButton.tag = indexPath.row
-            cell.upvoteButton.addTarget(self, action: #selector(upvotePressed(sender:)), for: .touchUpInside)
-        guard posts.count > 0 else {
+        cell.downvoteButton.tag = indexPath.row
+        cell.moreButton.tag = indexPath.row
+        cell.upvoteButton.addTarget(self, action: #selector(upvotePressed(sender:)), for: .touchUpInside)
+        cell.downvoteButton.addTarget(self, action: #selector(downvotePressed(sender:)), for: .touchUpInside)
+          
+            
+            guard posts.count > 0 else {
             switch indexPath.row {
             case 0:
                 cell.feedImageView.image = #imageLiteral(resourceName: "dogs")

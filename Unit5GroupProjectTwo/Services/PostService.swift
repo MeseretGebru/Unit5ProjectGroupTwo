@@ -53,7 +53,7 @@ struct PostService {
     
     public func saveNewPost(content: String, title: String, image: UIImage) {
         let newPost = postRef.childByAutoId()
-        let post = Post(ref: newPost, user: currentUser, postContent: content, postTitle: title, imageURL: "", /*vote: nil,*/ countOfUp: 0)
+        let post = Post(ref: newPost, user: currentUser, postContent: content, postTitle: title, imageURL: "", countOfUp: 0, countOfDown: 0, flaged: false)
         newPost.setValue(post.toAnyObject()){ (error, dbRef) in
             if let error = error {
                 print("addPost error: \(error)")
@@ -67,11 +67,20 @@ struct PostService {
         }
         
     }
-    public func updateVote(of post: Post) {
+    public func updateUpVote(of post: Post) {
       var currentUps = post.countOfUp
        let updatedCount = currentUps + 1
         post.ref.child("countOfUp").setValue(updatedCount)
-      
-        
 }
+    public func updateDownVote(of post: Post) {
+        var currentDowns = post.countOfDown
+        let updatedCount = currentDowns + 1
+        post.ref.child("countOfDown").setValue(updatedCount)
+    }
+    public func updateFlaged(of post: Post) {
+        if post.flaged == true {
+          return
+        }
+        post.ref.child("flaged").setValue(true)
+    }
 }
