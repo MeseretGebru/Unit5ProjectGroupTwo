@@ -59,7 +59,7 @@ struct UserService {
                 print("User added @ database reference: \(dbRef)")
                 
                 // add an image to storage
-                StorageService.manager.storeImage(image: imageProfile, postId: nil, userId: self.currentUser.uid)
+                StorageService.manager.storeImage(image: imageProfile, postId: newUser.key, userId: self.currentUser.uid)
                 // TODO: add image to database
             }
         }
