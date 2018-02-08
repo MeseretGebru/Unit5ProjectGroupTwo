@@ -13,6 +13,7 @@ class PostDetailView: UIView {
     lazy var postImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
+        //image.image = #imageLiteral(resourceName: "c4q-logo")
         image.image = #imageLiteral(resourceName: "panda")
         image.layer.cornerRadius = image.frame.size.width / 2
         image.clipsToBounds = true
@@ -69,6 +70,8 @@ class PostDetailView: UIView {
     
     lazy var newComment: UIButton = {
         let button = UIButton()
+
+       // button.setImage(#imageLiteral(resourceName: "icoComment"), for: .normal)
         button.setImage(#imageLiteral(resourceName: "CommentIcon"), for: .normal)
         return button
     }()
@@ -89,7 +92,9 @@ class PostDetailView: UIView {
         image.layer.borderWidth = 1.5
         image.layer.cornerRadius = image.frame.size.width / 2
         image.clipsToBounds = true
+
         image.image = #imageLiteral(resourceName: "panda")
+
         return image
     }()
     
