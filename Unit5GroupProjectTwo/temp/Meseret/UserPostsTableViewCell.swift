@@ -12,6 +12,7 @@ class UserPostsTableViewCell: UITableViewCell {
 
     lazy var userPostImage: UIImageView = {
         let userPostImage = UIImageView()
+        userPostImage.contentMode = .scaleAspectFit
         return userPostImage
     }()
     
@@ -31,13 +32,13 @@ class UserPostsTableViewCell: UITableViewCell {
         return button
     }()
     
-    //#of postes calcualted
-    lazy var calculatedNumberofPostsLabel: UILabel = {
-        let label = UILabel()
-        label.text = "numberofposts"
-        return label
-    }()
-    
+//    //#of postes calcualted
+//    lazy var NumberofPostsLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "numberofposts"
+//        return label
+//    }()
+//
     lazy var downButton: UIButton = {
         let button = UIButton()
         //button.setTitle("-" , for: .normal)
@@ -73,23 +74,26 @@ class UserPostsTableViewCell: UITableViewCell {
     //            addSubview(descriptionLabel)
     //    }
     private func setupViews() {
-        let viewObjects = [descriptionLabel, userPostImage, calculatedNumberofPostsLabel] as! [UIView]
+        let viewObjects = [descriptionLabel, userPostImage] as! [UIView]
         viewObjects.forEach{addSubview($0)}
         
         userPostImage.snp.makeConstraints { (image) in
-            image.height.width.equalTo(90)
-            image.top.leading.equalTo(5)
+            image.height.width.equalTo(self.snp.width).multipliedBy(0.30)
+            image.leading.equalTo(self.snp.leading).offset(5)
+            image.top.equalTo(self.snp.top).offset(5)
+            image.bottom.equalTo(self.snp.bottom).offset(-5)
         }
         descriptionLabel.snp.makeConstraints { (label) in
             label.top.equalTo(5)
             label.leading.equalTo(self.userPostImage.snp.trailing).offset(5)
             label.trailing.equalTo(self.contentView.snp.trailing).offset(-5)
+            label.centerY.equalTo(self.contentView.snp.centerY)
         }
-        calculatedNumberofPostsLabel.snp.makeConstraints { (label) in
-            label.top.equalTo(self.descriptionLabel.snp.bottom).offset(5)
-            label.leading.equalTo(self.userPostImage.snp.trailing).offset(5)
-            label.trailing.equalTo(self.contentView.snp.trailing).offset(-5)
-        }
+//        NumberofPostsLabel.snp.makeConstraints { (label) in
+//            label.top.equalTo(self.descriptionLabel.snp.bottom).offset(5)
+//            label.leading.equalTo(self.userPostImage.snp.trailing).offset(5)
+//            label.trailing.equalTo(self.contentView.snp.trailing).offset(-5)
+//        }
     }
     
 }
