@@ -37,7 +37,7 @@ class MenuVC: UIViewController {
         
       //  userImageView.layer.cornerRadius = 5
         
-        
+        self.userNameLabel.text = Auth.auth().currentUser?.displayName!
         
     }
  

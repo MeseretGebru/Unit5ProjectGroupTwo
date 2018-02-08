@@ -150,9 +150,7 @@ class GlobalPostFeedVC: UIViewController {
     @objc func downvotePressed(sender: UIButton) {
         PostService.manager.updateDownVote(of: self.posts[sender.tag])
     }
-//    @objc func flagButtonPressed(sender: UIButton) {
-//        PostService.manager.updateFlaged(of: self.posts[sender.tag])
-//    }
+
 }
 
 

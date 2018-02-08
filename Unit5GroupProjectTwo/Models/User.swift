@@ -17,15 +17,19 @@ struct UserProfile {
     var ref: DatabaseReference
     var userId: String
     var user: String
+    var displayName: String
+    var email: String
     var lastLogin: String
     var numberOfFlags: Int
     var imageURL: String
    // var voteGave: Int
     // preparing info to save into firebase
-    init(ref: DatabaseReference, user: User, lastLogin: String, numberOfFlags: Int, imageURL: String){
+    init(ref: DatabaseReference, user: User, displayName: String, email: String, lastLogin: String, numberOfFlags: Int, imageURL: String){
         self.ref = ref
         self.userId = ref.key
         self.user = user.uid
+        self.displayName = displayName
+        self.email = email
         self.lastLogin = lastLogin
         self.numberOfFlags = numberOfFlags
         self.imageURL = imageURL
@@ -37,6 +41,8 @@ struct UserProfile {
         self.ref = snapShot.ref
         self.userId = snapShot.ref.key
         self.user = value?["user"] as! String
+        self.displayName = value?["displayName"] as? String ?? ""
+        self.email = value?["email"] as? String ?? ""
         self.lastLogin = value?["lastLogin"] as? String ?? ""
         self.numberOfFlags = value?["numberOfFlags"] as? Int ?? 0
         self.imageURL = value?["imageURL"] as? String ?? ""
@@ -44,7 +50,7 @@ struct UserProfile {
     
     // transform info previous to save
     func toAnyObject() -> [String: Any] {
-        return["userId" : ref.key, "user": user, "lastLogin" : lastLogin, "numberOfFlags" : numberOfFlags, "imageURL": imageURL]
+        return["userId" : ref.key, "user": user,"displayName": displayName,"email": email, "lastLogin" : lastLogin, "numberOfFlags" : numberOfFlags, "imageURL": imageURL]
     }
     
 }
