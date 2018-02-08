@@ -38,14 +38,17 @@ struct UserService {
         return users
     }
     
-    public func getUser(user: User) -> UserProfile {
-        var user: UserProfile!
-        userRef.child("users").queryEqual(toValue: user, childKey: "user").observe(.value, with: { (dataSnapShot) in
-            let userP = UserProfile(snapShot: dataSnapShot.children.allObjects[0] as! DataSnapshot)
-            user = userP
-            
-        })
-        return user
+    public func getUser(uid: String, completion: @escaping (UserProfile?) -> Void) {
+        var customUser: UserProfile!
+        userRef.child("users").observe(.value) { (snapShot) in
+            for user in snapShot.children {
+                let onlineUser = UserProfile(snapShot: user as! DataSnapshot)
+                if onlineUser.userId == uid {
+                    customUser = onlineUser
+                }
+            }
+            completion(customUser)
+        }
     }
     
     
