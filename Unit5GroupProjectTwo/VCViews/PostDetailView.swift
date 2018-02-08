@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PostDetailView: UIView {
+class PostDetailView: UIScrollView {
 
     lazy var postImageView: UIImageView = {
         let image = UIImageView()
@@ -17,6 +17,7 @@ class PostDetailView: UIView {
         image.image = #imageLiteral(resourceName: "panda")
         image.layer.cornerRadius = image.frame.size.width / 2
         image.clipsToBounds = true
+//        image.backgroundColor = .orange
         return image
     }()
     
@@ -32,8 +33,9 @@ class PostDetailView: UIView {
     
     lazy var upVote: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "DownVoteIco"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "ThumbUp"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+//        button.backgroundColor = .red
         return button
     }()
     
@@ -47,23 +49,24 @@ class PostDetailView: UIView {
     
     lazy var downVote: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "DownVoteIco"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "ThumbDown"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+//        button.backgroundColor = .red
         return button
     }()
     
-    lazy var voteStackView: UIStackView = {
-        let stView = UIStackView()
-        stView.axis  = UILayoutConstraintAxis.horizontal
-        stView.distribution  = UIStackViewDistribution.fillEqually
-        stView.alignment = .center
-        stView.spacing = 8.0
-        return stView
-    }()
+//    lazy var voteStackView: UIStackView = {
+//        let stView = UIStackView()
+//        stView.axis  = UILayoutConstraintAxis.horizontal
+//        stView.distribution  = UIStackViewDistribution.fillEqually
+//        stView.alignment = .center
+//        stView.spacing = 8.0
+//        return stView
+//    }()
     
     lazy var numComments: UILabel = {
         let label = UILabel()
-        label.text = "0 comment(s)"
+        label.text = "0"
         label.textAlignment = .center
         return label
     }()
@@ -76,14 +79,14 @@ class PostDetailView: UIView {
         return button
     }()
     
-    lazy var headerL2: UIStackView = {
-        let stView = UIStackView()
-        stView.axis  = UILayoutConstraintAxis.horizontal
-        stView.distribution  = UIStackViewDistribution.fill
-        stView.alignment = UIStackViewAlignment.center
-        stView.spacing   = 8.0
-        return stView
-    }()
+//    lazy var headerL2: UIStackView = {
+//        let stView = UIStackView()
+//        stView.axis  = UILayoutConstraintAxis.horizontal
+//        stView.distribution  = UIStackViewDistribution.fill
+//        stView.alignment = UIStackViewAlignment.center
+//        stView.spacing   = 8.0
+//        return stView
+//    }()
     
     lazy var profileImageView: UIImageView = {
         let image = UIImageView()
@@ -94,34 +97,19 @@ class PostDetailView: UIView {
         image.clipsToBounds = true
 
         image.image = #imageLiteral(resourceName: "panda")
-
+//        image.backgroundColor = .orange
         return image
     }()
     
-    lazy var commentTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Text your comment..."
+    lazy var commentTextField: UITextView = {
+        let textField = UITextView()
+        textField.isEditable = true
+        textField.textColor = .lightGray
+        textField.text = "Type your comment..."
+        textField.font = UIFont(name: "Arial", size: 16)
+//        textField.backgroundColor = .green
         return textField
     }()
-    
-    lazy var commentStackView: UIStackView = {
-        let stView = UIStackView()
-        stView.axis  = UILayoutConstraintAxis.horizontal
-        stView.distribution  = UIStackViewDistribution.fillProportionally
-        stView.alignment = UIStackViewAlignment.center
-        stView.spacing   = 32.0
-        return stView
-    }()
-    
-    lazy var headerStackView: UIStackView = {
-        let stView = UIStackView()
-        stView.axis  = UILayoutConstraintAxis.vertical
-        stView.distribution  = UIStackViewDistribution.fill
-        stView.alignment = UIStackViewAlignment.center
-        stView.spacing   = 8.0
-        return stView
-    }()
-    
     
     lazy var tableView: UITableView = {
         let tv = UITableView()
@@ -147,65 +135,101 @@ class PostDetailView: UIView {
     }
     
     private func commonInit() {
-        addSubview(headerStackView)
-        headerStackView.addArrangedSubview(postImageView)
-        headerStackView.addArrangedSubview(titleLabel)
-        headerStackView.addArrangedSubview(headerL2)
-        headerL2.addArrangedSubview(voteStackView)
-        voteStackView.addArrangedSubview(upVote)
-        voteStackView.addArrangedSubview(numVotes)
-        voteStackView.addArrangedSubview(downVote)
-        headerL2.addArrangedSubview(numComments)
-        headerL2.addArrangedSubview(newComment)
-        headerStackView.addArrangedSubview(commentStackView)
-        commentStackView.addArrangedSubview(profileImageView)
-        commentStackView.addArrangedSubview(commentTextField)
+//        backgroundColor = .cyan
+//        addSubview(headerStackView)
+        addSubview(postImageView)
+        addSubview(titleLabel)
+////        addSubview(headerL2)
+//        addSubview(voteStackView)
+        addSubview(upVote)
+        addSubview(numVotes)
+        addSubview(downVote)
+        addSubview(numComments)
+        addSubview(newComment)
+////        addSubview(commentStackView)
+        addSubview(profileImageView)
+        addSubview(commentTextField)
         addSubview(tableView)
         constraints()
     }
     
     private func constraints() {
-        headerStackView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.snp.top).offset(8)
-            make.left.equalTo(self.snp.left).offset(8)
-            make.right.equalTo(self.snp.right).offset(-8)
-            make.height.equalTo(self.snp.height).multipliedBy(0.5)
+//        headerStackView.snp.makeConstraints { (make) in
+//            make.top.equalTo(self.snp.top).offset(8)
+//            make.left.equalTo(self.snp.left).offset(8)
+//            make.right.equalTo(self.snp.right).offset(-8)
+//            make.height.equalTo(self.snp.height).multipliedBy(0.5)
+//        }
+//        commentStackView.snp.makeConstraints { (make) in
+//            make.centerX.equalTo(headerStackView.snp.centerX)
+//            make.bottom.equalTo(headerStackView.snp.bottom).offset(-8)
+//        }
+        postImageView.snp.makeConstraints { (make) in
+//            make.bottom.equalTo(titleLabel.snp.top)
+            make.width.equalTo(snp.width)
+            make.top.equalTo(snp.top).offset(8)
+            make.centerX.equalTo(snp.centerX)
+            make.height.equalTo(postImageView.snp.width)
         }
-        commentStackView.snp.makeConstraints { (make) in
-            make.centerX.equalTo(headerStackView.snp.centerX)
-            make.bottom.equalTo(headerStackView.snp.bottom).offset(-8)
+        titleLabel.snp.makeConstraints { (make) in
+            make.width.equalTo(snp.width)
+            make.top.equalTo(postImageView.snp.bottom)
+            //            make.bottom.equalTo(profileImageView.snp.top)
         }
+        upVote.snp.makeConstraints { (make) in
+            let ratio = (upVote.imageView?.image?.size.width)! / (upVote.imageView?.image?.size.height)!
+            make.top.equalTo(titleLabel.snp.bottom).offset(8)
+            make.leading.equalTo(postImageView.snp.leading).offset(8)
+            make.height.equalTo(32)
+            make.width.equalTo(upVote.snp.height).multipliedBy(ratio)
+        }
+        numVotes.snp.makeConstraints { (make) in
+            make.leading.equalTo(upVote.snp.trailing).offset(8)
+            make.width.equalTo(69)
+            make.centerY.equalTo(upVote.snp.centerY)
+        }
+        downVote.snp.makeConstraints { (make) in
+            let ratio = (downVote.imageView?.image?.size.width)! / (downVote.imageView?.image?.size.height)!
+            make.leading.equalTo(numVotes.snp.trailing).offset(8)
+            make.height.equalTo(upVote)
+            make.width.equalTo(upVote.snp.height).multipliedBy(ratio)
+            make.centerY.equalTo(upVote)
+        }
+        
+        numComments.snp.makeConstraints { (make) in
+            make.leading.equalTo(downVote.snp.trailing).offset(69)
+//            make.trailing.equalTo(postImageView).offset(-8)
+//            make.width.equalTo(<#T##other: ConstraintRelatableTarget##ConstraintRelatableTarget#>)
+            make.centerY.equalTo(upVote)
+            make.height.equalTo(upVote)
+        }
+        newComment.snp.makeConstraints { (make) in
+            let ratio = (newComment.image(for: .normal)?.size.width)! / (newComment.image(for: .normal)?.size.height)!
+            make.leading.equalTo(numComments.snp.trailing).offset(8)
+            make.height.equalTo(upVote)
+            make.width.equalTo(newComment.snp.height).multipliedBy(ratio)
+            make.centerY.equalTo(numComments)
+        }
+        
         profileImageView.snp.makeConstraints { (make) in
             make.height.width.equalTo(40)
-            make.left.equalTo(self.snp.left).offset(16)
+            make.left.equalTo(snp.left).offset(16)
+            make.top.equalTo(upVote.snp.bottom).offset(8)
         }
         commentTextField.snp.makeConstraints { (make) in
-            make.left.equalTo(profileImageView.snp.right).offset(16)
-            make.right.equalTo(commentStackView.snp.right)
+            make.leading.equalTo(profileImageView.snp.trailing).offset(16)
+            make.trailing.equalTo(postImageView.snp.trailing).offset(-8)
+            make.centerY.equalTo(profileImageView.snp.centerY)
+            make.height.equalTo(profileImageView)
         }
         
-        
-//        headerL2.snp.makeConstraints { (make) in
-//            make.width.equalTo(headerStackView.snp.width)
-//            make.centerX.equalTo(headerStackView.snp.centerX)
-//            make.height.equalTo(32)
-//            make.bottom.equalTo(commentStackView.snp.top).offset(-8)
-//        }
-        titleLabel.snp.makeConstraints { (make) in
-            make.width.equalTo(headerStackView.snp.width)
-            make.bottom.equalTo(headerL2.snp.top)
-        }
-        postImageView.snp.makeConstraints { (make) in
-            make.bottom.equalTo(titleLabel.snp.top)
-            make.width.equalTo(headerStackView.snp.width)
-            make.top.equalTo(headerStackView.snp.top)
-            make.centerX.equalTo(headerStackView.snp.centerX)
-        }
         tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(headerStackView.snp.bottom).offset(32)
-            make.left.equalTo(self.snp.left).offset(8)
-            make.right.equalTo(self.snp.right).offset(-8)
+            make.top.equalTo(profileImageView.snp.bottom).offset(32)
+//            make.top.equalTo(commentTextField.snp.bottom).offset(8)
+            make.leading.equalTo(postImageView.snp.leading).offset(8)
+            make.trailing.equalTo(postImageView.snp.trailing).offset(-8)
             make.bottom.equalTo(self.snp.bottom).offset(-8)
+            make.height.equalTo(self).multipliedBy(0.7)
         }
     }
 }
