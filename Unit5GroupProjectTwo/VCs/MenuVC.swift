@@ -18,13 +18,13 @@ import Firebase
 
 class MenuVC: UIViewController {
     
-    
-    @IBOutlet weak var userImageView: UIImageView!
+    var currentUser: User!
+   
+    @IBOutlet weak var userImageButton: UIButton!
     
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    let menuView = MenuView()
-    
+  
     let menuTitles = ["Post", "Profile", "Upvoted", "Settings"]
     let images: [UIImage] = [#imageLiteral(resourceName: "post64"), #imageLiteral(resourceName: "profile64"), #imageLiteral(resourceName: "thumbs64"), #imageLiteral(resourceName: "settings64")]
     
@@ -32,12 +32,22 @@ class MenuVC: UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.register(MenuCell.self, forCellReuseIdentifier: "menuCell")
         self.view.backgroundColor = .white
+        
+      //  userImageView.layer.cornerRadius = 5
+        
         
         
     }
  
-
+    public static func storyboardInstance() -> MenuVC {
+        let storyboard = UIStoryboard(name: "GlobalPostFeed", bundle: nil)
+        let menuVC = storyboard.instantiateViewController(withIdentifier: "MenuVC") as! MenuVC
+        return menuVC
+    }
+    
+    
     @IBAction func signoutButtonPressed(_ sender: UIButton) {
         FirebaseAPIClient.manager.logOutCurrentUser()
         let loginVC = UserLogInVC()
@@ -53,17 +63,15 @@ extension MenuVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = menuView.menuTableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "menuCell", for: indexPath) as! MenuCell
         let title = menuTitles[indexPath.row]
-        cell.textLabel?.text = title
-        cell.imageView?.image = images[indexPath.row]
+        cell.menuLabel.text = title
+        cell.menuImageView.image = images[indexPath.row]
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        let segueIdentifier: String
-//        var currentView = FeedViewController()
 
         switch indexPath.row {
         case 0:
@@ -80,7 +88,7 @@ extension MenuVC: UITableViewDelegate, UITableViewDataSource {
      
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 45
     }
     
 }

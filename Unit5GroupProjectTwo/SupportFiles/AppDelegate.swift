@@ -17,12 +17,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-        
-        //let barController = MainViewController()
         window = UIWindow(frame: UIScreen.main.bounds)
-        let navForLogIn = UINavigationController(rootViewController: UserLogInVC())
-        window?.rootViewController = navForLogIn
         window?.makeKeyAndVisible()
+        if Auth.auth().currentUser == nil {
+            
+            let navForLogIn = UINavigationController(rootViewController: UserLogInVC())
+            window?.rootViewController = navForLogIn
+        } else {
+            let feedVC = GlobalPostFeedVC.storyboardInstance()
+            let menuVC = MenuVC.storyboardInstance()
+            let narVC = UINavigationController(rootViewController: feedVC)
+            let swVC = SWRevealViewController(rearViewController: menuVC, frontViewController: narVC)
+            window?.rootViewController = swVC
+        }
         
         return true
     }
