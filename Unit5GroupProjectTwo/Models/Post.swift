@@ -24,7 +24,7 @@ struct Post {
     let countOfUp: Int
     let countOfDown: Int
     let flaged: Bool
-    let voteUsers: [String]
+   // let voteUsers: [String]
    
     // preparing info to save into firebase
     init(ref: DatabaseReference,
@@ -41,7 +41,7 @@ struct Post {
         self.countOfUp = countOfUp
         self.countOfDown = countOfDown
         self.flaged = flaged
-        self.voteUsers = voteUsers
+     //   self.voteUsers = voteUsers
     }
     
     // take info from firebase
@@ -57,14 +57,14 @@ struct Post {
         self.countOfUp = value?["countOfUp"] as? Int ?? 0
         self.countOfDown = value?["countOfDown"] as? Int ?? 0
         self.flaged = value?["flaged"] as? Bool ?? false
-        self.voteUsers = value?["voteUsers"] as? [String] ?? ["a"]
+      //  self.voteUsers = value?["voteUsers"] as? [String] ?? ["a"]
     }
   
     
     // transform info previous to save
     func toAnyObject() -> [String: Any] {
         return ["postId" : postId, "user": user,
-                "postContent" : postContent, "postTitle" : postTitle, "imageURL": imageURL, "countOfUp": countOfUp, "countOfDown": countOfDown, "flaged": flaged, "voteUsers": voteUsers ]
+                "postContent" : postContent, "postTitle" : postTitle, "imageURL": imageURL, "countOfUp": countOfUp, "countOfDown": countOfDown, "flaged": flaged, /*"voteUsers": voteUsers*/ ]
     }
   
     
