@@ -10,8 +10,9 @@ import Foundation
 import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
+import Kingfisher
 
-struct UserService {
+class UserService {
     private init() {
         dbRef = Database.database().reference()
         userRef = dbRef.child("users")
@@ -25,6 +26,7 @@ struct UserService {
     private var currentUser: User!
     
     public func getDB()-> DatabaseReference { return dbRef }
+    public func getUsersRef()-> DatabaseReference { return userRef }
     public func getUsers()-> [UserProfile] {
         var users = [UserProfile]()
         userRef.observe(.value) { (dataSnapShop) in
@@ -36,23 +38,53 @@ struct UserService {
         return users
     }
     
+    public func getUser(uid: String, completion: @escaping (UserProfile?) -> Void) {
+
+        userRef.observe(.value) { (snapShot) in
+            for user in snapShot.children {
+                let onlineUser = UserProfile(snapShot: user as! DataSnapshot)
+                if onlineUser.user == uid {
+                    completion(onlineUser)
+                    return
+            
+                }
+            }
+        }
+    }
+    
     
     public func saveNewUser(imageProfile: UIImage) {
-        let user = UserProfile(ref: userRef, user: currentUser, lastLogin: getDate(), numberOfFlags: 0)
         let newUser = userRef.childByAutoId()
+
+        let user = UserProfile(ref: newUser, user: currentUser, displayName: currentUser.displayName!, email: currentUser.email!, lastLogin: getDate(), numberOfFlags: 0, imageURL: "")
         newUser.setValue(user.toAnyObject()){ (error, dbRef) in
             if let error = error {
-                print("addJob error: \(error)")
+                print("addUser error: \(error)")
             } else {
-                print("job added @ database reference: \(dbRef)")
+                print("User added @ database reference: \(dbRef)")
                 
                 // add an image to storage
-                StorageService.manager.storeImage(image: imageProfile, postId: self.currentUser.uid)
-                
+                StorageService.manager.storeImage(image: imageProfile, postId: nil, userId: newUser.key, isUpdatingUserImage: false )
                 // TODO: add image to database
             }
         }
-        
+    }
+    
+    public func getImageProfile(urlImage: String, completion: @escaping (UIImage?) -> Void) {
+        let image = UIImageView()
+        if let imageURL = URL(string: urlImage) {
+            DispatchQueue.main.async {
+                image.kf.setImage(with: imageURL, placeholder: UIImage.init(named: "uggDog"), options: nil, progressBlock: nil) { (image, error, cacheType, url) in
+                    if let error = error {
+                        print(error)
+                        return
+                    }
+                    if let image = image {
+                        completion(image)
+                    }
+                }
+            }
+        }
     }
     
     public func addFlagToUser(from user: User) {
@@ -70,23 +102,6 @@ struct UserService {
         reference.updateChildValues(["numberOfFlags": numFlags])
     }
     
-    public func SaveImageProfile(image: UIImage, user: User) {
-        guard let data = UIImageJPEGRepresentation(image, 1.0) else { print("image is nil"); return }
-        let metadata = StorageMetadata()
-        metadata.contentType = "image/jpeg"
-        StorageService.manager.getImagesRef().child(user.uid).putData(data, metadata: metadata) { (storageMetadata, error) in
-            if let error = error {
-                print("uploadTask error: \(error)")
-            } else if let storageMetadata = storageMetadata {
-                print("storageMetadata: \(storageMetadata)")
-            }
-        }
-    }
-    
-    public func getImageProfile(image: UIImage, user: User) {
-        
-    }
-    
     private func getDate() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -94,4 +109,23 @@ struct UserService {
         let dateStr: String = formatter.string(from: myDate)
         return dateStr
     }
+    
+
+
+    public func setUserImage(image: UIImage) {
+         StorageService.manager.storeImage(image: image, postId: nil, userId: Auth.auth().currentUser?.uid, isUpdatingUserImage: true)
+//        userRef.observe(.value) { (snapShot) in
+//            for user in snapShot.children {
+//                let userSaved = UserProfile(snapShot: user as! DataSnapshot)
+//                if userSaved.user == self.currentUser.uid {
+//                    StorageService.manager.storeImage(image: image, postId: nil, userId: userSaved.userId, isUpdatingUserImage: true)
+//                }
+//            }
+//        }
+    }
+
 }
+
+
+    
+

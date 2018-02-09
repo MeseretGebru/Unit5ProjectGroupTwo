@@ -20,44 +20,40 @@ class UserLoginView: UIView {
     lazy var emailTextField: UITextField = {
         let txt = UITextField()
         txt.placeholder = "Email"
-        txt.backgroundColor = .red
         txt.autocapitalizationType = .none
+        txt.borderStyle = .none
+        txt.autocorrectionType = .no
+        underLine(from: txt)
         return txt
+        
+        
+        
     }()
     
-    lazy var passWordField: UITextField = {
+    lazy var passwordTextField: UITextField = {
         let txt = UITextField()
         txt.placeholder = "Password"
-        txt.backgroundColor = .red
+        txt.borderStyle = .none
         txt.isSecureTextEntry = true
         txt.autocapitalizationType = .none
+        underLine(from: txt)
         return txt
     }()
     
     lazy var submitInfoButton: UIButton = {
         let butt = UIButton()
-        butt.backgroundColor = .green
-        butt.titleLabel?.text = "Login"
+        butt.backgroundColor = .orange
+        butt.setTitle("Login", for: .normal)
         return butt
     }()
     
     lazy var forgotPWButton: UIButton = {
         let butt = UIButton()
-        butt.titleLabel?.text = "Forgot Password"
-        butt.backgroundColor = .green
+        butt.setTitle("Forgot Password", for: .normal)
+        butt.backgroundColor = .orange
         return butt
     }()
     
-    
-    //    lazy var offerRegisterLabel: UILabel = {
-    //        let lab = UILabel()
-    //        return lab
-    //    }()
-    //
-    //    lazy var registerButton: UIButton = {
-    //        let butt = UIButton()
-    //        return butt
-    //    }()
     
     
     override init(frame: CGRect) {
@@ -71,17 +67,19 @@ class UserLoginView: UIView {
     }
     
     private func commonInit() {
-        backgroundColor = .blue
+        backgroundColor = .white
         setupViews()
         setUpUserNameTF()
         setUpPWTF()
         setUpSubmitButt()
         setUpForgotPWB()
+        
     }
     
     private func setupViews() {
-        let views = [emailTextField, passWordField, submitInfoButton, forgotPWButton] as [UIView]
+        let views = [emailTextField, passwordTextField, submitInfoButton, forgotPWButton] as [UIView]
         views.forEach { addSubview($0); ($0).translatesAutoresizingMaskIntoConstraints = false}
+        
     }
     
     private func setUpUserNameTF () {
@@ -94,7 +92,7 @@ class UserLoginView: UIView {
     }
     
     private func setUpPWTF () {
-        passWordField.snp.makeConstraints { (make) -> Void in 
+        passwordTextField.snp.makeConstraints { (make) -> Void in 
             make.width.equalTo(self).multipliedBy(0.9)
             make.height.equalTo(self).multipliedBy(0.1)
             make.top.equalTo(emailTextField.snp.bottom).offset(20)
@@ -106,20 +104,63 @@ class UserLoginView: UIView {
         submitInfoButton.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(self).multipliedBy(0.3)
             make.height.equalTo(self).multipliedBy(0.1)
-            make.top.equalTo(passWordField.snp.bottom).offset(20)
+            make.top.equalTo(passwordTextField.snp.bottom).offset(20)
             make.centerX.equalTo(self)
+            
+            submitInfoButton.layer.cornerRadius = 15
+            submitInfoButton.layer.masksToBounds = true
         }
         
     }
     
     private func setUpForgotPWB() {
         forgotPWButton.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(self).multipliedBy(0.3)
+            make.width.equalTo(self).multipliedBy(0.45)
             make.height.equalTo(self).multipliedBy(0.1)
             make.top.equalTo(submitInfoButton.snp.bottom).offset(20)
             make.centerX.equalTo(self)
+            
+            forgotPWButton.layer.cornerRadius = 15
+            forgotPWButton.layer.masksToBounds = true
         }
     }
     
+    func underLine(from txt: UITextField) {
+        let border = UIView()
+        border.backgroundColor = UIColor(displayP3Red: (229/255), green: (229/255), blue: (229/255), alpha: 1.0)
+        border.translatesAutoresizingMaskIntoConstraints = false
+        txt.addSubview(border)
+        border.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        border.widthAnchor.constraint(equalTo: txt.widthAnchor).isActive = true
+        border.bottomAnchor.constraint(equalTo: txt.bottomAnchor, constant: -1).isActive = true
+        border.leftAnchor.constraint(equalTo: txt.leftAnchor).isActive = true
+    }
+    
+    
     
 }
+
+//extension UITextView {
+//    func underlined(){
+//        let border = CALayer()
+//        let width = CGFloat(1.0)
+//        border.borderColor = UIColor.lightGray.cgColor
+//        border.frame = CGRect(x: 0, y: self.frame.size.height - width, width:  self.frame.size.width, height: self.frame.size.height)
+//        border.borderWidth = width
+//        self.layer.addSublayer(border)
+//        self.layer.masksToBounds = true
+//    }
+//    func underLine() {
+//    let border = UIView()
+//    border.backgroundColor = UIColor(red:0.61, green:0.61, blue:0.61, alpha:1.0)
+//    border.translatesAutoresizingMaskIntoConstraints = false
+//
+//    self.addSubview(border)
+//
+//    border.heightAnchor.constraint(equalToConstant: 1).isActive = true
+//    border.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+//    border.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -1).isActive = true
+//    border.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+//    }
+//}
+

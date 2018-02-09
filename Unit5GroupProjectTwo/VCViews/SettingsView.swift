@@ -10,79 +10,52 @@ import UIKit
 import SnapKit
 
 class SettingsView: UIView {
+
+    lazy var imageContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
     
-    lazy var settingTitleLabel: UILabel = {
+    lazy var profileImage: UIImageView = {
+        let profileImage = UIImageView()
+        profileImage.image = #imageLiteral(resourceName: "profile64")
+        return profileImage
+    }()
+    
+    lazy var editUserImageButton: UIButton = {
+        let butt = UIButton()
+        //label.numberOfLines = 0
+        butt.setTitle("Edit Photo", for: .normal )
+        butt.setTitleColor(.orange, for: .normal)
+        return butt
+    }()
+    
+    lazy var settingLabel: UILabel = {
         let lab = UILabel()
-        lab.text = "Settings"
-        lab.textAlignment = .center
-        lab.font = UIFont(name: "Arial", size: 25)
+        lab.text = "   Account Settings"
+        lab.textAlignment = .left
         lab.numberOfLines = 0
-        lab.backgroundColor = .green
+        lab.textColor = .darkGray
         return lab
     }()
     
-    lazy var changeNameTextField: UITextField = {
-        let txt = UITextField()
-        txt.backgroundColor = .green
-        return txt
-    }()
-    
-    lazy var changeNameLabel: UILabel = {
-        let lab = UILabel()
-        lab.text = "Change User Name:"
-        lab.font = UIFont(name: "Arial", size: 15)
-        lab.backgroundColor = .green
-        lab.numberOfLines = 0
-        return lab
-    }()
-    
-    lazy var changePassTextField: UITextField = {
-        let txt = UITextField()
-        txt.backgroundColor = .green
-        return txt
-    }()
-    
-    lazy var changePassLabel: UILabel = {
-        let lab = UILabel()
-        lab.text = "Change Password:"
-        lab.font = UIFont(name: "Arial", size: 15)
-        lab.backgroundColor = .green
-        lab.numberOfLines = 0
-        return lab
-    }()
-    
-    lazy var changeUserPicTextField: UITextField = {
-        let txt = UITextField()
-        txt.backgroundColor = .green
-        return txt
+    lazy var settingOptionsTV: UITableView = {
+        let tv = UITableView()
+        tv.register(UITableViewCell.self, forCellReuseIdentifier: "SettingsCell")
+        tv.isScrollEnabled = false
         
+        
+        return tv
     }()
     
-    lazy var changeUserPicLabel: UILabel = {
-        let lab = UILabel()
-        lab.text = "Upload A Picture"
-        lab.font = UIFont(name: "Arial", size: 15)
-        lab.backgroundColor = .green
-        lab.numberOfLines = 0
-        return lab
-    }()
-    
-    lazy var uploadPicButton: UIButton = {
+    lazy var saveChangesButton: UIButton = {
         let butt = UIButton()
-        butt.titleLabel?.text = "Upload"
-        butt.backgroundColor = .blue
-        butt.titleLabel?.textColor = .black
-        //When pressed, the button will show an alert sheet!
+        butt.setTitle("Save Changes", for: .normal)
+        butt.setTitleColor(.orange, for: .normal)
         return butt
     }()
     
-    lazy var saveButton: UIButton = {
-        let butt = UIButton()
-        butt.titleLabel?.text = "Save"
-        butt.backgroundColor = .green
-        butt.titleLabel?.textColor = .black
-        return butt
-    }()
     
     
     override init(frame: CGRect) {
@@ -96,104 +69,93 @@ class SettingsView: UIView {
     }
     
     private func commonInit() {
-        backgroundColor = .white
+        backgroundColor =  UIColor(displayP3Red: (229/255), green: (229/255), blue: (229/255), alpha: 1.0)
         setupViews()
     }
     
     private func setupViews() {
-        let views = [settingTitleLabel, changeNameLabel, changeNameTextField, changePassLabel, changePassTextField, changeUserPicLabel, changeUserPicTextField, uploadPicButton, saveButton] as [UIView]
-        views.forEach { addSubview($0); ($0).translatesAutoresizingMaskIntoConstraints = false }
-        setUpSettingsLabel()
-        setUpChangeNameLabel()
-        setUpChangeNameTF()
-        setUpChangePWLab()
-        setUpChangePWTF()
-        setUpChangeUserPicLab()
-        setUpChangeUserPicTF()
-        setUpUploadButt()
-        setUpSaveButt()
+        let view = [ imageContainer, profileImage, editUserImageButton, settingLabel, settingOptionsTV, saveChangesButton] as [UIView]
+        view.forEach{ addSubview($0)}
+        setUpImageContainer()
+        setUpProfileImage()
+        setupeditUserImageButton()
+        setUpSettingLab()
+        setUpTableView()
+        setUpSaveButton()
     }
     
-    private func setUpSettingsLabel() {
-        settingTitleLabel.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.1)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.8)
-            make.centerY.equalTo(safeAreaLayoutGuide.snp.centerY).offset(-210)
-            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
-            
+    private func setUpImageContainer() {
+        imageContainer.snp.makeConstraints { (make) in
+            make.width.equalTo(self.snp.width)
+            make.height.equalTo(self.snp.height).multipliedBy(0.3)
+            make.top.equalTo(self.snp.top)
+            make.centerX.equalTo(self.snp.centerX)
         }
+        imageContainer.layer.cornerRadius = 5
+        imageContainer.layer.shadowColor = UIColor.black.cgColor
+        imageContainer.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        imageContainer.layer.shadowRadius = 2.0
+        imageContainer.layer.shadowOpacity = 2.0
+        imageContainer.layer.masksToBounds = true
     }
     
-    private func setUpChangeNameLabel() {
-        changeNameLabel.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.1)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.43)
-            make.top.equalTo(settingTitleLabel.snp.bottom).offset(30)
-            make.left.equalTo(safeAreaLayoutGuide.snp.left).offset(5)
-        }
-    }
-    
-    private func setUpChangeNameTF() {
-        changeNameTextField.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(changeNameLabel.snp.height)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.52)
-            make.top.equalTo(settingTitleLabel.snp.bottom).offset(30)
-            make.left.equalTo(changeNameLabel.snp.right).offset(5)
-        }
-    }
-    
-    private func setUpChangePWLab() {
-        changePassLabel.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(changeNameLabel.snp.height)
-            make.width.equalTo(changeNameLabel.snp.width)
-            make.top.equalTo(changeNameLabel.snp.bottom).offset(20)
-            make.left.equalTo(safeAreaLayoutGuide.snp.left).offset(5)
-        }
-    }
-    
-    private func setUpChangePWTF() {
-        changePassTextField.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(changeNameTextField.snp.height)
-            make.width.equalTo(changeNameTextField.snp.width)
-            make.top.equalTo(changeNameTextField.snp.bottom).offset(20)
-            make.left.equalTo(changePassLabel.snp.right).offset(5)
+    private func setUpProfileImage() {
+        profileImage.snp.makeConstraints { (make) in
+            make.top.equalTo(imageContainer.snp.top).offset(10)
+            make.centerX.equalTo(imageContainer.snp.centerX)
+            //            make.centerY.equalTo(self.snp.centerY)
+            make.width.equalTo(self.snp.width).multipliedBy(0.2)
+            make.height.equalTo(self.snp.height).multipliedBy(0.2)
         }
         
     }
     
-    private func setUpChangeUserPicLab() {
-        changeUserPicLabel.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(changeNameLabel.snp.height)
-            make.width.equalTo(changeNameLabel.snp.width)
-            make.top.equalTo(changePassLabel.snp.bottom).offset(20)
-            make.left.equalTo(safeAreaLayoutGuide.snp.left).offset(5)
+    private func setupeditUserImageButton() {
+        editUserImageButton.snp.makeConstraints { (make) in
+            make.top.equalTo(profileImage.snp.bottom).offset(1)
+            make.centerX.equalTo(self.snp.centerX)
+            make.width.equalTo(self.snp.width).multipliedBy(0.3)
+            make.height.equalTo(self.snp.height).multipliedBy(0.1)
         }
     }
     
-    private func setUpChangeUserPicTF() {
-        changeUserPicTextField.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(changeNameTextField.snp.height)
-            make.width.equalTo(changeNameTextField.snp.width)
-            make.top.equalTo(changePassTextField.snp.bottom).offset(20)
-            make.left.equalTo(changeUserPicLabel.snp.right).offset(5)
+    private func setUpSettingLab() {
+        settingLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(imageContainer.snp.bottom).offset(5)
+            //            make.left.equalTo(self.snp.left).offset(10)
+            make.width.equalTo(self.snp.width)
+            make.height.equalTo(self.snp.height).multipliedBy(0.1)
+            
         }
     }
     
-    private func setUpUploadButt() {
-        uploadPicButton.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(changeUserPicTextField.snp.bottom).offset(10)
-            make.height.equalTo(changeUserPicTextField.snp.height)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.3)
-            make.right.equalTo(safeAreaLayoutGuide.snp.right).offset(-5)
+    private func setUpTableView() {
+        settingOptionsTV.snp.makeConstraints { (make) in
+            make.top.equalTo(settingLabel.snp.bottom).offset(10)
+            make.width.equalTo(self.snp.width).multipliedBy(0.9)
+            make.centerX.equalTo(self.snp.centerX)
+            make.height.equalTo(self.snp.height).multipliedBy(0.15)
         }
+        
+        //to round the corners
+        settingOptionsTV.layer.borderWidth = 0.5
+        settingOptionsTV.layer.cornerRadius = 2
+        //Add shadow
+        settingOptionsTV.layer.shadowColor = UIColor.black.cgColor
+        settingOptionsTV.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        settingOptionsTV.layer.shadowRadius = 1.0
+        settingOptionsTV.layer.shadowOpacity = 1.0
+        settingOptionsTV.layer.masksToBounds = true
     }
     
-    private func setUpSaveButt() {
-        saveButton.snp.makeConstraints { (make) -> Void in
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-20)
-            make.height.equalTo(uploadPicButton.snp.height)
-            make.width.equalTo(uploadPicButton.snp.width)
-            make.centerX.equalTo(settingTitleLabel.snp.centerX)
+    private func setUpSaveButton() {
+        saveChangesButton.snp.makeConstraints{ (make) in
+            make.centerX.equalTo(self.snp.centerX)
+            make.bottom.equalTo(self.snp.bottom).offset(5)
+            make.width.equalTo(self.snp.width).multipliedBy(0.5)
+            make.height.equalTo(self.snp.height).multipliedBy(0.1)
+            
         }
     }
 }
+

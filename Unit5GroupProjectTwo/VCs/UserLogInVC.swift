@@ -11,96 +11,137 @@ import SnapKit
 import Firebase
 
 /*TO-DO:
- - Timer for reset password and verification
- - Check if user is logged in
- - Theme and fix constraints
- - Add logo */
+ - Make keyboard disappear when not in use/hit return
+ - Add label for frog to indicate one can change the image
+ - Round image when it changes
+ - Make sure text fields and image clears when view switches or the user creates a user
+ 
+ -TO NOTE:
+ -The corner radius looks different for each iphone. Need to learn how to vary them
+ */
 
 class UserLogInVC: UIViewController {
+    
+    var activeTextField: UITextField = UITextField()
     
     let userLoginView = UserLoginView()
     let userSignUpView = SignUpView()
     let viewContainer = SegmentedControlView()
     var verificationTimer: Timer = Timer() //For email verification
     
+    lazy var userProfileImage: UIImageView =  {
+        let iv = UIImageView()
+        iv.image = #imageLiteral(resourceName: "frog")
+        iv.contentMode = UIViewContentMode.scaleToFill
+        iv.layer.cornerRadius = 20
+        iv.layer.masksToBounds = true
+        return iv
+    }()
+    
+    lazy var logoImage: UIImageView = {
+        let iv = UIImageView()
+        iv.image = #imageLiteral(resourceName: "Phlogger")
+        iv.contentMode = .scaleAspectFit
+        iv.backgroundColor = .white
+        return iv
+    }()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .yellow
-        let views = [viewContainer, userLoginView, userSignUpView] as [UIView]
+        userLoginView.emailTextField.delegate = self
+        userLoginView.passwordTextField.delegate = self
+        userSignUpView.usernameTextField.delegate = self
+        userSignUpView.emailTextField.delegate = self
+        userSignUpView.passwordTextField.delegate = self
+        
+        //To check if user is already logged in.
+        if Auth.auth().currentUser != nil {
+            let storyboard = UIStoryboard(name: "GlobalPostFeed", bundle: nil)
+            let revealVC = storyboard.instantiateViewController(withIdentifier: "SWRealViewController")
+            self.present(revealVC, animated: true, completion: nil)
+        }
+        
+        
+        let views = [viewContainer, userLoginView, userSignUpView, logoImage] as [UIView]
+        
         views.forEach{ ($0).translatesAutoresizingMaskIntoConstraints = false; self.view.addSubview($0) }
         userSignUpView.isHidden = true
-        
+        viewContainer.segmentedControl.selectedSegmentIndex = 0
         viewContainer.segmentedControl.addTarget(self, action: #selector(segmentControlPressed), for: .valueChanged)
+        viewContainer.segmentedControl.setTitleTextAttributes([NSAttributedStringKey.foregroundColor : UIColor.green], for: .selected)
+        
+        
+        //For buttons
         userLoginView.submitInfoButton.addTarget(self, action: #selector(login), for: .touchUpInside)
         userSignUpView.createAccountButton.addTarget(self, action: #selector(signUp), for: .touchUpInside)
         userLoginView.forgotPWButton.addTarget(self, action: #selector(reset), for: .touchUpInside)
+        userSignUpView.uploadImageButton.addTarget(self, action: #selector(getImageFromUser), for: .touchUpInside)
         
-        self.verificationTimer = Timer.scheduledTimer(timeInterval: 200, target: self, selector: #selector(UserLogInVC.signUp) , userInfo: nil, repeats: true)
+        //        self.verificationTimer = Timer.scheduledTimer(timeInterval: 200, target: self, selector: #selector(UserLogInVC.signUp) , userInfo: nil, repeats: true)
         
         setUpAccountView()
         userSignUpViewConstraints()
         userCreateAccountConstraints()
+        setUpLogoConstraints()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(UserLogInVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UserLogInVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        
     }
     
-    func getUserNameEmailPW() -> (String, String, String ) {
-        let userName = userSignUpView.usernameTextField.text!
-        let email = userSignUpView.emailTextField.text!
-        let password = userSignUpView.passwordTextField.text!
-        return (userName, email, password)
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+
+                let bottomOfTextField = activeTextField.frame.maxY + userLoginView.frame.origin.y
+                let newBottomOfScreen = view.frame.maxY - keyboardSize.height
+                print(bottomOfTextField)
+                print(newBottomOfScreen)
+                if bottomOfTextField > newBottomOfScreen {
+                    let amountToShiftUp = bottomOfTextField - newBottomOfScreen
+                    self.view.snp.remakeConstraints({ (make) in
+                        make.top.equalTo(0).offset(-amountToShiftUp)
+                        make.leading.equalTo(0)
+                        make.width.equalTo(UIScreen.main.bounds.width)
+                        make.height.equalTo(UIScreen.main.bounds.height)
+                        make.bottom.equalTo(UIScreen.main.bounds.height).offset(-amountToShiftUp)
+                    })
+                    
+                    // TODO:- fix this part, not working
+                    UIView.animate(withDuration: 10, animations: {
+                        self.view.updateConstraints()
+                        self.view.layoutIfNeeded()
+                    })
+                }
+            }
+        }
     }
     
-    func getEmailPW() -> (String, String) {
-        let email = userLoginView.emailTextField.text!
-        let password = userLoginView.passWordField.text!
-        return (email, password)
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if let _ = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 0{
+                view.snp.remakeConstraints({ (make) in
+                    let screenRect = UIScreen.main.bounds
+                    make.top.equalTo(0)
+                    make.leading.equalTo(0)
+                    make.width.equalTo(screenRect.width)
+                    make.height.equalTo(screenRect.height)
+                })
+            }
+        }
     }
+    
+    
     
     
     @objc private func login() {
-        let (email, password) = getEmailPW()
-        //        FirebaseAPIClient.manager.login(with: email, an: password){ (user, error) in
-        //            if let error = error {
-        //                print(error)
-        //                return
-        //            }
-        //            if user != nil {
-        //                self.present(MainViewController(), animated: true, completion: nil)
-        //
-        //            }
-        //        }
+        guard let email = userLoginView.emailTextField.text else { self.alertForErrors(with: "Please enter an email."); return }
+        guard !email.isEmpty else { self.alertForErrors(with: "Please enter an email."); return }
+        guard let password = userLoginView.passwordTextField.text else { self.alertForErrors(with: "Please enter a password."); return }
+        guard !password.isEmpty else { self.alertForErrors(with: "Please enter a password."); return }
         FirebaseAPIClient.manager.login(with: email, an: password) { (user, error) in
-            
-            if Auth.auth().currentUser?.isEmailVerified != true {
-                print("User hasn't verified email")
-                let ac = UIAlertController(title: "Email Not Verified", message: "Please verify your email.", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                ac.addAction(okAction)
-                self.present(ac, animated: true, completion: nil)
-                return
-            }
-                
-            else {
-                self.verificationTimer.invalidate()
-            }
-            
-            guard email != ""  else {
-                let ac = UIAlertController(title: "Problem Logging In", message: "Please enter an email.", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                ac.addAction(okAction)
-                self.present(ac, animated: true, completion: nil)
-                return
-            }
-            
-            guard password != "" else {
-                let ac = UIAlertController(title: "Problem Logging In", message: "Please enter a password.", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                ac.addAction(okAction)
-                self.present(ac, animated: true, completion: nil)
-                return
-            }
-            
             
             if error != nil {
                 if let errorCode = AuthErrorCode(rawValue: error!._code) {
@@ -118,16 +159,27 @@ class UserLogInVC: UIViewController {
                     default:
                         break
                     }
-                    let ac = UIAlertController(title: "Problem Logging In", message: message, preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                    ac.addAction(okAction)
-                    self.present(ac, animated: true, completion: nil)
+                    
+                    self.alertForErrors(with: message)
                 }
             }
             
+            if Auth.auth().currentUser?.isEmailVerified != true {
+                print("User hasn't verified email")
+                self.alertForErrors(with: "Please verify your email.")
+                return
+            }
+                
+            else {
+                //                self.verificationTimer.invalidate()
+            }
             
             if user != nil {
-                self.present(MainVC(), animated: true, completion: nil)
+                
+                let storyboard = UIStoryboard(name: "GlobalPostFeed", bundle: nil)
+                let revealVC = storyboard.instantiateViewController(withIdentifier: "SWRealViewController")
+                
+                self.present(revealVC, animated: true, completion: nil)
             }
         }
         
@@ -136,23 +188,12 @@ class UserLogInVC: UIViewController {
     
     
     @objc private func signUp() {
-        let (userName, email, password) = getUserNameEmailPW()
-        
-        guard password != "" else {
-            let ac = UIAlertController(title: "Problem Logging In", message: "Please enter a valid password.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            ac.addAction(okAction)
-            self.present(ac, animated: true, completion: nil)
-            return
-        }
-        
-        guard userName != "" else {
-            let ac = UIAlertController(title: "Problem Logging In", message: "Please enter a valid user name.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            ac.addAction(okAction)
-            self.present(ac, animated: true, completion: nil)
-            return
-        }
+        guard let userName = userSignUpView.usernameTextField.text else {  self.alertForErrors(with: "Please enter a valid user name."); return }
+        guard !userName.isEmpty else { self.alertForErrors(with: "Please enter a valid user name."); return }
+        guard let email = userSignUpView.emailTextField.text else { self.alertForErrors(with: "Please enter an email."); return }
+        guard !email.isEmpty else { self.alertForErrors(with: "Please enter a valid email."); return }
+        guard let password = userSignUpView.passwordTextField.text else { self.alertForErrors(with: "Password is nil "); return }
+        guard !password.isEmpty else { self.alertForErrors(with: "Password field is empty"); return }
         
         Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
             if error == nil && user != nil {
@@ -163,21 +204,39 @@ class UserLogInVC: UIViewController {
                 changeRequest?.commitChanges { error in
                     if error == nil {
                         print ("User display name changed")
-                        //                        self.present(MainViewController(), animated: true, completion: nil)
-                    }
-                    
-                }
-                Auth.auth().currentUser?.sendEmailVerification { (error) in
-                    if error == nil {
-                        let ac = UIAlertController(title: "Email Verification Sent", message: "Email verification is needed. Please check your email and follow the instructions.", preferredStyle: .alert)
-                        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                        ac.addAction(okAction)
-                        self.present(ac, animated: true, completion: nil)
                     }
                     
                 }
                 
+                
+                
+                Auth.auth().currentUser?.sendEmailVerification { (error) in
+                    if error == nil {
+                        let ac = UIAlertController(title: "Email Verification Sent", message: "Email verification is needed. Please check your email and follow the instructions.", preferredStyle: .alert)
+                        let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                            self.userLoginView.isHidden = false
+                            self.userSignUpView.isHidden = true
+                            self.viewContainer.segmentedControl.selectedSegmentIndex = 0
+                            self.userSignUpView.usernameTextField.text = ""
+                            self.userSignUpView.emailTextField.text = ""
+                            self.userSignUpView.passwordTextField.text = ""
+                            self.userSignUpView.uploadImageButton.setImage(#imageLiteral(resourceName: "profile64"), for: .normal)
+                        })
+                        ac.addAction(okAction)
+                        self.present(ac, animated: true, completion: {
+                            if let userImage = self.userProfileImage.image {
+                                UserService.manager.saveNewUser(imageProfile: userImage)
+                            }
+                        })
+                        
+                        
+                        
+//                    })
+                    }
+                }
+                
             }
+                
             else {
                 if let errorCode = AuthErrorCode(rawValue: error!._code) {
                     var message = ""
@@ -193,10 +252,7 @@ class UserLogInVC: UIViewController {
                     default:
                         break
                     }
-                    let ac = UIAlertController(title: "Problem Logging In", message: message, preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                    ac.addAction(okAction)
-                    self.present(ac, animated: true, completion: nil)
+                    self.alertForErrors(with: message)
                     
                 }
             }
@@ -204,26 +260,7 @@ class UserLogInVC: UIViewController {
         }
     }
     
-    //    func isEmailVerfied() {
-    //        Auth.auth().currentUser?.reload{ (error) in
-    //            if error == nil {
-    //                if Auth.auth().currentUser!.isEmailVerified {
-    //                    self.present(MainViewController(), animated: true, completion: nil)
-    //                    self.verificationTimer.invalidate()
-    //                }
-    //                else {
-    //                    print("User hasn't verified email")
-    //                    let ac = UIAlertController(title: "Email Not Verified", message: "Please verify your email.", preferredStyle: .alert)
-    //                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-    //                    ac.addAction(okAction)
-    //                    self.present(ac, animated: true, completion: nil)
-    //                }
-    //            }
-    //            else {
-    //                print("Error: \(String(describing: error?.localizedDescription))")
-    //            }
-    //        }
-    //    }
+    
     
     @objc private func reset() {
         let resetVC = ForgotPasswordVC()
@@ -233,57 +270,127 @@ class UserLogInVC: UIViewController {
     }
     
     
-    //To check if user is logged in and switch screens if true
-    private func getStarted() {
-        let navBar = MainVC()
-        navigationController?.pushViewController(navBar, animated: true)
+    @objc private func getImageFromUser() {
+        let addImageActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        //        UIAlertAction(title: "take a photo", style: .default, handler: nil)
+        let openCamera = UIAlertAction.init(title: "Take A Photo", style: .default) { [weak self] (action) in
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = .camera;
+                imagePicker.allowsEditing = false
+                self?.present(imagePicker, animated: true, completion: nil)
+            }
+        }
+        let openGallery = UIAlertAction(title: "Take Image From Library", style: .default) { [weak self] (action) in
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = .photoLibrary;
+                imagePicker.allowsEditing = false
+                self?.present(imagePicker, animated: true, completion: nil)
+            }
+        }
+        
+        addImageActionSheet.addAction(openCamera)
+        addImageActionSheet.addAction(openGallery)
+        addImageActionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil) )
+        self.present(addImageActionSheet, animated: true, completion: nil)
         
     }
     
     
+    //To check if user is logged in and switch screens if true
+    //    private func getStarted() {
+    //        let navBar = MainVC()
+    //        navigationController?.pushViewController(navBar, animated: true)
+    //
+    //    }
+    
+    func setUpLogoConstraints() {
+        logoImage.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.width.equalTo(view.snp.width)
+            make.centerX.equalTo(view)
+            make.bottom.equalTo(viewContainer.snp.top)
+            
+        }
+    }
+    
     func setUpAccountView() {
         viewContainer.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(view.snp.height).multipliedBy(0.8)
-            make.width.equalTo(view.snp.width).multipliedBy(0.9)
+            make.height.equalTo(view.snp.height).multipliedBy(0.6)
+            make.width.equalTo(view.snp.width)
             make.centerX.equalTo(view.snp.centerX)
-            make.centerY.equalTo(view.snp.centerY).offset(20)
-            
+            make.bottom.equalTo(view.snp.bottom)
             
         }
     }
     
     func userSignUpViewConstraints() {
         userSignUpView.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(viewContainer.segmentedControl.snp.bottom).offset(2)
-            make.width.equalTo(viewContainer.snp.width).multipliedBy(0.99)
-            make.height.equalTo(viewContainer.borderForViews.snp.height).multipliedBy(0.99)
+            make.top.equalTo(viewContainer.segmentedControl.snp.bottom)
+            make.width.equalTo(viewContainer.snp.width)
+            make.bottom.equalTo(view.snp.bottom)
             make.centerX.equalTo(viewContainer.segmentedControl.snp.centerX)
         }
     }
     
     func userCreateAccountConstraints() {
         userLoginView.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(viewContainer.segmentedControl.snp.bottom).offset(2)
-            make.width.equalTo(viewContainer.snp.width).multipliedBy(0.99)
-            make.height.equalTo(viewContainer.borderForViews.snp.height).multipliedBy(0.99)
+            make.top.equalTo(viewContainer.segmentedControl.snp.bottom)
+            make.width.equalTo(viewContainer.snp.width)
+            make.bottom.equalTo(view.snp.bottom)
             make.centerX.equalTo(viewContainer.segmentedControl.snp.centerX)
             
         }
     }
     
     
+    private func alertForErrors(with message: String) {
+        let ac = UIAlertController(title: "Problem Logging In", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        ac.addAction(okAction)
+        self.present(ac, animated: true, completion: nil)
+    }
+    
     @objc func segmentControlPressed(sender: UISegmentedControl)  {
+        activeTextField.resignFirstResponder()
         if sender.selectedSegmentIndex == 0 {
             userLoginView.isHidden = false
             userSignUpView.isHidden = true
             print("\(String(describing: sender.titleForSegment(at: 0)))")
+            sender.backgroundColor = UIColor(displayP3Red: (229/255), green: (229/255), blue: (229/255), alpha: 1.0)
+            
         }
             
         else if sender.selectedSegmentIndex == 1 {
             userLoginView.isHidden = true
             userSignUpView.isHidden = false
             print("\(String(describing: sender.titleForSegment(at: 1)))")
+            sender.backgroundColor = UIColor(displayP3Red: (229/255), green: (229/255), blue: (229/255), alpha: 1.0)
+            
+            
         }
     }
-    
+}
+
+extension UserLogInVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let profileImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            self.userSignUpView.uploadImageButton.setImage(profileImage, for: .normal)
+            self.userProfileImage.image = profileImage
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension UserLogInVC: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.activeTextField = textField
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }

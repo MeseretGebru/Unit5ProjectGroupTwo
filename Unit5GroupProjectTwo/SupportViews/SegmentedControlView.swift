@@ -13,19 +13,21 @@ import SnapKit
 
 class SegmentedControlView: UIView {
     
+    //[UIColor colorWithRed:229.0f/255.0f green:229.0f/255.0f blue:229.0f/255.0f alpha:1.0
     lazy var segmentedControl: UISegmentedControl = {
         let segCon = UISegmentedControl(items: ["Log In", "Create Account"])
-        segCon.tintColor = .orange
-        segCon.backgroundColor = .green
+        segCon.tintColor = UIColor.lightGray
+ 
+        segCon.backgroundColor = UIColor(displayP3Red: (229/255), green: (229/255), blue: (229/255), alpha: 1.0)
         return segCon
     }()
     
-    lazy var borderForViews: UIView = {
-        let view = UIView()
-        view.layer.borderColor = UIColor.orange.cgColor
-        view.layer.borderWidth = 2
-        return view
-    }()
+//    lazy var borderForViews: UIView = {
+//        let view = UIView()
+//        view.layer.borderColor = UIColor.orange.cgColor
+//        view.layer.borderWidth = 2
+//        return view
+//    }()
     
     override init(frame: CGRect) {
         super.init(frame: UIScreen.main.bounds)
@@ -40,13 +42,14 @@ class SegmentedControlView: UIView {
     private func commonInit() {
         backgroundColor = .blue
         setupViews()
+//        configure()
     }
     
     private func setupViews() {
-        let views = [segmentedControl, borderForViews] as [UIView]
+        let views = [segmentedControl] as [UIView]
         views.forEach { addSubview($0); ($0).translatesAutoresizingMaskIntoConstraints = false}
         setUpSegCon()
-        setUpUserView()
+//        setUpUserView()
         
     }
     
@@ -55,20 +58,45 @@ class SegmentedControlView: UIView {
             make.width.equalTo(self)
             make.height.equalTo(self).multipliedBy(0.2)
             make.centerX.equalTo(self)
-//            make.centerY.equalTo(self)
+            //            make.centerY.equalTo(self)
             make.top.equalTo(self)
         }
-    }
-    
-    private func setUpUserView() {
-        borderForViews.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(self).multipliedBy(0.8)
-            make.width.equalTo(segmentedControl.snp.width)
-            make.top.equalTo(segmentedControl.snp.bottom)
-            make.centerX.equalTo(segmentedControl.snp.centerX)
-        }
         
+
+
+    }
+        
+        
+        
+        
+//        let selectedBackgroundColor = UIColor(red: 19/255, green: 59/255, blue: 85/255, alpha: 0.5)
+//        var sortedViews: [UIView]!
+//        var currentIndex: Int = 0
+
+
+        
+//private func configure() {
+//            sortedViews = self.subviews.sorted(by:{$0.frame.origin.x < $1.frame.origin.x})
+//            changeSelectedIndex(to: currentIndex)
+//        }
+//
+//        func changeSelectedIndex(to newIndex: Int) {
+//            sortedViews[currentIndex].backgroundColor = UIColor.clear
+//            currentIndex = newIndex
+//            segmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment
+//            sortedViews[currentIndex].backgroundColor = selectedBackgroundColor
+//        }
+//    }
+
+//    private func setUpUserView() {
+//        borderForViews.snp.makeConstraints { (make) -> Void in
+//            make.height.equalTo(self).multipliedBy(0.8)
+//            make.width.equalTo(segmentedControl.snp.width)
+//            make.top.equalTo(segmentedControl.snp.bottom)
+//            make.centerX.equalTo(segmentedControl.snp.centerX)
+//        }
+//
     }
     
     
-}
+

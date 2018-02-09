@@ -7,19 +7,25 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
+import Firebase
 
 class FeedTableViewCell: UITableViewCell {
-
+    
     lazy var userImageView: UIImageView = {
         let img = UIImageView()
-        img.backgroundColor = .blue
         img.contentMode = .scaleAspectFill
         return img
     }()
-    lazy var userLabel: UILabel = {
+    lazy var userName: UILabel = {
         let lab = UILabel()
-        lab.text = "UserNameHere"
-        lab.backgroundColor = UIColor.orange
+        lab.font = UIFont(name: "Arial", size: 18)
+        return lab
+    }()
+    lazy var userEmail: UILabel = {
+        let lab = UILabel()
+        lab.font = UIFont(name: "Arial", size: 14)
+        lab.textColor = UIColor.lightGray
         return lab
     }()
     lazy var titleLabel: UILabel = {
@@ -29,13 +35,12 @@ class FeedTableViewCell: UITableViewCell {
     }()
     lazy var feedImageView: UIImageView = {
         let img = UIImageView()
-        img.backgroundColor = .red
-       img.contentMode = .scaleAspectFit
+        img.contentMode = .scaleAspectFit
         return img
     }()
     lazy var actionsStackView: UIView = {
         let view = UIView()
-        view.backgroundColor = .yellow
+        // view.backgroundColor = .yellow
         return view
     }()
     lazy var upvoteButton: UIButton = {
@@ -44,20 +49,31 @@ class FeedTableViewCell: UITableViewCell {
         butt.imageView?.contentMode = .scaleAspectFit
         return butt
     }()
+    lazy var upvoteCount: UILabel = {
+       let lab = UILabel()
+        lab.textAlignment = .center
+        return lab
+    }()
     lazy var downvoteButton: UIButton = {
         let butt = UIButton()
         butt.setImage(#imageLiteral(resourceName: "ThumbDown"), for: .normal)
-         butt.imageView?.contentMode = .scaleAspectFit
+        butt.imageView?.contentMode = .scaleAspectFit
         return butt
     }()
     lazy var commentButton: UIButton = {
         let butt = UIButton()
         butt.setImage(#imageLiteral(resourceName: "CommentIcon"), for: .normal)
-         butt.imageView?.contentMode = .scaleAspectFit
+        butt.imageView?.contentMode = .scaleAspectFit
+        return butt
+    }()
+    lazy var moreButton: UIButton = {
+        let butt = UIButton()
+        butt.setImage(#imageLiteral(resourceName: "more"), for: .normal)
+        butt.imageView?.contentMode = .scaleAspectFit
         return butt
     }()
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: "FeedTableCell")
+        super.init(style: style, reuseIdentifier: "FeedCell")
         commonInit()
     }
     required init?(coder aDecoder: NSCoder) {
@@ -90,7 +106,7 @@ class FeedTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     func setupUserImageView() {
@@ -103,10 +119,15 @@ class FeedTableViewCell: UITableViewCell {
         }
     }
     func setupUserLabel() {
-        addSubview(userLabel)
-        userLabel.snp.makeConstraints { (make) in
+        addSubview(userName)
+        addSubview(userEmail)
+        userName.snp.makeConstraints { (make) in
             make.leading.equalTo(userImageView.snp.trailing).offset(15)
             make.top.equalToSuperview().offset(15)
+        }
+        userEmail.snp.makeConstraints { (make) in
+            make.leading.equalTo(userName.snp.leading)
+            make.top.equalTo(userName.snp.bottom).offset(4)
         }
     }
     func setupTitleLabel() {
@@ -120,26 +141,29 @@ class FeedTableViewCell: UITableViewCell {
     func setupFeedImageView() {
         addSubview(feedImageView)
         feedImageView.snp.makeConstraints { (make) in
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.top.equalTo(titleLabel.snp.bottom).offset(8)
-         
+            make.width.equalToSuperview()
+            make.centerX.equalTo(snp.centerX)
+            //make.trailing.equalToSuperview()
+            make.top.equalTo(titleLabel.snp.bottom)
+            make.bottom.equalTo(snp.bottom).offset(-30)
         }
     }
     func setupActionStackView() {
         addSubview(actionsStackView)
-      
+        
         actionsStackView.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
-            make.top.equalTo(feedImageView.snp.bottom).offset(15)
+            make.top.equalTo(feedImageView.snp.bottom)
             make.bottom.equalToSuperview().offset(-8)
-            make.height.equalTo(25)
-
+            make.height.equalTo(40)
+            
         }
         actionsStackView.addSubview(upvoteButton)
+        actionsStackView.addSubview(upvoteCount)
         actionsStackView.addSubview(downvoteButton)
         actionsStackView.addSubview(commentButton)
+        actionsStackView.addSubview(moreButton)
         
         upvoteButton.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
@@ -148,9 +172,16 @@ class FeedTableViewCell: UITableViewCell {
             make.bottom.equalToSuperview()
             make.width.equalTo(25)
         }
+        upvoteCount.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview()
+            make.leadingMargin.equalTo(upvoteButton.snp.trailing).offset(15)
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.width.equalTo(25)
+        }
         downvoteButton.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
-            make.leadingMargin.equalTo(upvoteButton.snp.trailing).offset(20)
+            make.leadingMargin.equalTo(upvoteCount.snp.trailing).offset(15)
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
             make.width.equalTo(25)
@@ -162,6 +193,38 @@ class FeedTableViewCell: UITableViewCell {
             make.bottom.equalToSuperview()
             make.width.equalTo(25)
         }
+        moreButton.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview()
+            make.trailingMargin.equalToSuperview().offset(-15)
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.width.equalTo(25)
+        }
     }
 
+    func configureCell(from post: Post) {
+        titleLabel.text = post.postTitle
+        upvoteCount.text = "\(post.countOfUp)"
+        // userLabel.text =
+        let postOwnerUID = post.user
+        UserService.manager.getUser(uid: postOwnerUID, completion: { (onlineUser) in
+            self.userName.text = onlineUser?.displayName
+            self.userEmail.text = onlineUser?.email
+            if let userImageUrl = onlineUser?.imageURL {
+                self.userImageView.kf.indicatorType = .activity
+                self.userImageView.kf.setImage(with: URL.init(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, url) in
+                    
+                })
+                
+            }
+            
+        })
+        let imageUrl = post.imageURL
+        feedImageView.kf.indicatorType = .activity
+        feedImageView.kf.setImage(with: URL.init(string: imageUrl) , placeholder: #imageLiteral(resourceName: "noImage"), options: nil, progressBlock: nil) { (image, error, cacheType, url) in
+            
+        }
+        
+    }
 }
+

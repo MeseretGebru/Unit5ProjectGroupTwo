@@ -9,13 +9,16 @@
 import Foundation
 import UIKit
 import FirebaseStorage
+import Toucan
+import Firebase
 
 extension StorageService {
-    public func storeImage(image: UIImage, postId: String) {
+    public func storeImage(image: UIImage, postId: String?, userId: String?, isUpdatingUserImage: Bool) {
+        guard let image = Toucan(image: image).resize(CGSize(width: 500, height: 500), fitMode: Toucan.Resize.FitMode.clip).image else { print("could not use toucan to resize"); return }
         guard let data = UIImageJPEGRepresentation(image, 1.0) else { print("image is nil"); return }
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
-        let uploadTask = StorageService.manager.getImagesRef().child(postId).putData(data, metadata: metadata) { (storageMetadata, error) in
+        let uploadTask = StorageService.manager.getImagesRef().child(postId ?? userId!).putData(data, metadata: metadata) { (storageMetadata, error) in
             if let error = error {
                 print("uploadTask error: \(error)")
             } else if let storageMetadata = storageMetadata {
@@ -44,7 +47,26 @@ extension StorageService {
             
             // set job's imageURL
             let imageURL = String(describing: snapshot.metadata!.downloadURL()!)
-            PostService.manager.getPostsRef().child("\(postId)/imageURL").setValue(imageURL)
+            if let userId = userId {
+                UserService.manager.getUsersRef().child("\(userId)/imageURL").setValue(imageURL)
+            } else if let postId = postId {
+                PostService.manager.getPostsRef().child("\(postId)/imageURL").setValue(imageURL)
+                
+            }
+            
+            if isUpdatingUserImage {
+                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                guard let downloadURL = snapshot.metadata?.downloadURL() else { return }
+                changeRequest?.photoURL = downloadURL
+                changeRequest?.commitChanges(completion: { (error) in
+                    if let error = error {
+                        print("error changing request: \(error)")
+                    } else {
+                        print("change request changed")
+                    }
+                })
+            }
+            
             //DBService.manager.getJobs().child("\(jobId)/imageURL").setValue(imageURL)
             
             //DBService.manager.getJobs().child("\(jobId)").updateChildValues(["imageURL" :  imageURL])

@@ -8,7 +8,7 @@
 
 import UIKit
 import SnapKit
-
+/*
 
 class MenuView: UIView {
     
@@ -16,7 +16,7 @@ class MenuView: UIView {
     lazy var menuTableView: UITableView = {
         let tv = UITableView()
         tv.backgroundColor = .purple
-        tv.register(UITableViewCell.self, forCellReuseIdentifier: "MenuCell")
+        tv.register(MenuCell.self, forCellReuseIdentifier: "menuCell")
         return tv
     }()
     
@@ -90,6 +90,5 @@ class MenuView: UIView {
         }
     }
     
-    
-    
 }
+*/
