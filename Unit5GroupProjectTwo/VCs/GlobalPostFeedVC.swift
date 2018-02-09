@@ -25,7 +25,7 @@ class GlobalPostFeedVC: UIViewController {
     lazy var height = view.safeAreaLayoutGuide.layoutFrame.height
     let width = UIScreen.main.bounds.width
    // let height = UIScreen.main.bounds.height
-    lazy var scrollView = UIScrollView(frame: CGRect(x:0, y:0, width: width, height: height))
+    lazy var scrollView = UIScrollView(frame: CGRect(x:0, y: view.safeAreaLayoutGuide.layoutFrame.minY, width: width, height: height))
     var colors:[UIColor] = [UIColor.red, UIColor.blue]
     var frame: CGRect = CGRect(x:0, y:0, width:0, height:0)
     
@@ -47,6 +47,7 @@ class GlobalPostFeedVC: UIViewController {
             }
         }
     }
+    
     var posts = [Post]() {
         didSet {
         DispatchQueue.main.async {
@@ -101,7 +102,7 @@ class GlobalPostFeedVC: UIViewController {
         scrollView.isPagingEnabled = true
       
         setupScrollView()
-        
+        setUpScrollViewConstraints()
         configurePageControl()
 
     }
@@ -150,9 +151,18 @@ class GlobalPostFeedVC: UIViewController {
     @objc func downvotePressed(sender: UIButton) {
         PostService.manager.updateDownVote(of: self.posts[sender.tag])
     }
-//    @objc func flagButtonPressed(sender: UIButton) {
-//        PostService.manager.updateFlaged(of: self.posts[sender.tag])
-//    }
+
+
+    private func setUpScrollViewConstraints() {
+        scrollView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(view.snp.width)
+            make.height.equalTo(view.safeAreaLayoutGuide.snp.height)
+            make.centerX.equalTo(view.safeAreaLayoutGuide.snp.centerX)
+            make.centerY.equalTo(view.safeAreaLayoutGuide.snp.centerY)
+            
+        }
+    }
+
 }
 
 

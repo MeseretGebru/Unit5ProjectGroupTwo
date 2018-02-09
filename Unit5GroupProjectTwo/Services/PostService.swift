@@ -52,7 +52,7 @@ class PostService {
     
     public func saveNewPost(content: String, title: String, image: UIImage) {
         let newPost = postRef.childByAutoId()
-        let post = Post(ref: newPost, user: currentUser, postContent: content, postTitle: title, imageURL: "", countOfUp: 0, countOfDown: 0, flaged: false)
+        let post = Post(ref: newPost, user: currentUser.uid, postContent: content, postTitle: title, imageURL: "", countOfUp: 0, countOfDown: 0, flaged: false)
         newPost.setValue(post.toAnyObject()){ (error, dbRef) in
             if let error = error {
                 print("addPost error: \(error)")
