@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import Firebase
 class UpvotedPostsVC: UIViewController {
     
     
@@ -20,19 +21,43 @@ class UpvotedPostsVC: UIViewController {
         return upvoteVC
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+   
+   // let upVotedView = UpvotedView()
+    let feedView  = GlobalPostFeedView()
+    var posts = [Post]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.feedView.tableView.reloadData()
+                
+            }
+        }
     }
-    let upVotedView = UpvotedView()
+    func loadPosts() {
+        let userUid = Auth.auth().currentUser!.uid
+        var upvotedPosts = [Post]()
+        PostService.manager.getPosts { (onlinePosts) in
+            for post in onlinePosts {
+                
+                PostService.manager.getVoteUsersDict(childRef: post.postId, completion: { (upvoteArr) in
+                   
+                   let exist = upvoteArr.index(where: {$0 == userUid })
+                    if exist != nil {
+                        upvotedPosts.append(post)
+                    }
+                })
+            }
+          
+            }
+        self.posts = upvotedPosts
+      
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavBar()
-        upVotedView.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .yellow
-        addSubViews()
+        view.backgroundColor = .white
+     //   addSubViews()
         
         navigationItem.leftBarButtonItem = menuButt
         
@@ -45,43 +70,65 @@ class UpvotedPostsVC: UIViewController {
     }
     func configureNavBar() {
         navigationItem.title = "Upvoted"
-        let backButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(back))
-        navigationItem.leftBarButtonItem = backButton
-        //            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
+     
         
     }
-    
-    func addSubViews(){
-        view.addSubview(upVotedView)
-        addConstraints()
-    }
-    
-    
-    @objc func back(){
-        
-    }
+ 
+ 
     
     @objc func dismissView() {
         dismiss(animated: true, completion: nil)
     }
     
     func addConstraints(){
-        upVotedView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.view)
+
+    }
+    @objc func moreButtonPressed(sender: UIButton) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let flagActionSheet = UIAlertAction(title: "Report", style: .default) {(action) in
+            // configure flag action
+            PostService.manager.updateFlaged(of: self.posts[sender.tag])
         }
+        
+        let cancelActionSheet = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        alert.addAction(flagActionSheet)
+        alert.addAction(cancelActionSheet)
+        present(alert, animated: true, completion: nil)
     }
     
+    @objc func upvotePressed(sender: UIButton) {
+        let ref = self.posts[sender.tag].postId
+        let userUid = Auth.auth().currentUser!.uid
+        PostService.manager.updateVoteUsers(childRef: ref, userUid: userUid)
+        PostService.manager.updateUpVote(of: self.posts[sender.tag])
+    }
+    @objc func downvotePressed(sender: UIButton) {
+        PostService.manager.updateDownVote(of: self.posts[sender.tag])
+    }
+
     
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
-    
+}
+extension UpvotedPostsVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell
+        cell.layoutIfNeeded()
+        cell.tag = indexPath.row
+        // add handles to these buttons in cell
+        cell.moreButton.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
+        cell.upvoteButton.tag = indexPath.row
+        cell.downvoteButton.tag = indexPath.row
+        cell.moreButton.tag = indexPath.row
+        cell.upvoteButton.addTarget(self, action: #selector(upvotePressed(sender:)), for: .touchUpInside)
+        cell.downvoteButton.addTarget(self, action: #selector(downvotePressed(sender:)), for: .touchUpInside)
+        return cell
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "You have 0 upvoted posts."
+    }
 }

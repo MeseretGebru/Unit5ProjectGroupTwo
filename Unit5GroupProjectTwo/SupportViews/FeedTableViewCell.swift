@@ -8,19 +8,17 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import Firebase
 
 class FeedTableViewCell: UITableViewCell {
     
     lazy var userImageView: UIImageView = {
         let img = UIImageView()
-        //   img.backgroundColor = .blue
         img.contentMode = .scaleAspectFill
         return img
     }()
     lazy var userLabel: UILabel = {
         let lab = UILabel()
-        //   lab.text = "UserNameHere"
-        lab.backgroundColor = UIColor.orange
         return lab
     }()
     lazy var titleLabel: UILabel = {
@@ -129,7 +127,7 @@ class FeedTableViewCell: UITableViewCell {
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.top.equalTo(titleLabel.snp.bottom).offset(8)
-            
+            make.height.equalTo(400)
         }
     }
     func setupActionStackView() {
@@ -177,40 +175,23 @@ class FeedTableViewCell: UITableViewCell {
             make.width.equalTo(25)
         }
     }
+
     func configureCell(from post: Post) {
-        
-        
-        
         titleLabel.text = post.postTitle
-        let haveUser: (UserProfile?) -> Void = { user in
-            guard let user = user else { return }
-            self.userLabel.text = user.displayName
-            let userImageUrl = user.imageURL
-            self.userImageView.kf.setImage(with: URL(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil) { (image, error, cacherType, url) in
-                    
-                }
-            
-//            if let userImageUrl = onlineUser?.imageURL {
-//                self.userImageView.kf.indicatorType = .activity
-//                self.userImageView.kf.setImage(with: URL.init(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, url) in
-//
-//                })
-            
-            }
+        
         // userLabel.text =
         let postOwnerUID = post.user
-        UserService.manager.getUser(uid: postOwnerUID, completion: haveUser)
-//        { (onlineUser) in
-//            self.userLabel.text = onlineUser?.displayName
-//            if let userImageUrl = onlineUser?.imageURL {
-//                self.userImageView.kf.indicatorType = .activity
-//                self.userImageView.kf.setImage(with: URL.init(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, url) in
-//
-//                })
-        
-//            }
-//
-//        })
+        UserService.manager.getUser(uid: postOwnerUID, completion: { (onlineUser) in
+            self.userLabel.text = onlineUser?.displayName
+            if let userImageUrl = onlineUser?.imageURL {
+                self.userImageView.kf.indicatorType = .activity
+                self.userImageView.kf.setImage(with: URL.init(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, url) in
+                    
+                })
+                
+            }
+            
+        })
         let imageUrl = post.imageURL
         feedImageView.kf.indicatorType = .activity
         feedImageView.kf.setImage(with: URL.init(string: imageUrl) , placeholder: #imageLiteral(resourceName: "noImage"), options: nil, progressBlock: nil) { (image, error, cacheType, url) in
@@ -218,5 +199,5 @@ class FeedTableViewCell: UITableViewCell {
         }
         
     }
-    
 }
+
