@@ -94,6 +94,7 @@ class UserLogInVC: UIViewController {
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
+
                 let bottomOfTextField = activeTextField.frame.maxY + userLoginView.frame.origin.y
                 let newBottomOfScreen = view.frame.maxY - keyboardSize.height
                 print(bottomOfTextField)
@@ -114,8 +115,6 @@ class UserLogInVC: UIViewController {
                         self.view.layoutIfNeeded()
                     })
                 }
-                
-            
             }
         }
     }
