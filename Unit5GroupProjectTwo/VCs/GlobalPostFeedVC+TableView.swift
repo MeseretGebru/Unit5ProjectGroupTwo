@@ -13,7 +13,7 @@ extension GlobalPostFeedVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         // TODO: replace with dependency injection
-       
+        
         var selectedPost: Post!
         switch tableView {
         case feedView.tableView:
@@ -22,7 +22,7 @@ extension GlobalPostFeedVC: UITableViewDelegate {
             selectedPost = self.populatedPosts[indexPath.row]
         }
         let commentVC = PostDetailVC(post: selectedPost)
-
+        
         navigationController?.pushViewController(commentVC, animated: true)
         
     }
@@ -40,11 +40,12 @@ extension GlobalPostFeedVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      //  let cell = UITableViewCell()
-      //  if tableView == feedView.tableView {
+        //  let cell = UITableViewCell()
+        //  if tableView == feedView.tableView {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell
         cell.layoutIfNeeded()
-            // add handles to these buttons in cell
+        cell.tag = indexPath.row
+        // add handles to these buttons in cell
         cell.moreButton.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
         cell.upvoteButton.tag = indexPath.row
         cell.downvoteButton.tag = indexPath.row
@@ -52,18 +53,18 @@ extension GlobalPostFeedVC: UITableViewDataSource {
         cell.upvoteButton.addTarget(self, action: #selector(upvotePressed(sender:)), for: .touchUpInside)
         cell.downvoteButton.addTarget(self, action: #selector(downvotePressed(sender:)), for: .touchUpInside)
         
- if tableView == feedView.tableView {
-        let post = posts[indexPath.row]
-        cell.configureCell(from: post)
-        cell.setNeedsLayout()
-        return cell
- } else {
-//    if tableView == popularFeedView.tableView {
-//             let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell
-    let post = populatedPosts[indexPath.row]
-    cell.configureCell(from: post)
-    cell.setNeedsLayout()
-        return cell
+        if tableView == feedView.tableView {
+            let post = posts[indexPath.row]
+            cell.configureCell(from: post)
+            cell.setNeedsLayout()
+            return cell
+        } else {
+            //    if tableView == popularFeedView.tableView {
+            //             let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell
+            let post = populatedPosts[indexPath.row]
+            cell.configureCell(from: post)
+            cell.setNeedsLayout()
+            return cell
+        }
     }
-}
 }
