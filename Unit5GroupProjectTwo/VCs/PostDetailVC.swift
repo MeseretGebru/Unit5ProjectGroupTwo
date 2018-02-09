@@ -45,6 +45,7 @@ class PostDetailVC: UIViewController {
     
     private func delegates() {
         commentView.commentTextField.delegate = self
+//        commentView.descriptionView.delegate = self
         commentView.tableView.delegate = self
         commentView.tableView.dataSource = self
     }
@@ -56,13 +57,17 @@ class PostDetailVC: UIViewController {
         }
     }
     private func loadData() {
-        commentView.titleLabel.text = post.postContent
+        commentView.titleLabel.text = post.postTitle
+//        print(commentView.contentInset.top)
+        commentView.descriptionLabel.text = post.postContent
+//        commentView.contentInset.top = 0
+//        print(commentView.contentInset.top)
         PostService.manager.getImagePost(urlImage: post.imageURL) { (image) in
             self.commentView.postImageView.image = image
             self.commentView.postImageView.snp.remakeConstraints({ (make) in
                 let ratio = image.size.height / image.size.width
                 make.width.equalTo(self.commentView.snp.width)
-                make.top.equalTo(self.commentView.snp.top).offset(8)
+                make.top.equalTo(self.commentView.titleLabel.snp.bottom).offset(8)
                 make.centerX.equalTo(self.commentView.snp.centerX)
                 make.height.equalTo(self.commentView.postImageView.snp.width).multipliedBy(ratio)
             })

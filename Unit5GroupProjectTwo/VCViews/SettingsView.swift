@@ -33,7 +33,7 @@ class SettingsView: UIView {
     
     lazy var settingLabel: UILabel = {
         let lab = UILabel()
-        lab.text = "Account Settings"
+        lab.text = "   Account Settings"
         lab.textAlignment = .left
         lab.numberOfLines = 0
         lab.textColor = .darkGray
