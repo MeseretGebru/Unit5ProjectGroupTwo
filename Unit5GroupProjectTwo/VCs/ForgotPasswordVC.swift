@@ -14,9 +14,6 @@ import Firebase
 
 class ForgotPasswordVC: UIViewController {
     
-    
-    
-    
     let resetView = ForgotPasswordView()
     
     lazy var backButtonView: UIButton = {
@@ -34,29 +31,29 @@ class ForgotPasswordVC: UIViewController {
         resetView.submitButton.addTarget(self, action: #selector(resetPassword), for: .touchUpInside)
         resetView.dismissButton.addTarget(self, action: #selector(disMissSelfForButton), for: .touchUpInside)
         backButtonView.addTarget(self, action: #selector(disMissSelfForButton), for: .touchUpInside)
-        //       gestureTap(<#T##sender: UITapGestureRecognizer##UITapGestureRecognizer#>)
+
     }
     
     private func setUpResetView() {
         resetView.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20))
+//            make.edges.equalTo(view.snp.edges)
         }
     }
     
     private func setUpBlackView() {
         backButtonView.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(view.snp.edges)
-        }
-        backButtonView.alpha = 0.1
-        
+        }        
     }
     
     
     @objc private func resetPassword() {
-        let email = getEmail()
+        guard let email = resetView.emailTextField.text else { print("Invalid email"); return}
+        guard !email.isEmpty else { print("Enter a damn email"); return}
         Auth.auth().sendPasswordReset(withEmail: email) { error in
-            if error == nil && email != "" {
-                
+//            if error == nil && email != "" {
+            if error == nil {
                 //Present Alert
                 let ac = UIAlertController(title: "Email Sent", message: "An email with reset instructions has been sent.", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "Ok", style: .default, handler: {_ in self.dimissSelf() })
@@ -100,10 +97,10 @@ class ForgotPasswordVC: UIViewController {
  
     
     
-    private func getEmail() -> (String) {
-        let email = resetView.emailTextField.text!
-        return email
-    }
+//    private func getEmail() -> (String) {
+//        let email = resetView.emailTextField.text!
+//        return email
+//    }
     
     
     //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
