@@ -86,8 +86,10 @@ class UserLogInVC: UIViewController {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
                 //                self.view.frame.origin.y -= (keyboardSize.height + navigationController!.navigationBar.frame.height)
-                userLoginView.snp.remakeConstraints({ (make) in
-                    //                    <#code#>
+                
+                self.view.snp.remakeConstraints({ (make) in
+                    make.centerY.equalTo(navigationController!.navigationBar.snp.centerY )
+                    make.centerX.equalTo(self.view.snp.centerX)
                 })
                 //                self.view.safeAreaLayoutGuide..origin.y -= keyboardSize.height
             }
@@ -97,7 +99,13 @@ class UserLogInVC: UIViewController {
     @objc func keyboardWillHide(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y != 0{
-                self.view.frame.origin.y += (keyboardSize.height + navigationController!.navigationBar.frame.height)
+//                self.view.frame.origin.y += (keyboardSize.height + navigationController!.navigationBar.frame.height)
+                self.view.snp.remakeConstraints { (make) in
+                    make.centerY.equalTo(self.view.snp.centerY)
+                    
+                    
+                }
+                
             }
         }
     }
