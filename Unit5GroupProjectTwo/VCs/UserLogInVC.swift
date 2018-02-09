@@ -22,6 +22,8 @@ import Firebase
 
 class UserLogInVC: UIViewController {
     
+    var activeTextField: UITextField!
+    
     let userLoginView = UserLoginView()
     let userSignUpView = SignUpView()
     let viewContainer = SegmentedControlView()
@@ -39,13 +41,20 @@ class UserLogInVC: UIViewController {
     lazy var logoImage: UIImageView = {
         let iv = UIImageView()
         iv.image = #imageLiteral(resourceName: "Phlogger")
-        iv.contentMode = UIViewContentMode.scaleToFill
+        iv.contentMode = .scaleAspectFit
+        iv.backgroundColor = .white
         return iv
     }()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        userLoginView.emailTextField.delegate = self
+        userLoginView.passwordTextField.delegate = self
+        userSignUpView.usernameTextField.delegate = self
+        userSignUpView.emailTextField.delegate = self
+        userSignUpView.passwordTextField.delegate = self
+        
         //To check if user is already logged in.
         if Auth.auth().currentUser != nil {
             let storyboard = UIStoryboard(name: "GlobalPostFeed", bundle: nil)
@@ -85,13 +94,27 @@ class UserLogInVC: UIViewController {
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
-                //                self.view.frame.origin.y -= (keyboardSize.height + navigationController!.navigationBar.frame.height)
-                
-                self.view.snp.remakeConstraints({ (make) in
-                    make.centerY.equalTo(navigationController!.navigationBar.snp.centerY )
-                    make.centerX.equalTo(self.view.snp.centerX)
-                })
-                //                self.view.safeAreaLayoutGuide..origin.y -= keyboardSize.height
+
+                let bottomOfTextField = activeTextField.frame.maxY + userLoginView.frame.origin.y
+                let newBottomOfScreen = view.frame.maxY - keyboardSize.height
+                print(bottomOfTextField)
+                print(newBottomOfScreen)
+                if bottomOfTextField > newBottomOfScreen {
+                    let amountToShiftUp = bottomOfTextField - newBottomOfScreen
+                    self.view.snp.remakeConstraints({ (make) in
+                        make.top.equalTo(0).offset(-amountToShiftUp)
+                        make.leading.equalTo(0)
+                        make.width.equalTo(UIScreen.main.bounds.width)
+                        make.height.equalTo(UIScreen.main.bounds.height)
+                        make.bottom.equalTo(UIScreen.main.bounds.height).offset(-amountToShiftUp)
+                    })
+                    
+                    // TODO:- fix this part, not working
+                    UIView.animate(withDuration: 10, animations: {
+                        self.view.updateConstraints()
+                        self.view.layoutIfNeeded()
+                    })
+                }
             }
         }
     }
@@ -99,13 +122,13 @@ class UserLogInVC: UIViewController {
     @objc func keyboardWillHide(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y != 0{
-//                self.view.frame.origin.y += (keyboardSize.height + navigationController!.navigationBar.frame.height)
-                self.view.snp.remakeConstraints { (make) in
-                    make.centerY.equalTo(self.view.snp.centerY)
-                    
-                    
-                }
-                
+                view.snp.remakeConstraints({ (make) in
+                    let screenRect = UIScreen.main.bounds
+                    make.top.equalTo(0)
+                    make.leading.equalTo(0)
+                    make.width.equalTo(screenRect.width)
+                    make.height.equalTo(screenRect.height)
+                })
             }
         }
     }
@@ -288,6 +311,7 @@ class UserLogInVC: UIViewController {
         logoImage.snp.makeConstraints { (make) in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.width.equalTo(view.snp.width)
+            make.centerX.equalTo(view)
             make.bottom.equalTo(viewContainer.snp.top)
             
         }
@@ -331,6 +355,7 @@ class UserLogInVC: UIViewController {
     }
     
     @objc func segmentControlPressed(sender: UISegmentedControl)  {
+        activeTextField.resignFirstResponder()
         if sender.selectedSegmentIndex == 0 {
             userLoginView.isHidden = false
             userSignUpView.isHidden = true
@@ -360,4 +385,12 @@ extension UserLogInVC: UIImagePickerControllerDelegate, UINavigationControllerDe
     }
 }
 
-
+extension UserLogInVC: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.activeTextField = textField
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
