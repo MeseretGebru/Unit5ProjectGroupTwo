@@ -11,8 +11,13 @@ import SnapKit
 import Firebase
 
 /*TO-DO:
- - Check if user is logged in
- - Theme and fix constraints
+- Make keyboard disappear when not in use/hit return
+- Add label for frog to indicate one can change the image
+ - Round image when it changes
+ - Make sure text fields and image clears when view switches or the user creates a user
+ 
+ -TO NOTE:
+ -The corner radius looks different for each iphone. Need to learn how to vary them
  */
 
 class UserLogInVC: UIViewController {
@@ -24,7 +29,7 @@ class UserLogInVC: UIViewController {
     
     lazy var userProfileImage: UIImageView =  {
         let iv = UIImageView()
-        iv.image = #imageLiteral(resourceName: "profile64")
+        iv.image = #imageLiteral(resourceName: "frog")
         iv.contentMode = UIViewContentMode.scaleToFill
         iv.layer.cornerRadius = 20
         iv.layer.masksToBounds = true
@@ -79,8 +84,12 @@ class UserLogInVC: UIViewController {
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0{
-                self.view.frame.origin.y -= keyboardSize.height
+            if self.view.frame.origin.y == 0 {
+//                self.view.frame.origin.y -= (keyboardSize.height + navigationController!.navigationBar.frame.height)
+                userLoginView.snp.remakeConstraints({ (make) in
+//                    <#code#>
+                })
+//                self.view.safeAreaLayoutGuide..origin.y -= keyboardSize.height
             }
         }
     }
@@ -88,7 +97,7 @@ class UserLogInVC: UIViewController {
     @objc func keyboardWillHide(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y != 0{
-                self.view.frame.origin.y += keyboardSize.height
+                self.view.frame.origin.y += (keyboardSize.height + navigationController!.navigationBar.frame.height)
             }
         }
     }
@@ -168,9 +177,7 @@ class UserLogInVC: UIViewController {
                     
                 }
                 
-                if let userImage = self.userProfileImage.image {
-                    UserService.manager.saveNewUser(imageProfile: userImage)
-                }
+                
                 
                 Auth.auth().currentUser?.sendEmailVerification { (error) in
                     if error == nil {
@@ -182,9 +189,14 @@ class UserLogInVC: UIViewController {
                             self.userSignUpView.usernameTextField.text = ""
                             self.userSignUpView.emailTextField.text = ""
                             self.userSignUpView.passwordTextField.text = ""
+                            self.userSignUpView.uploadImageButton.setImage(#imageLiteral(resourceName: "profile64"), for: .normal)
                         })
                         ac.addAction(okAction)
-                        self.present(ac, animated: true, completion: nil)
+                        self.present(ac, animated: true, completion: {
+                            if let userImage = self.userProfileImage.image {
+                                UserService.manager.saveNewUser(imageProfile: userImage)
+                            }
+                        })
                         
                     }
                     
@@ -334,6 +346,7 @@ extension UserLogInVC: UIImagePickerControllerDelegate, UINavigationControllerDe
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let profileImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.userSignUpView.uploadImageButton.setImage(profileImage, for: .normal)
+            self.userProfileImage.image = profileImage
         }
         picker.dismiss(animated: true, completion: nil)
     }

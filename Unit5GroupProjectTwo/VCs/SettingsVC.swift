@@ -11,11 +11,11 @@ import Firebase
 import FirebaseAuth
 
 /*TO-DO:
- - Add function to upload image button to pop up Alert Sheet
- - Add gallery, camera and url actions to Alert Sheet
- - Save button updates Firebase
+- Image is of user's profile image
+- Image automatically uploaded when user picks on e
+ - Add alert when something is aved
  - When field is blank, button does not save anything!!!!
- - Back button is in navigation 
+
  */
 
 class SettingsVC: UIViewController {
@@ -30,10 +30,12 @@ class SettingsVC: UIViewController {
         //        settingView.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .darkGray
         addSubViews()
+        
         settingView.settingOptionsTV.delegate = self
         settingView.settingOptionsTV.dataSource = self
         settingView.editUserImageButton.addTarget(self, action: #selector(getImageFromUser), for: .touchUpInside)
         settingView.saveChangesButton.addTarget(self, action: #selector(saveChanges), for: .touchUpInside)
+        loadProfileImage()
     }
     //    private func configureNavBar() {
     //        navigationItem.title = "Setting"
@@ -41,7 +43,16 @@ class SettingsVC: UIViewController {
     //        navigationItem.leftBarButtonItem = backButton
     //
     //    }
-    
+    private func loadProfileImage() {
+        UserService.manager.getUser(uid: (Auth.auth().currentUser?.email)!) { (onlineUser) in
+            if let user = onlineUser {
+                if let url = URL(string: user.imageURL) {
+                    print(user.imageURL)
+                    self.settingView.profileImage.kf.setImage(with: url, placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: nil)
+                }
+            }
+        }
+    }
     private func addSubViews(){
         view.addSubview(settingView)
         //        addConstraints()
@@ -98,8 +109,7 @@ class SettingsVC: UIViewController {
     
     @objc private func saveChanges() {
         //Where user saves image and/or color changes
-        let currentUser = Auth.auth().currentUser
-        
+        UserService.manager.setUserImage(image: settingView.profileImage.image!)
        
     }
     

@@ -39,15 +39,17 @@ struct UserService {
     }
     
     public func getUser(uid: String, completion: @escaping (UserProfile?) -> Void) {
-        var customUser: UserProfile!
-        userRef.child("users").observe(.value) { (snapShot) in
+        userRef.observe(.value) { (snapShot) in
+            //var customUser: UserProfile!
             for user in snapShot.children {
                 let onlineUser = UserProfile(snapShot: user as! DataSnapshot)
-                if onlineUser.userId == uid {
-                    customUser = onlineUser
+                print(onlineUser.email, uid)
+                if onlineUser.email == uid {
+                    completion(onlineUser)
+                    return
+                    //customUser = onlineUser
                 }
             }
-            completion(customUser)
         }
     }
     
