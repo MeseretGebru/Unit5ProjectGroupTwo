@@ -17,7 +17,7 @@ class SignUpView: UIView {
     
     lazy var uploadImageButton: UIButton = {
         let butt = UIButton()
-        butt.setImage(#imageLiteral(resourceName: "profile64"), for: .normal)
+        butt.setImage(#imageLiteral(resourceName: "frog"), for: .normal)
         butt.contentMode = UIViewContentMode.scaleToFill
         return butt
     }()
