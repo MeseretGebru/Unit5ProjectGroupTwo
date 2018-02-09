@@ -44,7 +44,7 @@ class UserService {
             for user in snapShot.children {
                 let onlineUser = UserProfile(snapShot: user as! DataSnapshot)
                 print(onlineUser.email, uid)
-                if onlineUser.email == uid {
+                if onlineUser.user == uid {
                     completion(onlineUser)
                     return
             
@@ -65,7 +65,7 @@ class UserService {
                 print("User added @ database reference: \(dbRef)")
                 
                 // add an image to storage
-                StorageService.manager.storeImage(image: imageProfile, postId: nil, userId: newUser.key)
+                StorageService.manager.storeImage(image: imageProfile, postId: nil, userId: newUser.key, isUpdatingUserImage: false )
                 // TODO: add image to database
             }
         }
@@ -113,13 +113,14 @@ class UserService {
     
 
     public func setUserImage(image: UIImage) {
-        userRef.observe(.value) { (snapShot) in
-            for user in snapShot.children {
-                let userSaved = UserProfile(snapShot: user as! DataSnapshot)
-                if userSaved.user == self.currentUser.uid {
-                    StorageService.manager.storeImage(image: image, postId: nil, userId: userSaved.userId)
-                }
-            }
-        }
+         StorageService.manager.storeImage(image: image, postId: nil, userId: Auth.auth().currentUser?.uid, isUpdatingUserImage: true)
+//        userRef.observe(.value) { (snapShot) in
+//            for user in snapShot.children {
+//                let userSaved = UserProfile(snapShot: user as! DataSnapshot)
+//                if userSaved.user == self.currentUser.uid {
+//                    StorageService.manager.storeImage(image: image, postId: nil, userId: userSaved.userId, isUpdatingUserImage: true)
+//                }
+//            }
+//        }
     }
 }

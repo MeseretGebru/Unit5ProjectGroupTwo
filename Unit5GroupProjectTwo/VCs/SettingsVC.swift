@@ -11,7 +11,6 @@ import Firebase
 import FirebaseAuth
 
 /*TO-DO:
-- Image is of user's profile image
 - Image automatically uploaded when user picks on e
  - Add alert when something is aved
  - When field is blank, button does not save anything!!!!
@@ -34,7 +33,7 @@ class SettingsVC: UIViewController {
         settingView.settingOptionsTV.delegate = self
         settingView.settingOptionsTV.dataSource = self
         settingView.editUserImageButton.addTarget(self, action: #selector(getImageFromUser), for: .touchUpInside)
-        settingView.saveChangesButton.addTarget(self, action: #selector(saveChanges), for: .touchUpInside)
+//        settingView.saveChangesButton.addTarget(self, action: #selector(saveChanges), for: .touchUpInside)
         loadProfileImage()
     }
     //    private func configureNavBar() {
@@ -44,14 +43,18 @@ class SettingsVC: UIViewController {
     //
     //    }
     private func loadProfileImage() {
-        UserService.manager.getUser(uid: (Auth.auth().currentUser?.email)!) { (onlineUser) in
-            if let user = onlineUser {
-                if let url = URL(string: user.imageURL) {
-                    print(user.imageURL)
-                    self.settingView.profileImage.kf.setImage(with: url, placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: nil)
-                }
-            }
-        }
+        
+        guard let photoURL = Auth.auth().currentUser?.photoURL else { return }
+        settingView.profileImage.kf.setImage(with: photoURL, placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: nil)
+        
+//        UserService.manager.getUser(uid: (Auth.auth().currentUser?.uid)!) { (onlineUser) in
+//            if let user = onlineUser {
+//                if let url = URL(string: user.imageURL) {
+//                    print(user.imageURL)
+//                    self.settingView.profileImage.kf.setImage(with: url, placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: nil)
+//                }
+//            }
+//        }
     }
     private func addSubViews(){
         view.addSubview(settingView)
@@ -107,9 +110,10 @@ class SettingsVC: UIViewController {
         
     }
     
-    @objc private func saveChanges() {
+    private func saveChanges() {
         //Where user saves image and/or color changes
         UserService.manager.setUserImage(image: settingView.profileImage.image!)
+        print("Image Saved")
        
     }
     
@@ -297,6 +301,10 @@ extension SettingsVC: UIImagePickerControllerDelegate, UINavigationControllerDel
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let profileImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.settingView.profileImage.image = profileImage
+            UserService.manager.setUserImage(image: profileImage)
+
+//            savedImage = profileImage
+//            saveChanges()
         }
         picker.dismiss(animated: true, completion: nil)
     }

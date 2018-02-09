@@ -60,7 +60,7 @@ class PostService {
                 print("Post added @ database reference: \(dbRef)")
                 
                 // add an image to storage
-                StorageService.manager.storeImage(image: image, postId: newPost.key, userId: nil)
+                StorageService.manager.storeImage(image: image, postId: newPost.key, userId: nil, isUpdatingUserImage: false)
                 // TODO: add image to database
             }
         }
