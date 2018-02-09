@@ -19,6 +19,7 @@ class UserProfileVC: UIViewController {
 
     let userProfileView = UserProfileView()
     var user: UserProfile!
+    
 
     let menuButt = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton"), style: .plain, target: self, action: nil)
 
@@ -29,17 +30,16 @@ class UserProfileVC: UIViewController {
         userProfileView.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
         
-        userProfileView.changePictureButton.addTarget(self, action: #selector(changePicture), for: .touchUpInside)
         userProfileView.postsButton.addTarget(self, action: #selector(showPostsVC), for: .touchUpInside)
         addSubViews()
-        //configureData(user: user, post: Post)
         loadData()
     }
+    
     private func configureNavBar() {
         navigationItem.title = "User Profile"
       
     }
-    
+    //addSubviews
     private func addSubViews(){
         view.addSubview(userProfileView)
         addConstraints()
@@ -74,14 +74,14 @@ class UserProfileVC: UIViewController {
             userProfileView.userNameLabel.text = "\(user.displayName ?? "No user name")"
             userProfileView.numberofUpvotesLabel.text = "Number of Upvotes: \(posts.filter{$0.countOfUp > 0}.count)"
         }
-        if let url = URL(string: user.imageURL) {
-            userProfileView.profileImage.kf.setImage(with: url)
-        }
-//        UserService.manager.getImageProfile(urlImage: user.imageURL) { (image) in
-//            if let image = image {
-//                self.userProfileView.profileImage.image = image
-//            }
-//        }
+        //        if let url = URL(string: user.imageURL) {
+        //            userProfileView.profileImage.kf.setImage(with: url)
+        //        }
+        //        UserService.manager.getImageProfile(urlImage: user.imageURL) { (image) in
+        //            if let image = image {
+        //                self.userProfileView.profileImage.image = image
+        //            }
+        //        }
     }
     
     public static func storyboardInstance() -> UserProfileVC {
@@ -90,21 +90,14 @@ class UserProfileVC: UIViewController {
         return profileVC
     }
     
-    @objc private func changePicture(){
-        
-    }
-    
     @objc private func showPostsVC(){
-            let userPostVC = UserPostsVC()
-            userPostVC.user = self.user
-            let navController = UINavigationController(rootViewController: userPostVC)
-            self.present(navController, animated: true, completion: nil)
+        let userPostVC = UserPostsVC()
+        userPostVC.user = self.user
+        
+        let navController = UINavigationController(rootViewController: userPostVC)
+        self.present(navController, animated: true, completion: nil)
     }
 
-    
-    @objc private func back(){
-        
-    }
     
     @objc private func dismissView() {
         dismiss(animated: true, completion: nil)
@@ -115,6 +108,6 @@ class UserProfileVC: UIViewController {
             make.edges.equalTo(self.view.safeAreaLayoutGuide.snp.edges)
         }
     }
-
+    
 }
 
