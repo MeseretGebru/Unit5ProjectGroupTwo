@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import FirebaseAuth
+import Kingfisher
 
 // will have titleLabel,userNameLabel,lastLoginLabel,numberOfPostsLabel and latestPostLabel
 //text fields accordingly
@@ -29,7 +30,7 @@ class UserProfileVC: UIViewController {
         view.backgroundColor = .clear
         
         userProfileView.changePictureButton.addTarget(self, action: #selector(changePicture), for: .touchUpInside)
-        userProfileView.postsButton.addTarget(self, action: #selector(posts), for: .touchUpInside)
+        userProfileView.postsButton.addTarget(self, action: #selector(showPostsVC), for: .touchUpInside)
         addSubViews()
         //configureData(user: user, post: Post)
         loadData()
@@ -62,12 +63,19 @@ class UserProfileVC: UIViewController {
             PostService.manager.getUserPosts(from: user.uid, completion: { (postsOnline) in
                 if let postFirebase = postsOnline {
                     posts = postFirebase
+                    self.userProfileView.numberOfPostsLabel.text = "Number of posts: \(posts.count)"
+                    self.userProfileView.numberofFlagsLabel.text = "Number of Flags: \(posts.filter{$0.flaged}.count)"
+                    self.userProfileView.userNameLabel.text = "\(user.displayName ?? "No user name")"
+                    self.userProfileView.numberofUpvotesLabel.text = "Number of Upvotes: \(posts.filter{$0.countOfUp > 0}.count)"
                 }
             })
             userProfileView.numberOfPostsLabel.text = "Number of posts: \(posts.count)"
             userProfileView.numberofFlagsLabel.text = "Number of Flags: \(posts.filter{$0.flaged}.count)"
-            userProfileView.userNameLabel.text = "\(user.displayName)"
+            userProfileView.userNameLabel.text = "\(user.displayName ?? "No user name")"
             userProfileView.numberofUpvotesLabel.text = "Number of Upvotes: \(posts.filter{$0.countOfUp > 0}.count)"
+        }
+        if let url = URL(string: user.imageURL) {
+            userProfileView.profileImage.kf.setImage(with: url)
         }
 //        UserService.manager.getImageProfile(urlImage: user.imageURL) { (image) in
 //            if let image = image {
@@ -86,12 +94,13 @@ class UserProfileVC: UIViewController {
         
     }
     
-    @objc private func posts(){
+    @objc private func showPostsVC(){
             let userPostVC = UserPostsVC()
+            userPostVC.user = self.user
             let navController = UINavigationController(rootViewController: userPostVC)
             self.present(navController, animated: true, completion: nil)
-        
     }
+
     
     @objc private func back(){
         
@@ -106,8 +115,6 @@ class UserProfileVC: UIViewController {
             make.edges.equalTo(self.view.safeAreaLayoutGuide.snp.edges)
         }
     }
-    
-    
-    
+
 }
 

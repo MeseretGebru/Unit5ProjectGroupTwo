@@ -14,6 +14,7 @@ import FirebaseStorage
 import FirebaseAuth
 
 struct UserProfile {
+
     var ref: DatabaseReference
     var userId: String
     var user: String
@@ -22,6 +23,7 @@ struct UserProfile {
     var lastLogin: String
     var numberOfFlags: Int
     var imageURL: String
+
    // var voteGave: Int
     // preparing info to save into firebase
     init(ref: DatabaseReference, user: User, displayName: String, email: String, lastLogin: String, numberOfFlags: Int, imageURL: String){
@@ -33,6 +35,8 @@ struct UserProfile {
         self.lastLogin = lastLogin
         self.numberOfFlags = numberOfFlags
         self.imageURL = imageURL
+        self.displayName = displayName
+        self.email = email
     }
     
     // take info from firebase
@@ -46,11 +50,15 @@ struct UserProfile {
         self.lastLogin = value?["lastLogin"] as? String ?? ""
         self.numberOfFlags = value?["numberOfFlags"] as? Int ?? 0
         self.imageURL = value?["imageURL"] as? String ?? ""
+        self.displayName = value?["displayName"] as? String ?? ""
+        self.email = value?["email"] as? String ?? ""
     }
     
     // transform info previous to save
     func toAnyObject() -> [String: Any] {
+
         return["userId" : ref.key, "user": user,"displayName": displayName,"email": email, "lastLogin" : lastLogin, "numberOfFlags" : numberOfFlags, "imageURL": imageURL]
+
     }
     
 }

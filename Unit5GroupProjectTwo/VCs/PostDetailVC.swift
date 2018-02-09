@@ -16,11 +16,11 @@ class PostDetailVC: UIViewController {
         didSet {
             DispatchQueue.main.async {
                 self.commentView.tableView.reloadData()
-                self.commentView.numComments.text = "\(self.comments.count) comment(s)"
+                self.commentView.numComments.text = "\(self.comments.count)"
             }
         }
     }
-    
+    var currentUser: UserProfile!
     var post: Post!
     let commentView = PostDetailView()
     init(post: Post) {
@@ -35,9 +35,12 @@ class PostDetailVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         navigationItem.title = "Comments"
+//        currentUser = UserService.manager.getUser(user: Auth.auth().currentUser!)
         delegates()
         viewContraints()
         loadData()
+        commentView.tableView.rowHeight = UITableViewAutomaticDimension
+        commentView.tableView.estimatedRowHeight = 50
     }
     
     private func delegates() {
@@ -52,13 +55,18 @@ class PostDetailVC: UIViewController {
             make.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)
         }
     }
-    
-    
-    
     private func loadData() {
         commentView.titleLabel.text = post.postContent
         PostService.manager.getImagePost(urlImage: post.imageURL) { (image) in
             self.commentView.postImageView.image = image
+            self.commentView.postImageView.snp.remakeConstraints({ (make) in
+                let ratio = image.size.height / image.size.width
+                make.width.equalTo(self.commentView.snp.width)
+                make.top.equalTo(self.commentView.snp.top).offset(8)
+                make.centerX.equalTo(self.commentView.snp.centerX)
+                make.height.equalTo(self.commentView.postImageView.snp.width).multipliedBy(ratio)
+            })
+            self.commentView.setNeedsLayout()
         }
         loadComments()
     }

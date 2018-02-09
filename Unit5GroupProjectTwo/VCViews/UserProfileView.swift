@@ -13,6 +13,7 @@ class UserProfileView: UIView {
     lazy var userNameLabel: UILabel = {
         let label = UILabel()
         label.text = "Default User"
+        label.font = UIFont.systemFont(ofSize: 20)
         label.textAlignment = .center
         return label
     }()
@@ -34,6 +35,7 @@ class UserProfileView: UIView {
     // Number of posts label
     lazy var numberOfPostsLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 20)
         label.text = "Number of Posts: 20"
         return label
     }()
@@ -41,7 +43,7 @@ class UserProfileView: UIView {
     //number of Flags Label
     lazy var numberofFlagsLabel: UILabel = {
         let label = UILabel()
-        // label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 20)
         label.text = "Number of flags: 0"
         return label
     }()
@@ -49,6 +51,7 @@ class UserProfileView: UIView {
     //number of upvotes
     lazy var numberofUpvotesLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 20)
         label.text = "Number of upvote recived: 16"
         return label
     }()
@@ -58,7 +61,7 @@ class UserProfileView: UIView {
         let stackView = UIStackView()
         stackView.axis = UILayoutConstraintAxis.vertical
         stackView.distribution = UIStackViewDistribution.fill
-        stackView.spacing = 16.0
+        stackView.spacing = 20.0
         return stackView
     }()
     
@@ -101,21 +104,21 @@ class UserProfileView: UIView {
     private func setupHeader() {
         addSubview(userNameLabel)
         addSubview(profileImage)
-        addSubview(changePictureButton)
-        userNameLabel.snp.makeConstraints { (label) in
-            label.top.equalTo(snp.top).offset(16)
-            label.centerX.equalTo(snp.centerX)
-        }
+        //addSubview(changePictureButton)
+       // userNameLabel.snp.makeConstraints { (label) in
+//            label.top.equalTo(snp.top).offset(16)
+//            label.centerX.equalTo(snp.centerX)
+//        }
         
         profileImage.snp.makeConstraints { (image) in
-            image.top.equalTo(userNameLabel.snp.bottom).offset(8)
+            image.top.equalTo(self.snp.top).offset(16)
             image.centerX.equalTo(snp.centerX)
             image.width.height.equalTo(snp.width).multipliedBy(0.4)
         }
         
-        changePictureButton.snp.makeConstraints { (button) in
-            button.top.equalTo(profileImage.snp.bottom).offset(16)
-            button.centerX.equalTo(snp.centerX)
+        userNameLabel.snp.makeConstraints { (label) in
+            label.top.equalTo(profileImage.snp.bottom).offset(16)
+            label.centerX.equalTo(snp.centerX)
         }
     }
     
@@ -126,7 +129,7 @@ class UserProfileView: UIView {
         labelsStack.addArrangedSubview(numberofUpvotesLabel)
         
         labelsStack.snp.makeConstraints { (stack) in
-            stack.top.equalTo(changePictureButton.snp.bottom).offset(32)
+            stack.top.equalTo(userNameLabel.snp.bottom).offset(32)
             stack.centerX.equalTo(snp.centerX)
         }
         

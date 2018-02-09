@@ -26,6 +26,7 @@ class SignUpView: UIView {
         let txt = UITextField()
         txt.placeholder = "Username"
         txt.autocapitalizationType = .none
+        underLine(from: txt)
         return txt
     }()
     
@@ -33,6 +34,7 @@ class SignUpView: UIView {
         let txt = UITextField()
         txt.placeholder = "Email Address"
         txt.autocapitalizationType = .none
+        underLine(from: txt)
         return txt
     }()
     
@@ -41,6 +43,7 @@ class SignUpView: UIView {
         txt.placeholder = "Password"
         txt.autocapitalizationType = .none
         txt.isSecureTextEntry = true
+        underLine(from: txt)
         return txt
     }()
     
@@ -130,8 +133,19 @@ class SignUpView: UIView {
             make.centerX.equalTo(self)
             
             
-            createAccountButton.layer.cornerRadius = 10
+            createAccountButton.layer.cornerRadius = 15
             createAccountButton.layer.masksToBounds = true
         }
+    }
+    
+    func underLine(from txt: UITextField) {
+        let border = UIView()
+        border.backgroundColor = UIColor(displayP3Red: (229/255), green: (229/255), blue: (229/255), alpha: 1.0)
+        border.translatesAutoresizingMaskIntoConstraints = false
+        txt.addSubview(border)
+        border.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        border.widthAnchor.constraint(equalTo: txt.widthAnchor).isActive = true
+        border.bottomAnchor.constraint(equalTo: txt.bottomAnchor, constant: -1).isActive = true
+        border.leftAnchor.constraint(equalTo: txt.leftAnchor).isActive = true
     }
 }
