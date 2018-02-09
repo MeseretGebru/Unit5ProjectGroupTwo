@@ -26,6 +26,7 @@ class SignUpView: UIView {
         let txt = UITextField()
         txt.placeholder = "Username"
         txt.autocapitalizationType = .none
+        txt.autocorrectionType = .no
         underLine(from: txt)
         return txt
     }()
@@ -34,6 +35,7 @@ class SignUpView: UIView {
         let txt = UITextField()
         txt.placeholder = "Email Address"
         txt.autocapitalizationType = .none
+        txt.autocorrectionType = .no
         underLine(from: txt)
         return txt
     }()
@@ -42,6 +44,7 @@ class SignUpView: UIView {
         let txt = UITextField()
         txt.placeholder = "Password"
         txt.autocapitalizationType = .none
+        txt.autocorrectionType = .no
         txt.isSecureTextEntry = true
         underLine(from: txt)
         return txt

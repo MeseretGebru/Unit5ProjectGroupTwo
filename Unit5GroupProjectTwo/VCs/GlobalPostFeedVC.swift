@@ -82,8 +82,8 @@ class GlobalPostFeedVC: UIViewController {
         popularFeedView.tableView.dataSource = self
         
         navigationItem.leftBarButtonItem = menuButt
-        feedView.tableView.rowHeight = UITableViewAutomaticDimension
-        popularFeedView.tableView.rowHeight = UITableViewAutomaticDimension
+//        feedView.tableView.rowHeight = UITableViewAutomaticDimension
+//        popularFeedView.tableView.rowHeight = UITableViewAutomaticDimension
         
         if self.revealViewController() != nil {
             menuButt.target = self.revealViewController()
