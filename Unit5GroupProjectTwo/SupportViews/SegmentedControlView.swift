@@ -17,9 +17,8 @@ class SegmentedControlView: UIView {
     lazy var segmentedControl: UISegmentedControl = {
         let segCon = UISegmentedControl(items: ["Log In", "Create Account"])
         segCon.tintColor = UIColor.lightGray
+ 
         segCon.backgroundColor = UIColor(displayP3Red: (229/255), green: (229/255), blue: (229/255), alpha: 1.0)
-        
-        
         return segCon
     }()
     
@@ -62,6 +61,9 @@ class SegmentedControlView: UIView {
             //            make.centerY.equalTo(self)
             make.top.equalTo(self)
         }
+        
+
+
     }
         
         
