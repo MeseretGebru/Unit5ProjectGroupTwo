@@ -136,7 +136,7 @@ extension UserPostsVC: UITableViewDataSource, UITableViewDelegate {
         cell.layoutIfNeeded()
         if tableView == userPostsView.postTableView {
             let post = posts[indexPath.row]
-            
+            cell.upvoteCount.text = " \(post.countOfUp)"
             cell.titleLabel.text = post.postTitle
             let haveUser: (UserProfile?) -> Void = { user in
                 guard let user = user else { return }
