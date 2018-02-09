@@ -41,6 +41,16 @@ class PostDetailVC: UIViewController {
         loadData()
         commentView.tableView.rowHeight = UITableViewAutomaticDimension
         commentView.tableView.estimatedRowHeight = 50
+        commentView.upVote.addTarget(self, action: #selector(votes(_:)), for: .touchUpInside)
+        commentView.downVote.addTarget(self, action: #selector(votes(_:)), for: .touchUpInside)
+    }
+    
+    @objc func votes(_ sender: UIButton) {
+        if sender.tag == 0 {
+            VoteService.manager.saveNewVote(postId: post.postId, upVote: 1, downVote: nil)
+        } else {
+            VoteService.manager.saveNewVote(postId: post.postId, upVote: nil, downVote: 1)
+        }
     }
     
     private func delegates() {
