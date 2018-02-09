@@ -111,7 +111,13 @@ struct UserService {
         return dateStr
     }
     
+<<<<<<< HEAD
+    public func setUserImage(image: UIImage) {
+||||||| merged common ancestors
+    private func setUserImage(image: UIImage) {
+=======
     func setUserImage(image: UIImage) {
+>>>>>>> 996c6a070972a2287f7188bf6f32efb075ee5334
         userRef.observe(.value) { (snapShot) in
             for user in snapShot.children {
                 let userSaved = UserProfile(snapShot: user as! DataSnapshot)
