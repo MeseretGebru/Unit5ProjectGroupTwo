@@ -11,8 +11,8 @@ import SnapKit
 import Firebase
 
 /*TO-DO:
-- Make keyboard disappear when not in use/hit return
-- Add label for frog to indicate one can change the image
+ - Make keyboard disappear when not in use/hit return
+ - Add label for frog to indicate one can change the image
  - Round image when it changes
  - Make sure text fields and image clears when view switches or the user creates a user
  
@@ -79,17 +79,17 @@ class UserLogInVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(UserLogInVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(UserLogInVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-
+        
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
-//                self.view.frame.origin.y -= (keyboardSize.height + navigationController!.navigationBar.frame.height)
+                //                self.view.frame.origin.y -= (keyboardSize.height + navigationController!.navigationBar.frame.height)
                 userLoginView.snp.remakeConstraints({ (make) in
-//                    <#code#>
+                    //                    <#code#>
                 })
-//                self.view.safeAreaLayoutGuide..origin.y -= keyboardSize.height
+                //                self.view.safeAreaLayoutGuide..origin.y -= keyboardSize.height
             }
         }
     }
@@ -198,8 +198,10 @@ class UserLogInVC: UIViewController {
                             }
                         })
                         
+                        
+                        
+//                    })
                     }
-                    
                 }
                 
             }
@@ -339,8 +341,6 @@ class UserLogInVC: UIViewController {
         }
     }
 }
-
-
 
 extension UserLogInVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {

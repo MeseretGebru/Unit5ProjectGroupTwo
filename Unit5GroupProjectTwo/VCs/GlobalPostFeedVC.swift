@@ -151,7 +151,8 @@ class GlobalPostFeedVC: UIViewController {
     @objc func downvotePressed(sender: UIButton) {
         PostService.manager.updateDownVote(of: self.posts[sender.tag])
     }
-    
+
+
     private func setUpScrollViewConstraints() {
         scrollView.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(view.snp.width)
@@ -161,9 +162,7 @@ class GlobalPostFeedVC: UIViewController {
             
         }
     }
-//    @objc func flagButtonPressed(sender: UIButton) {
-//        PostService.manager.updateFlaged(of: self.posts[sender.tag])
-//    }
+
 }
 
 
