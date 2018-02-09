@@ -76,13 +76,13 @@ class UserPostsView: UIView {
         profileImage.layer.cornerRadius = profileImage.bounds.width/2.0
         profileImage.layer.masksToBounds = true
         profileImage.snp.makeConstraints { (make) in make.centerX.equalTo(snp.centerX)
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(40)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(16)
             make.width.equalTo(snp.width).multipliedBy(0.30)
             make.height.equalTo(profileImage.snp.width)
             
         }
         userNameLabel.snp.makeConstraints { (name) in
-            name.top.equalTo(profileImage.snp.bottom)
+            name.top.equalTo(profileImage.snp.bottom).offset(5)
             name.centerX.equalTo(self.snp.centerX)
         }
         NumberofPostsLabel.snp.makeConstraints { (posts) in
