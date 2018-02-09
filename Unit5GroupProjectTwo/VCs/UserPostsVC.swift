@@ -15,33 +15,33 @@ class UserPostsVC: UIViewController {
     
     let userPostsView = UserPostsView()
     var user: UserProfile!
-  
+    
     public var posts = [Post](){
         didSet{
             userPostsView.postTableView.reloadData()
             DispatchQueue.main.async {
                 self.userPostsView.postTableView.reloadData()
                 //self.userPostsView.userNameLabel.text = "\(self.posts.user) comment(s)"
+            }
         }
-      }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         configureNavBar()
         userPostsView.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .yellow
         userPostsView.postTableView.delegate = self
         userPostsView.postTableView.dataSource = self
         userPostsView.postTableView.rowHeight = 150
-//        userPostsView.postTableView.estimatedRowHeight = 200
+        //        userPostsView.postTableView.estimatedRowHeight = 200
         addSubViews()
         loadData()
-//        fetchPosts()
-//        if let user = Auth.auth().currentUser {
-//            self.user = user
-//        }
+        //        fetchPosts()
+        //        if let user = Auth.auth().currentUser {
+        //            self.user = user
+        //        }
         
     }
     private func configureNavBar() {
@@ -56,21 +56,21 @@ class UserPostsVC: UIViewController {
         addConstraints()
     }
     
-//    func fetchPosts(){
+    //    func fetchPosts(){
     
-//        Database.database().reference().child("posts").observeEventType(.childAdded, withBlock: {(snapshot) in
-//            if let dictionary = snapshot.value as? [String: AnyObject] {
-//                let posts = [Post]()
-//                posts.setValuesForkeyWithDictionary(dictionary)
-//                self.userPostsView.post.append(posts)
-//                dispatch_async(dispatch_get_main_queue(), {
-//
-//                    userPostsView.postTableView.reloadData()
-//                })
-//                posts.description = dictionary["name"]
-//            }
-//        }, withCancelBlock: nil)
-//   }
+    //        Database.database().reference().child("posts").observeEventType(.childAdded, withBlock: {(snapshot) in
+    //            if let dictionary = snapshot.value as? [String: AnyObject] {
+    //                let posts = [Post]()
+    //                posts.setValuesForkeyWithDictionary(dictionary)
+    //                self.userPostsView.post.append(posts)
+    //                dispatch_async(dispatch_get_main_queue(), {
+    //
+    //                    userPostsView.postTableView.reloadData()
+    //                })
+    //                posts.description = dictionary["name"]
+    //            }
+    //        }, withCancelBlock: nil)
+    //   }
     
     
     @objc private func back(){
@@ -91,11 +91,12 @@ class UserPostsVC: UIViewController {
     private func loadData() {
         if let currentUser = Auth.auth().currentUser {
             userPostsView.userNameLabel.text! = currentUser.displayName ?? "No user's name"
-            userPostsView.NumberofPostsLabel.text! = "Number of posts: \(posts.count)"
+            
             PostService.manager.getUserPosts(from: currentUser.uid, completion: { (postsOnline) in
                 if let posts = postsOnline {
                     self.posts = posts
                 }
+                self.userPostsView.NumberofPostsLabel.text! = "Number of posts: \(self.posts.count)"
             })
             
         }
@@ -110,24 +111,93 @@ extension UserPostsVC: UITableViewDataSource, UITableViewDelegate {
         return posts.count
         
     }
+    /* func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+     let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? UserPostsTableViewCell
+     let post = posts[indexPath.row]
+     
+     PostService.manager.getImagePost(urlImage: post.imageURL) { (image) in
+     cell?.userPostImage.image = image
+     //cell?.feedImageView.image = image
+     cell?.layoutIfNeeded()
+     }
+     cell?.descriptionLabel.text = post.postContent
+     //cell?.titleLabel.text = post.postContent
+     
+     return cell!
+     
+     }*/
+    
+    //copied from feed table view
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? UserPostsTableViewCell
-        let post = posts[indexPath.row]
+        //        let cell = UITableViewCell()
         
-        PostService.manager.getImagePost(urlImage: post.imageURL) { (image) in
-            cell?.userPostImage.image = image
-            cell?.layoutIfNeeded()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! FeedTableViewCell
+        if tableView == userPostsView.postTableView {
+            let post = posts[indexPath.row]
+            PostService.manager.getImagePost(urlImage: post.imageURL) { (image) in
+                cell.feedImageView.image = image
+                cell.titleLabel.text = post.postContent
+                cell.layoutIfNeeded()
+            }
+            // add handles to these buttons in cell
+            cell.moreButton.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
+            cell.upvoteButton.tag = indexPath.row
+            cell.downvoteButton.tag = indexPath.row
+            cell.moreButton.tag = indexPath.row
+            cell.upvoteButton.addTarget(self, action: #selector(self.upvotePressed(sender:)), for: .touchUpInside)
+            cell.downvoteButton.addTarget(self, action: #selector(downvotePressed(sender:)), for: .touchUpInside)
+            
+            
+            guard self.posts.count > 0 else {
+                switch indexPath.row {
+                case 0:
+                    cell.feedImageView.image = #imageLiteral(resourceName: "dogs")
+                case 1:
+                    cell.feedImageView.image = #imageLiteral(resourceName: "panda")
+                case 2:
+                    cell.feedImageView.image = #imageLiteral(resourceName: "ThumbUp")
+                case 3:
+                    cell.feedImageView.image = #imageLiteral(resourceName: "uggDog")
+                case 4:
+                    cell.feedImageView.image = #imageLiteral(resourceName: "cards")
+                case 5:
+                    cell.feedImageView.image = #imageLiteral(resourceName: "Dakota_instaweb")
+                default:
+                    cell.feedImageView.image = #imageLiteral(resourceName: "ante")
+                }
+                return cell
+            }
+            //            }
+            
+            print(posts.count)
+            
+            //let post = posts[indexPath.row]
+            // cell.titleLabel.text = post.postTitle
+            //cell.userImageView.image = PostService.manager.getImagePost(urlImage: post.imageURL)
         }
-        cell?.descriptionLabel.text = post.postContent
+        
+        cell.setNeedsLayout()
+        return cell
+        //        } else if tableView == popularFeedView.tableView {
+        //            let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell
+        //            cell.titleLabel.text = "it's popular feed cell"
+        //            return cell
+        //        }
+        //        return cell
         
         
-        return cell!
-
     }
-
+    @objc func upvotePressed(sender: UIButton) {
+        PostService.manager.updateUpVote(of: self.posts[sender.tag])
+    }
+    @objc func downvotePressed(sender: UIButton) {
+        PostService.manager.updateDownVote(of: self.posts[sender.tag])
+    }
+    @objc func moreButtonPressed() {
+        
+    }
     
-   
 }
-    
+
 
 

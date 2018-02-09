@@ -12,7 +12,7 @@ class UserPostsView: UIView {
     //Table view
     lazy var postTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(UserPostsTableViewCell.self, forCellReuseIdentifier: "PostCell")
+        tableView.register(FeedTableViewCell.self, forCellReuseIdentifier: "PostCell")
         return tableView
     }()
     
@@ -42,7 +42,12 @@ class UserPostsView: UIView {
         return label
     }()
     
-
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // make profile image a circle
+        profileImage.layer.cornerRadius = profileImage.bounds.width/2.0
+        profileImage.layer.masksToBounds = true
+    }
     
     
     override init(frame: CGRect) {
