@@ -19,7 +19,8 @@ class ForgotPasswordView: UIView {
     
     lazy var dismissButton: UIButton = {
         let butt = UIButton()
-        butt.setImage(#imageLiteral(resourceName: "add"), for: .normal)
+        butt.setImage(#imageLiteral(resourceName: "cancel"), for: .normal)
+        butt.tintColor = .orange
         return butt
     }()
     
@@ -78,7 +79,7 @@ class ForgotPasswordView: UIView {
         dismissButton.snp.makeConstraints { (make) in
             make.top.equalTo(self.snp.top)
             make.left.equalTo(self.snp.left)
-            make.size.equalTo(self.snp.size).multipliedBy(0.1)
+            make.size.equalTo(self.snp.size).multipliedBy(0.15)
             
         }
     }
