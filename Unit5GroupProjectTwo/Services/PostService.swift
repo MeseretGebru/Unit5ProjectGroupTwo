@@ -26,7 +26,7 @@ class PostService {
     public func getDB()-> DatabaseReference { return dbRef }
     public func getPostsRef() -> DatabaseReference {return postRef}
 
-    public func getPosts(completionHandler: @escaping ([Post]?) -> Void) {
+    public func getPosts(completionHandler: @escaping ([Post]) -> Void) {
         var posts = [Post]()
         postRef.observe(.value) { (snapShot) in
             for post in snapShot.children {
@@ -102,7 +102,7 @@ class PostService {
             var result = [String]()
             print("====================\n")
             for value in snapshot.children {
-                var newValue = value as! DataSnapshot
+                let newValue = value as! DataSnapshot
                     if let something = newValue.value as? String {
                     result.append(something)
                     }

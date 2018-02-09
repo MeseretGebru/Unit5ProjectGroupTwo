@@ -43,7 +43,7 @@ struct UserProfile {
         let value = snapShot.value as? [String: Any]
         self.ref = snapShot.ref
         self.userId = snapShot.ref.key
-        self.user = value?["user"] as! String
+        self.user = value?["user"] as? String ?? ""
         self.displayName = value?["displayName"] as? String ?? ""
         self.email = value?["email"] as? String ?? ""
         self.lastLogin = value?["lastLogin"] as? String ?? ""

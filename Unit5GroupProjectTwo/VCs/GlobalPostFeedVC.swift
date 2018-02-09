@@ -60,11 +60,11 @@ class GlobalPostFeedVC: UIViewController {
     func loadPosts() {
       
         PostService.manager.getPosts { (onlinePosts) in
-            if let safePosts = onlinePosts {
+             let safePosts = onlinePosts
             self.posts = safePosts
             let sortedPosts = safePosts.sorted(by: {$0.countOfUp > $1.countOfUp })
             self.populatedPosts = sortedPosts
-        }
+        
         }
     }
     

@@ -43,8 +43,8 @@ struct UserService {
         userRef.observe(.value) { (snapShot) in
             for user in snapShot.children {
                 let onlineUser = UserProfile(snapShot: user as! DataSnapshot)
-                print(onlineUser.email, uid)
-                if onlineUser.email == uid {
+               // print(onlineUser.email, uid)
+                if onlineUser.user == uid {
                     completion(onlineUser)
                     return
             
