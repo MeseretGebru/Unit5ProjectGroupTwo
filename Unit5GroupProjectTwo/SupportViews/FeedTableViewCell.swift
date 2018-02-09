@@ -49,6 +49,11 @@ class FeedTableViewCell: UITableViewCell {
         butt.imageView?.contentMode = .scaleAspectFit
         return butt
     }()
+    lazy var upvoteCount: UILabel = {
+       let lab = UILabel()
+        lab.textAlignment = .center
+        return lab
+    }()
     lazy var downvoteButton: UIButton = {
         let butt = UIButton()
         butt.setImage(#imageLiteral(resourceName: "ThumbDown"), for: .normal)
@@ -154,6 +159,7 @@ class FeedTableViewCell: UITableViewCell {
             
         }
         actionsStackView.addSubview(upvoteButton)
+        actionsStackView.addSubview(upvoteCount)
         actionsStackView.addSubview(downvoteButton)
         actionsStackView.addSubview(commentButton)
         actionsStackView.addSubview(moreButton)
@@ -165,9 +171,16 @@ class FeedTableViewCell: UITableViewCell {
             make.bottom.equalToSuperview()
             make.width.equalTo(25)
         }
+        upvoteCount.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview()
+            make.leadingMargin.equalTo(upvoteButton.snp.trailing).offset(15)
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.width.equalTo(25)
+        }
         downvoteButton.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
-            make.leadingMargin.equalTo(upvoteButton.snp.trailing).offset(20)
+            make.leadingMargin.equalTo(upvoteCount.snp.trailing).offset(15)
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
             make.width.equalTo(25)
@@ -190,7 +203,7 @@ class FeedTableViewCell: UITableViewCell {
 
     func configureCell(from post: Post) {
         titleLabel.text = post.postTitle
-        
+        upvoteCount.text = "\(post.countOfUp)"
         // userLabel.text =
         let postOwnerUID = post.user
         UserService.manager.getUser(uid: postOwnerUID, completion: { (onlineUser) in
