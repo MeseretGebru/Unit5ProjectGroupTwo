@@ -140,7 +140,7 @@ extension UserPostsVC: UITableViewDataSource, UITableViewDelegate {
             cell.titleLabel.text = post.postTitle
             let haveUser: (UserProfile?) -> Void = { user in
                 guard let user = user else { return }
-                cell.userLabel.text = user.displayName
+                cell.userName.text = user.displayName
                 let userImageUrl = user.imageURL
                 cell.userImageView.kf.setImage(with: URL(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil) { (image, error, cacherType, url) in
                 }
