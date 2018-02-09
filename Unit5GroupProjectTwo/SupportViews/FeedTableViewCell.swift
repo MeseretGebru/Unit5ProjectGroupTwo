@@ -17,8 +17,15 @@ class FeedTableViewCell: UITableViewCell {
         img.contentMode = .scaleAspectFill
         return img
     }()
-    lazy var userLabel: UILabel = {
+    lazy var userName: UILabel = {
         let lab = UILabel()
+        lab.font = UIFont(name: "Arial", size: 18)
+        return lab
+    }()
+    lazy var userEmail: UILabel = {
+        let lab = UILabel()
+        lab.font = UIFont(name: "Arial", size: 14)
+        lab.textColor = UIColor.lightGray
         return lab
     }()
     lazy var titleLabel: UILabel = {
@@ -107,10 +114,15 @@ class FeedTableViewCell: UITableViewCell {
         }
     }
     func setupUserLabel() {
-        addSubview(userLabel)
-        userLabel.snp.makeConstraints { (make) in
+        addSubview(userName)
+        addSubview(userEmail)
+        userName.snp.makeConstraints { (make) in
             make.leading.equalTo(userImageView.snp.trailing).offset(15)
             make.top.equalToSuperview().offset(15)
+        }
+        userEmail.snp.makeConstraints { (make) in
+            make.leading.equalTo(userName.snp.leading)
+            make.top.equalTo(userName.snp.bottom).offset(4)
         }
     }
     func setupTitleLabel() {
@@ -182,7 +194,8 @@ class FeedTableViewCell: UITableViewCell {
         // userLabel.text =
         let postOwnerUID = post.user
         UserService.manager.getUser(uid: postOwnerUID, completion: { (onlineUser) in
-            self.userLabel.text = onlineUser?.displayName
+            self.userName.text = onlineUser?.displayName
+            self.userEmail.text = onlineUser?.email
             if let userImageUrl = onlineUser?.imageURL {
                 self.userImageView.kf.indicatorType = .activity
                 self.userImageView.kf.setImage(with: URL.init(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, url) in

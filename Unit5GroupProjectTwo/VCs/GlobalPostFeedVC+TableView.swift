@@ -27,9 +27,13 @@ extension GlobalPostFeedVC: UITableViewDelegate {
         
     }
     
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        
-//    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if posts.count == 0 {
+            return view.layer.bounds.height * 0.70
+        } else {
+            return UITableViewAutomaticDimension
+        }
+    }
     
 }
 
