@@ -7,6 +7,11 @@ target 'Unit5GroupProjectTwo' do
     pod 'Firebase/Core'
     pod 'Firebase/Auth'
     pod 'Firebase/Database'
+    pod 'Firebase/Storage'
+    pod 'SnapKit'
+    pod 'Kingfisher'
+    pod 'Toucan'
+
 
   # Pods for Unit5GroupProjectTwo
 
