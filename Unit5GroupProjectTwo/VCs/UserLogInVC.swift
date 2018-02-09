@@ -168,9 +168,9 @@ class UserLogInVC: UIViewController {
                     
                 }
                 
-                if let userImage = self.userProfileImage.image {
-                    UserService.manager.saveNewUser(imageProfile: userImage)
-                }
+//                if let userImage = self.userProfileImage.image {
+//                    UserService.manager.saveNewUser(imageProfile: userImage)
+//                }
                 
                 Auth.auth().currentUser?.sendEmailVerification { (error) in
                     if error == nil {
@@ -184,8 +184,12 @@ class UserLogInVC: UIViewController {
                             self.userSignUpView.passwordTextField.text = ""
                         })
                         ac.addAction(okAction)
-                        self.present(ac, animated: true, completion: nil)
-                        
+                        self.present(ac, animated: true, completion: {
+                            if let userImage = self.userProfileImage.image {
+                                UserService.manager.saveNewUser(imageProfile: userImage)
+                            }
+                            
+                        })
                     }
                     
                 }
