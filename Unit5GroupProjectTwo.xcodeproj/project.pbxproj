@@ -239,6 +239,7 @@
 				81E7C418202637250067136B /* UpvotedPostsView.swift */,
 				81157D4A2023B850000B765B /* UserPostsView.swift */,
 				81157D402023B5BF000B765B /* PostDetailView.swift */,
+				81B9AE582020333D0045622F /* NewPostView.swift */,
 			);
 			path = VCViews;
 			sourceTree = "<group>";
@@ -320,7 +321,6 @@
 		81E7C4132026230C0067136B /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				81B9AE582020333D0045622F /* NewPostView.swift */,
 				81E7C41A2026379A0067136B /* GlobalPostFeed.storyboard */,
 			);
 			path = Storyboards;
@@ -452,6 +452,7 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Toucan/Toucan.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -461,6 +462,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toucan.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
