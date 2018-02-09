@@ -1,4 +1,3 @@
-# Unit5ProjectGroupTwo
 # Unit 5 - Project two [Group Two]
 <img src=https://c4q-accesscode-4-3.slack.com/files/U74MZ76MR/F93FVUEN4/phlogger.png>
 
@@ -6,7 +5,25 @@
 Powered by Firebase, this app lets a user post their favorite pictures online, and gets comments and likes. The app has fetures to change a password and change the user's profile picture. This app can also show other peoples posts. It will also show how many upvots the user gets.
 
 ## Gifs
-|   <img>        |        <img>       |
+|User login page|User Main post feed |
+|:-------------:|:------------:|
+|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|
+
+|User setting page|User profile page|
+|:-------------:|:------------:|
+|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|
+
+|User creating a new post|User upvoting a post|
+|:-------------:|:------------:|
+|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|
+
+|place holder|place holder|
+|:-------------:|
+|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|
+
+|place holder|place holder|
+|:-------------:|:-------------:|
+|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|
 
 ## Features
 - users can post pictures and texts
