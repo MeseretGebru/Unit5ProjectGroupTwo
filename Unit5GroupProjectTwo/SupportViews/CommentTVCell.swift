@@ -20,7 +20,7 @@ class CommentTVCell: UITableViewCell {
     
     lazy var commentLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .justified
+//        label.textAlignment = .justified
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         return label
