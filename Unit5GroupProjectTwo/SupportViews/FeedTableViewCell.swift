@@ -68,7 +68,7 @@ class FeedTableViewCell: UITableViewCell {
         return butt
     }()
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: "FeedTableCell")
+        super.init(style: style, reuseIdentifier: "FeedCell")
         commonInit()
     }
     required init?(coder aDecoder: NSCoder) {
@@ -136,10 +136,11 @@ class FeedTableViewCell: UITableViewCell {
     func setupFeedImageView() {
         addSubview(feedImageView)
         feedImageView.snp.makeConstraints { (make) in
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.top.equalTo(titleLabel.snp.bottom).offset(8)
-            make.height.equalTo(400)
+            make.width.equalToSuperview()
+            make.centerX.equalTo(snp.centerX)
+            //make.trailing.equalToSuperview()
+            make.top.equalTo(titleLabel.snp.bottom)
+            make.bottom.equalTo(snp.bottom).offset(-30)
         }
     }
     func setupActionStackView() {
@@ -148,9 +149,9 @@ class FeedTableViewCell: UITableViewCell {
         actionsStackView.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
-            make.top.equalTo(feedImageView.snp.bottom).offset(15)
+            make.top.equalTo(feedImageView.snp.bottom)
             make.bottom.equalToSuperview().offset(-8)
-            make.height.equalTo(25)
+            make.height.equalTo(40)
             
         }
         actionsStackView.addSubview(upvoteButton)
