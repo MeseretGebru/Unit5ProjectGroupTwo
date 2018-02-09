@@ -22,7 +22,7 @@ import Firebase
 
 class UserLogInVC: UIViewController {
     
-    var activeTextField: UITextField!
+    var activeTextField: UITextField = UITextField()
     
     let userLoginView = UserLoginView()
     let userSignUpView = SignUpView()
@@ -121,7 +121,7 @@ class UserLogInVC: UIViewController {
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if let _ = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y != 0{
                 view.snp.remakeConstraints({ (make) in
                     let screenRect = UIScreen.main.bounds
