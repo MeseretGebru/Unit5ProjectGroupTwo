@@ -100,19 +100,23 @@ class UserLogInVC: UIViewController {
                 print(newBottomOfScreen)
                 if bottomOfTextField > newBottomOfScreen {
                     let amountToShiftUp = bottomOfTextField - newBottomOfScreen
-                    self.view.snp.remakeConstraints({ (make) in
-                        make.top.equalTo(0).offset(-amountToShiftUp)
-                        make.leading.equalTo(0)
-                        make.width.equalTo(UIScreen.main.bounds.width)
-                        make.height.equalTo(UIScreen.main.bounds.height)
-                        make.bottom.equalTo(UIScreen.main.bounds.height).offset(-amountToShiftUp)
-                    })
+//                    UIView.animate(withDuration: 2, animations: {
+                        self.view.frame.origin.y -= amountToShiftUp
+//                    })
+//                    self.view.frame.origin.y -= amountToShiftUp
+//                    self.view.snp.remakeConstraints({ (make) in
+//                        make.top.equalTo(0).offset(-amountToShiftUp)
+//                        make.leading.equalTo(0)
+//                        make.width.equalTo(UIScreen.main.bounds.width)
+//                        make.height.equalTo(UIScreen.main.bounds.height)
+//                        make.bottom.equalTo(UIScreen.main.bounds.height).offset(-amountToShiftUp)
+//                    })
                     
                     // TODO:- fix this part, not working
-                    UIView.animate(withDuration: 10, animations: {
-                        self.view.updateConstraints()
-                        self.view.layoutIfNeeded()
-                    })
+//                    UIView.animate(withDuration: 10, animations: {
+//                        self.view.updateConstraints()
+//                        self.view.layoutIfNeeded()
+//                    })
                 }
                 
             
@@ -123,13 +127,14 @@ class UserLogInVC: UIViewController {
     @objc func keyboardWillHide(notification: NSNotification) {
         if let _ = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y != 0{
-                view.snp.remakeConstraints({ (make) in
-                    let screenRect = UIScreen.main.bounds
-                    make.top.equalTo(0)
-                    make.leading.equalTo(0)
-                    make.width.equalTo(screenRect.width)
-                    make.height.equalTo(screenRect.height)
-                })
+                view.frame.origin.y = 0
+//                view.snp.remakeConstraints({ (make) in
+//                    let screenRect = UIScreen.main.bounds
+//                    make.top.equalTo(0)
+//                    make.leading.equalTo(0)
+//                    make.width.equalTo(screenRect.width)
+//                    make.height.equalTo(screenRect.height)
+//                })
             }
         }
     }

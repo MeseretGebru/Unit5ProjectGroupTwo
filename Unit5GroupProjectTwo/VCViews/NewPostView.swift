@@ -162,7 +162,7 @@ class NewPostView: UIScrollView {
     private func setupTitleContainer() {
         addSubview(titleContainer)
         titleContainer.snp.makeConstraints { (make) in
-            make.top.equalTo(snp.top).offset(20)
+            make.top.equalTo(snp.top).offset(8)
             make.leading.equalTo(snp.leading)
             make.centerX.equalTo(snp.centerX)
             make.width.equalTo(snp.width)
