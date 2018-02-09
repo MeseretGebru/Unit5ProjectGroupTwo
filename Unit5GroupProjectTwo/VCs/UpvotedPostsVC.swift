@@ -32,33 +32,36 @@ class UpvotedPostsVC: UIViewController {
             }
         }
     }
+    /*
     func loadPosts() {
         let userUid = Auth.auth().currentUser!.uid
-        var upvotedPosts = [Post]()
         PostService.manager.getPosts { (onlinePosts) in
+            var upvotedPosts = [Post]()
+            
             for post in onlinePosts {
                 
-                PostService.manager.getVoteUsersDict(childRef: post.postId, completion: { (upvoteArr) in
-                   
-                   let exist = upvoteArr.index(where: {$0 == userUid })
-                    if exist != nil {
-                        upvotedPosts.append(post)
-                    }
-                })
+                    PostService.manager.getVoteUsersDict(childRef: post.postId, completion: { (upvoteArr) in
+                        
+                        let exist = upvoteArr.index(where: {$0 == userUid })
+                        if exist != nil {
+                            upvotedPosts.append(post)
+                        }
+                    })
             }
-          
+            self.posts = upvotedPosts
             }
-        self.posts = upvotedPosts
       
     }
-    
+    */
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavBar()
+        navigationItem.title = "Upvoted"
         view.backgroundColor = .white
-     //   addSubViews()
-        
+       setupFeedView()
+        feedView.tableView.delegate = self
+        feedView.tableView.dataSource = self
+      //  loadPosts()
         navigationItem.leftBarButtonItem = menuButt
         
         if self.revealViewController() != nil {
@@ -68,11 +71,12 @@ class UpvotedPostsVC: UIViewController {
         }
         
     }
-    func configureNavBar() {
-        navigationItem.title = "Upvoted"
-     
-        
+  
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+      //  self.loadPosts()
     }
+   
  
  
     
@@ -80,8 +84,11 @@ class UpvotedPostsVC: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    func addConstraints(){
-
+    func setupFeedView() {
+        self.view.addSubview(feedView)
+        feedView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
     }
     @objc func moreButtonPressed(sender: UIButton) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -99,7 +106,7 @@ class UpvotedPostsVC: UIViewController {
     @objc func upvotePressed(sender: UIButton) {
         let ref = self.posts[sender.tag].postId
         let userUid = Auth.auth().currentUser!.uid
-        PostService.manager.updateVoteUsers(childRef: ref, userUid: userUid)
+      //  PostService.manager.updateVoteUsers(childRef: ref, userUid: userUid)
         PostService.manager.updateUpVote(of: self.posts[sender.tag])
     }
     @objc func downvotePressed(sender: UIButton) {
@@ -120,15 +127,16 @@ extension UpvotedPostsVC: UITableViewDelegate, UITableViewDataSource {
         cell.moreButton.tag = indexPath.row
         cell.upvoteButton.addTarget(self, action: #selector(upvotePressed(sender:)), for: .touchUpInside)
         cell.downvoteButton.addTarget(self, action: #selector(downvotePressed(sender:)), for: .touchUpInside)
+        
         return cell
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return posts.count
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "You have 0 upvoted posts."
+        return "You have \(posts.count) upvoted posts."
     }
 }

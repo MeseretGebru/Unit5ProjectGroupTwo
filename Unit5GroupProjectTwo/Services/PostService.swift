@@ -97,6 +97,8 @@ class PostService {
         }
         post.ref.child("flaged").setValue(true)
     }
+}
+    /*
     public func getVoteUsersDict(childRef: String, completion: @escaping ([String]) -> Void) {
         postRef.child(childRef).child("voteUsers").observe(.value) { (snapshot) in
             var result = [String]()
@@ -108,24 +110,27 @@ class PostService {
                     }
             }
             completion(result)
-//            let dict = snapshot.value as! [String]
-//            print("the snapShot data is \n")
-//            print(dict)
-//            result = dict
+
         }
     }
     
     public func updateVoteUsers(childRef: String, userUid: String) {
           var arr = [String]()
         PostService.manager.getVoteUsersDict(childRef: childRef) { (onlineArr) in
-            print("==================")
-            print(onlineArr)
+    
+            
             arr = onlineArr
+            if !arr.contains(userUid) {
             arr.append(userUid)
+            } else {
+                let index = arr.index(where: {$0 == userUid})
+                arr.remove(at: index! as Int)
+            }
             self.postRef.child(childRef).child("voteUsers").setValue(arr)
+            }
+        
         }
-       
-      
-    }
+    
 }
+ */
 
