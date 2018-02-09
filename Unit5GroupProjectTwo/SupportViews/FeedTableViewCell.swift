@@ -7,18 +7,19 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class FeedTableViewCell: UITableViewCell {
 
     lazy var userImageView: UIImageView = {
         let img = UIImageView()
-        img.backgroundColor = .blue
+     //   img.backgroundColor = .blue
         img.contentMode = .scaleAspectFill
         return img
     }()
     lazy var userLabel: UILabel = {
         let lab = UILabel()
-        lab.text = "UserNameHere"
+     //   lab.text = "UserNameHere"
         lab.backgroundColor = UIColor.orange
         return lab
     }()
@@ -29,13 +30,12 @@ class FeedTableViewCell: UITableViewCell {
     }()
     lazy var feedImageView: UIImageView = {
         let img = UIImageView()
-        img.backgroundColor = .red
        img.contentMode = .scaleAspectFit
         return img
     }()
     lazy var actionsStackView: UIView = {
         let view = UIView()
-        view.backgroundColor = .yellow
+       // view.backgroundColor = .yellow
         return view
     }()
     lazy var upvoteButton: UIButton = {
@@ -176,6 +176,29 @@ class FeedTableViewCell: UITableViewCell {
             make.bottom.equalToSuperview()
             make.width.equalTo(25)
         }
+    }
+    func configureCell(from post: Post) {
+                titleLabel.text = post.postTitle
+        
+             // userLabel.text =
+                let postOwnerUID = post.user
+                    UserService.manager.getUser(uid: postOwnerUID, completion: { (onlineUser) in
+                        self.userLabel.text = onlineUser?.displayName
+                        if let userImageUrl = onlineUser?.imageURL {
+                            self.userImageView.kf.indicatorType = .activity
+                            self.userImageView.kf.setImage(with: URL.init(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, url) in
+                                
+                            })
+                
+                        }
+                        
+                    })
+       let imageUrl = post.imageURL
+        feedImageView.kf.indicatorType = .activity
+        feedImageView.kf.setImage(with: URL.init(string: imageUrl) , placeholder: #imageLiteral(resourceName: "noImage"), options: nil, progressBlock: nil) { (image, error, cacheType, url) in
+            
+        }
+        
     }
 
 }
