@@ -129,74 +129,41 @@ extension UserPostsVC: UITableViewDataSource, UITableViewDelegate {
     
     //copied from feed table view
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //        let cell = UITableViewCell()
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! FeedTableViewCell
+         cell.layoutIfNeeded()
         if tableView == userPostsView.postTableView {
             let post = posts[indexPath.row]
-            PostService.manager.getImagePost(urlImage: post.imageURL) { (image) in
-                cell.feedImageView.image = image
-                cell.titleLabel.text = post.postContent
-                cell.layoutIfNeeded()
-            }
-            // add handles to these buttons in cell
-            cell.moreButton.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
-            cell.upvoteButton.tag = indexPath.row
-            cell.downvoteButton.tag = indexPath.row
-            cell.moreButton.tag = indexPath.row
-            cell.upvoteButton.addTarget(self, action: #selector(self.upvotePressed(sender:)), for: .touchUpInside)
-            cell.downvoteButton.addTarget(self, action: #selector(downvotePressed(sender:)), for: .touchUpInside)
-            
-            
-            guard self.posts.count > 0 else {
-                switch indexPath.row {
-                case 0:
-                    cell.feedImageView.image = #imageLiteral(resourceName: "dogs")
-                case 1:
-                    cell.feedImageView.image = #imageLiteral(resourceName: "panda")
-                case 2:
-                    cell.feedImageView.image = #imageLiteral(resourceName: "ThumbUp")
-                case 3:
-                    cell.feedImageView.image = #imageLiteral(resourceName: "uggDog")
-                case 4:
-                    cell.feedImageView.image = #imageLiteral(resourceName: "cards")
-                case 5:
-                    cell.feedImageView.image = #imageLiteral(resourceName: "Dakota_instaweb")
-                default:
-                    cell.feedImageView.image = #imageLiteral(resourceName: "ante")
-                }
-                return cell
-            }
-            //            }
-            
-            print(posts.count)
-            
-            //let post = posts[indexPath.row]
-            // cell.titleLabel.text = post.postTitle
-            //cell.userImageView.image = PostService.manager.getImagePost(urlImage: post.imageURL)
-        }
-        
-        cell.setNeedsLayout()
-        return cell
-        //        } else if tableView == popularFeedView.tableView {
-        //            let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell
-        //            cell.titleLabel.text = "it's popular feed cell"
-        //            return cell
-        //        }
-        //        return cell
-        
-        
-    }
-    @objc func upvotePressed(sender: UIButton) {
-        PostService.manager.updateUpVote(of: self.posts[sender.tag])
-    }
-    @objc func downvotePressed(sender: UIButton) {
-        PostService.manager.updateDownVote(of: self.posts[sender.tag])
-    }
-    @objc func moreButtonPressed() {
-        
+           cell.configureCell(from: post)
+            cell.setNeedsLayout()
+            return cell
+//            PostService.manager.getImagePost(urlImage: post.imageURL) { (image) in
+//                cell.feedImageView.image = image
+//                cell.titleLabel.text = post.postContent
+//                cell.layoutIfNeeded()
+//            }
+//            // add handles to these buttons in cell
+//            cell.moreButton.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
+//            cell.upvoteButton.tag = indexPath.row
+//            cell.downvoteButton.tag = indexPath.row
+//            cell.moreButton.tag = indexPath.row
+//            cell.upvoteButton.addTarget(self, action: #selector(self.upvotePressed(sender:)), for: .touchUpInside)
+//            cell.downvoteButton.addTarget(self, action: #selector(downvotePressed(sender:)), for: .touchUpInside)
+//
+//        }
+//        return cell
     }
     
+//    @objc func upvotePressed(sender: UIButton) {
+//        PostService.manager.updateUpVote(of: self.posts[sender.tag])
+//    }
+//    @objc func downvotePressed(sender: UIButton) {
+//        PostService.manager.updateDownVote(of: self.posts[sender.tag])
+//    }
+//    @objc func moreButtonPressed() {
+//
+    
+    return cell
+    }
 }
 
 
