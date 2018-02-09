@@ -23,7 +23,7 @@ struct UserProfile {
     var lastLogin: String
     var numberOfFlags: Int
     var imageURL: String
-
+  
    // var voteGave: Int
     // preparing info to save into firebase
     init(ref: DatabaseReference, user: User, displayName: String, email: String, lastLogin: String, numberOfFlags: Int, imageURL: String){
@@ -36,7 +36,6 @@ struct UserProfile {
         self.numberOfFlags = numberOfFlags
         self.imageURL = imageURL
         self.displayName = displayName
-        self.email = email
     }
     
     // take info from firebase
@@ -44,7 +43,7 @@ struct UserProfile {
         let value = snapShot.value as? [String: Any]
         self.ref = snapShot.ref
         self.userId = snapShot.ref.key
-        self.user = value?["user"] as! String
+        self.user = value?["user"] as? String ?? ""
         self.displayName = value?["displayName"] as? String ?? ""
         self.email = value?["email"] as? String ?? ""
         self.lastLogin = value?["lastLogin"] as? String ?? ""

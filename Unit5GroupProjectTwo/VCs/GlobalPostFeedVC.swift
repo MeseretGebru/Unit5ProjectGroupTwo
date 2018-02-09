@@ -60,11 +60,11 @@ class GlobalPostFeedVC: UIViewController {
     func loadPosts() {
       
         PostService.manager.getPosts { (onlinePosts) in
-            if let safePosts = onlinePosts {
+             let safePosts = onlinePosts
             self.posts = safePosts
             let sortedPosts = safePosts.sorted(by: {$0.countOfUp > $1.countOfUp })
             self.populatedPosts = sortedPosts
-        }
+        
         }
     }
     
@@ -82,8 +82,11 @@ class GlobalPostFeedVC: UIViewController {
         popularFeedView.tableView.dataSource = self
         
         navigationItem.leftBarButtonItem = menuButt
-//        feedView.tableView.rowHeight = UITableViewAutomaticDimension
-//        popularFeedView.tableView.rowHeight = UITableViewAutomaticDimension
+
+        feedView.tableView.estimatedRowHeight = UITableViewAutomaticDimension
+        feedView.tableView.rowHeight = UITableViewAutomaticDimension
+        popularFeedView.tableView.rowHeight = UITableViewAutomaticDimension
+
         
         if self.revealViewController() != nil {
             menuButt.target = self.revealViewController()
@@ -146,6 +149,9 @@ class GlobalPostFeedVC: UIViewController {
     }
     
     @objc func upvotePressed(sender: UIButton) {
+        let ref = self.posts[sender.tag].postId
+        let userUid = Auth.auth().currentUser!.uid
+        PostService.manager.updateVoteUsers(childRef: ref, userUid: userUid)
         PostService.manager.updateUpVote(of: self.posts[sender.tag])
     }
     @objc func downvotePressed(sender: UIButton) {
