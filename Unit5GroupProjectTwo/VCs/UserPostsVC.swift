@@ -130,12 +130,31 @@ extension UserPostsVC: UITableViewDataSource, UITableViewDelegate {
     //copied from feed table view
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! FeedTableViewCell
+        tableView.estimatedRowHeight = 150
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
          cell.layoutIfNeeded()
         if tableView == userPostsView.postTableView {
             let post = posts[indexPath.row]
-           cell.configureCell(from: post)
+            
+            cell.titleLabel.text = post.postTitle
+            let haveUser: (UserProfile?) -> Void = { user in
+                guard let user = user else { return }
+                cell.userLabel.text = user.displayName
+                let userImageUrl = user.imageURL
+                cell.userImageView.kf.setImage(with: URL(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil) { (image, error, cacherType, url) in
+                }
+            }
+                let postOwnerUID = post.user
+                UserService.manager.getUser(uid: postOwnerUID, completion: haveUser)
+                let imageUrl = post.imageURL
+                cell.feedImageView.kf.indicatorType = .activity
+                cell.feedImageView.kf.setImage(with: URL.init(string: imageUrl) , placeholder: #imageLiteral(resourceName: "noImage"), options: nil, progressBlock: nil) { (image, error, cacheType, url) in
+                    
+            
+           /*cell.configureCell(from: post)
             cell.setNeedsLayout()
-            return cell
+            return cell*/
 //            PostService.manager.getImagePost(urlImage: post.imageURL) { (image) in
 //                cell.feedImageView.image = image
 //                cell.titleLabel.text = post.postContent
@@ -164,7 +183,10 @@ extension UserPostsVC: UITableViewDataSource, UITableViewDelegate {
     
     return cell
     }
+        return cell
 }
-
+    
+   
+}
 
 
