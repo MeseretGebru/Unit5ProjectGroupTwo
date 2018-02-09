@@ -133,7 +133,7 @@ extension UserPostsVC: UITableViewDataSource, UITableViewDelegate {
         tableView.estimatedRowHeight = 150
         tableView.rowHeight = UITableViewAutomaticDimension
         
-         cell.layoutIfNeeded()
+        cell.layoutIfNeeded()
         if tableView == userPostsView.postTableView {
             let post = posts[indexPath.row]
             
@@ -145,48 +145,19 @@ extension UserPostsVC: UITableViewDataSource, UITableViewDelegate {
                 cell.userImageView.kf.setImage(with: URL(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil) { (image, error, cacherType, url) in
                 }
             }
-                let postOwnerUID = post.user
-                UserService.manager.getUser(uid: postOwnerUID, completion: haveUser)
-                let imageUrl = post.imageURL
-                cell.feedImageView.kf.indicatorType = .activity
-                cell.feedImageView.kf.setImage(with: URL.init(string: imageUrl) , placeholder: #imageLiteral(resourceName: "noImage"), options: nil, progressBlock: nil) { (image, error, cacheType, url) in
-                    
+            let postOwnerUID = post.user
+            UserService.manager.getUser(uid: postOwnerUID, completion: haveUser)
+            let imageUrl = post.imageURL
+            cell.feedImageView.kf.indicatorType = .activity
+            cell.feedImageView.kf.setImage(with: URL.init(string: imageUrl) , placeholder: #imageLiteral(resourceName: "noImage"), options: nil, progressBlock: nil) { (image, error, cacheType, url) in
+            }
             
-           /*cell.configureCell(from: post)
-            cell.setNeedsLayout()
-            return cell*/
-//            PostService.manager.getImagePost(urlImage: post.imageURL) { (image) in
-//                cell.feedImageView.image = image
-//                cell.titleLabel.text = post.postContent
-//                cell.layoutIfNeeded()
-//            }
-//            // add handles to these buttons in cell
-//            cell.moreButton.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
-//            cell.upvoteButton.tag = indexPath.row
-//            cell.downvoteButton.tag = indexPath.row
-//            cell.moreButton.tag = indexPath.row
-//            cell.upvoteButton.addTarget(self, action: #selector(self.upvotePressed(sender:)), for: .touchUpInside)
-//            cell.downvoteButton.addTarget(self, action: #selector(downvotePressed(sender:)), for: .touchUpInside)
-//
-//        }
-//        return cell
-    }
-    
-//    @objc func upvotePressed(sender: UIButton) {
-//        PostService.manager.updateUpVote(of: self.posts[sender.tag])
-//    }
-//    @objc func downvotePressed(sender: UIButton) {
-//        PostService.manager.updateDownVote(of: self.posts[sender.tag])
-//    }
-//    @objc func moreButtonPressed() {
-//
-    
-    return cell
-    }
+            return cell
+        }
         return cell
-}
+    }
     
-   
+    
 }
 
 
