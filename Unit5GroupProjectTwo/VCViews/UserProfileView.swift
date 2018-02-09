@@ -23,14 +23,14 @@ class UserProfileView: UIView {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
-    
-    lazy var changePictureButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Change Pictuer" , for: .normal)
-        button.setTitleColor(.blue, for: .normal)
-        // button.imageView?.contentMode = .scaleAspectFill
-        return button
-    }()
+//
+//    lazy var changePictureButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("Change Pictuer" , for: .normal)
+//        button.setTitleColor(.blue, for: .normal)
+//        // button.imageView?.contentMode = .scaleAspectFill
+//        return button
+//    }()
     
     // Number of posts label
     lazy var numberOfPostsLabel: UILabel = {
@@ -64,7 +64,6 @@ class UserProfileView: UIView {
         stackView.spacing = 20.0
         return stackView
     }()
-    
     
     // A button that shows posts View
     lazy var postsButton: UIButton = {
@@ -104,12 +103,6 @@ class UserProfileView: UIView {
     private func setupHeader() {
         addSubview(userNameLabel)
         addSubview(profileImage)
-        //addSubview(changePictureButton)
-       // userNameLabel.snp.makeConstraints { (label) in
-//            label.top.equalTo(snp.top).offset(16)
-//            label.centerX.equalTo(snp.centerX)
-//        }
-        
         profileImage.snp.makeConstraints { (image) in
             image.top.equalTo(self.snp.top).offset(16)
             image.centerX.equalTo(snp.centerX)
@@ -132,7 +125,6 @@ class UserProfileView: UIView {
             stack.top.equalTo(userNameLabel.snp.bottom).offset(32)
             stack.centerX.equalTo(snp.centerX)
         }
-        
     }
     
     private func setupButton() {
@@ -142,7 +134,6 @@ class UserProfileView: UIView {
             button.centerX.equalTo(snp.centerX)
         }
     }
-
     
 }
 

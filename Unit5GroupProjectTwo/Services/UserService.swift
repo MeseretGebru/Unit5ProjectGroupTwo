@@ -39,21 +39,24 @@ struct UserService {
     }
     
     public func getUser(uid: String, completion: @escaping (UserProfile?) -> Void) {
-        var customUser: UserProfile!
-        userRef.child("users").observe(.value) { (snapShot) in
+
+        userRef.observe(.value) { (snapShot) in
             for user in snapShot.children {
                 let onlineUser = UserProfile(snapShot: user as! DataSnapshot)
-                if onlineUser.userId == uid {
-                    customUser = onlineUser
+                print(onlineUser.email, uid)
+                if onlineUser.email == uid {
+                    completion(onlineUser)
+                    return
+            
                 }
             }
-            completion(customUser)
         }
     }
     
     
     public func saveNewUser(imageProfile: UIImage) {
         let newUser = userRef.childByAutoId()
+
         let user = UserProfile(ref: newUser, user: currentUser, displayName: currentUser.displayName!, email: currentUser.email!, lastLogin: getDate(), numberOfFlags: 0, imageURL: "")
         newUser.setValue(user.toAnyObject()){ (error, dbRef) in
             if let error = error {
@@ -108,7 +111,13 @@ struct UserService {
         return dateStr
     }
     
+<<<<<<< HEAD
     public func setUserImage(image: UIImage) {
+||||||| merged common ancestors
+    private func setUserImage(image: UIImage) {
+=======
+    func setUserImage(image: UIImage) {
+>>>>>>> 996c6a070972a2287f7188bf6f32efb075ee5334
         userRef.observe(.value) { (snapShot) in
             for user in snapShot.children {
                 let userSaved = UserProfile(snapShot: user as! DataSnapshot)
@@ -117,7 +126,7 @@ struct UserService {
                 }
             }
         }
-        
-        
     }
+        
+    
 }

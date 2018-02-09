@@ -26,13 +26,13 @@ struct Post {
     let flaged: Bool
     // preparing info to save into firebase
     init(ref: DatabaseReference,
-         user: User, postContent: String,
+         user: String, postContent: String,
          postTitle: String,
          imageURL: String, countOfUp: Int, countOfDown: Int, flaged: Bool){
         
         self.ref = ref
         self.postId = ref.key
-        self.user = user.uid
+        self.user = user
         self.postContent = postContent
         self.postTitle = postTitle
         self.imageURL = imageURL
@@ -59,7 +59,8 @@ struct Post {
     
     // transform info previous to save
     func toAnyObject() -> [String: Any] {
-        return ["postId" : postId, "user": user, "postContent" : postContent, "postTitle" : postTitle, "imageURL": imageURL, "countOfUp": countOfUp, "countOfDown": countOfDown, "flaged": flaged]
+        return ["postId" : postId, "user": user,
+                "postContent" : postContent, "postTitle" : postTitle, "imageURL": imageURL, "countOfUp": countOfUp, "countOfDown": countOfDown, "flaged": flaged]
     }
   
     
