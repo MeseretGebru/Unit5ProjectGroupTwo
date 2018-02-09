@@ -9,8 +9,8 @@
 import Foundation
 import FirebaseAuth
 import FirebaseDatabase
-/*
-struct VoteService {
+
+class VoteService {
     private init() {
         dbRef = Database.database().reference()
         voteRef = dbRef.child("Vote")
@@ -25,28 +25,45 @@ struct VoteService {
     
     public func getDB()-> DatabaseReference { return dbRef }
     
-    public func getVotes(from post: String, completionHandler: @escaping ([Vote]) -> Void) {
-        var votes = [Vote]()
-       // let someV = voteRef.child("Vote")
+    public func getVotes(from postId: String, completionHandler: @escaping ([Vote]) -> Void) {
         voteRef.observe(.value) { (snapShop) in
+            var votes = [Vote]()
             for child in snapShop.children {
-              let dataSnapshot = child as! DataSnapshot
-                let vote = Vote(snapShot: dataSnapshot)
-               votes.append(vote)
+                let newVote = Vote(snapShot: child as! DataSnapshot)
+                if newVote.postId == postId, newVote.upVote > 0 || newVote.downVote > 0 {
+                    votes.append(newVote)
+                }
             }
             completionHandler(votes)
         }
     }
     
-    public func saveNewVote(voteKey: String, upVote: Bool, downVote: Bool) {
+    public func saveNewVote(postId: String, upVote: Int?, downVote: Int?) {
         let newVote = voteRef.childByAutoId()
-        
-//        let vote = Vote(voteRef: newVote, user: currentUser, upVote: upVote, downVote: downVote, countOfUp: <#T##Int#>, countOfDown: <#T##Int#>)
-//        voteRef.setValue(<#T##value: Any?##Any?#>) { (<#Error?#>, <#DatabaseReference#>) in
-//            <#code#>
-//        }
-//
+        var voteUp = upVote ?? 0
+        var voteDown = downVote ?? 0
+        voteRef.observe(.value) { (snapShot) in
+            for vote in snapShot.children {
+                let newVote = Vote(snapShot: vote as! DataSnapshot)
+                if newVote.postId == postId, newVote.upVote > 0 {
+                    if newVote.upVote > 0 {
+                        if voteUp != 0 {
+                            voteUp = 0
+                        } else {
+                            voteUp = 1
+                        }
+                    }
+                    if newVote.downVote > 0 {
+                        if voteDown != 0 {
+                            voteDown = 0
+                        } else {
+                            voteDown = 1
+                        }
+                    }
+                }
+            }
+            let vote = Vote(ref: self.voteRef.ref, postId: postId, userEmail: self.currentUser.email!, voteId: self.voteRef.ref.key, upVote: voteUp, downVote: voteDown)
+            newVote.setValue(vote.toAnyObject())
+        }
     }
-    
 }
- */
