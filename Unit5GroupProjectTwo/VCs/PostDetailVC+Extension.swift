@@ -41,7 +41,6 @@ extension PostDetailVC: UITextViewDelegate {
             textView.text = ""
             textView.textColor = .black
         }
-//        textView.becomeFirstResponder() //Optional
     }
     
     func textViewDidEndEditing(_ textView: UITextView)
