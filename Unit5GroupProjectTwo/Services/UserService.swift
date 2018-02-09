@@ -12,7 +12,7 @@ import FirebaseDatabase
 import FirebaseStorage
 import Kingfisher
 
-struct UserService {
+class UserService {
     private init() {
         dbRef = Database.database().reference()
         userRef = dbRef.child("users")
@@ -123,7 +123,7 @@ struct UserService {
             }
         }
     }
-        
+
 }
 
 

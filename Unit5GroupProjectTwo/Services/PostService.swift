@@ -82,12 +82,12 @@ class PostService {
         }
     }
     public func updateUpVote(of post: Post) {
-      var currentUps = post.countOfUp
+      let currentUps = post.countOfUp
        let updatedCount = currentUps + 1
         post.ref.child("countOfUp").setValue(updatedCount)
 }
     public func updateDownVote(of post: Post) {
-        var currentDowns = post.countOfDown
+        let currentDowns = post.countOfDown
         let updatedCount = currentDowns + 1
         post.ref.child("countOfDown").setValue(updatedCount)
     }
