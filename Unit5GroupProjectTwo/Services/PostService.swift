@@ -52,7 +52,7 @@ class PostService {
     
     public func saveNewPost(content: String, title: String, image: UIImage) {
         let newPost = postRef.childByAutoId()
-        let post = Post(ref: newPost, user: currentUser.uid, postContent: content, postTitle: title, imageURL: "", countOfUp: 0, countOfDown: 0, flaged: false)
+        let post = Post(ref: newPost, user: currentUser.uid, postContent: content, postTitle: title, imageURL: "", countOfUp: 0, countOfDown: 0, flaged: false, voteUsers: ["a"])
         newPost.setValue(post.toAnyObject()){ (error, dbRef) in
             if let error = error {
                 print("addPost error: \(error)")
@@ -96,6 +96,36 @@ class PostService {
           return
         }
         post.ref.child("flaged").setValue(true)
+    }
+    public func getVoteUsersDict(childRef: String, completion: @escaping ([String]) -> Void) {
+        postRef.child(childRef).child("voteUsers").observe(.value) { (snapshot) in
+            var result = [String]()
+            print("====================\n")
+            for value in snapshot.children {
+                var newValue = value as! DataSnapshot
+                    if let something = newValue.value as? String {
+                    result.append(something)
+                    }
+            }
+            completion(result)
+//            let dict = snapshot.value as! [String]
+//            print("the snapShot data is \n")
+//            print(dict)
+//            result = dict
+        }
+    }
+    
+    public func updateVoteUsers(childRef: String, userUid: String) {
+          var arr = [String]()
+        PostService.manager.getVoteUsersDict(childRef: childRef) { (onlineArr) in
+            print("==================")
+            print(onlineArr)
+            arr = onlineArr
+            arr.append(userUid)
+            self.postRef.child(childRef).child("voteUsers").setValue(arr)
+        }
+       
+      
     }
 }
 

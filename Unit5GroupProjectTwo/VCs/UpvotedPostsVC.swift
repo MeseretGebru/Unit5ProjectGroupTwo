@@ -20,18 +20,30 @@ class UpvotedPostsVC: UIViewController {
         return upvoteVC
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+   
+   // let upVotedView = UpvotedView()
+    let feedView  = GlobalPostFeedView()
+    var posts = [Post]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.feedView.tableView.reloadData()
+                
+            }
+        }
     }
-    let upVotedView = UpvotedView()
+    func loadPosts() {
+        
+        PostService.manager.getPosts { (onlinePosts) in
+          
+            }
+      
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavBar()
-        upVotedView.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .yellow
+        view.backgroundColor = .white
         addSubViews()
         
         navigationItem.leftBarButtonItem = menuButt
@@ -45,30 +57,27 @@ class UpvotedPostsVC: UIViewController {
     }
     func configureNavBar() {
         navigationItem.title = "Upvoted"
-        let backButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(back))
-        navigationItem.leftBarButtonItem = backButton
+       // let backButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(back))
+      //  navigationItem.leftBarButtonItem = backButton
         //            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
         
     }
     
     func addSubViews(){
-        view.addSubview(upVotedView)
+       // view.addSubview(upVotedView)
         addConstraints()
     }
     
-    
-    @objc func back(){
-        
-    }
+ 
     
     @objc func dismissView() {
         dismiss(animated: true, completion: nil)
     }
     
     func addConstraints(){
-        upVotedView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.view)
-        }
+//        upVotedView.snp.makeConstraints { (make) in
+//            make.edges.equalTo(self.view)
+//        }
     }
     
     

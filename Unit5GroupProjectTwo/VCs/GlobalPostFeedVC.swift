@@ -82,6 +82,7 @@ class GlobalPostFeedVC: UIViewController {
         popularFeedView.tableView.dataSource = self
         
         navigationItem.leftBarButtonItem = menuButt
+        feedView.tableView.estimatedRowHeight = UITableViewAutomaticDimension
         feedView.tableView.rowHeight = UITableViewAutomaticDimension
         popularFeedView.tableView.rowHeight = UITableViewAutomaticDimension
         
@@ -146,6 +147,9 @@ class GlobalPostFeedVC: UIViewController {
     }
     
     @objc func upvotePressed(sender: UIButton) {
+        let ref = self.posts[sender.tag].postId
+        let userUid = Auth.auth().currentUser!.uid
+        PostService.manager.updateVoteUsers(childRef: ref, userUid: userUid)
         PostService.manager.updateUpVote(of: self.posts[sender.tag])
     }
     @objc func downvotePressed(sender: UIButton) {

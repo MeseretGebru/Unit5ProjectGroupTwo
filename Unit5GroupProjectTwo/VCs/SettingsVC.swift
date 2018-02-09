@@ -96,9 +96,10 @@ class SettingsVC: UIViewController {
         
     }
     
+
     @objc private func saveChanges() {
         //Where user saves image and/or color changes
-        let currentUser = UserService.manager.getUser(user: Auth.auth().currentUser!)
+        UserService.manager.setUserImage(image: settingView.profileImage.image!)
         
     }
     
@@ -280,7 +281,6 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
 }
-
 
 extension SettingsVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
