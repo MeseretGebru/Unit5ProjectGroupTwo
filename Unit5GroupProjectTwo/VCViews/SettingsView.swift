@@ -134,7 +134,7 @@ class SettingsView: UIView {
             make.top.equalTo(settingLabel.snp.bottom).offset(10)
             make.width.equalTo(self.snp.width).multipliedBy(0.9)
             make.centerX.equalTo(self.snp.centerX)
-            make.height.equalTo(self.snp.height).multipliedBy(0.18)
+            make.height.equalTo(self.snp.height).multipliedBy(0.15)
         }
         
         //to round the corners
