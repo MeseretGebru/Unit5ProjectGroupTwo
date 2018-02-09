@@ -9,7 +9,7 @@
 import UIKit
 
 class PostDetailView: UIScrollView {
-
+    
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.gray
@@ -46,6 +46,7 @@ class PostDetailView: UIScrollView {
     lazy var upVote: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "ThumbUp"), for: .normal)
+        button.tag = 0
         button.translatesAutoresizingMaskIntoConstraints = false
 //        button.backgroundColor = .red
         return button
@@ -62,6 +63,7 @@ class PostDetailView: UIScrollView {
     lazy var downVote: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "ThumbDown"), for: .normal)
+        button.tag = 1
         button.translatesAutoresizingMaskIntoConstraints = false
 //        button.backgroundColor = .red
         return button
