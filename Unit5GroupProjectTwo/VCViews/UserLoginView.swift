@@ -22,6 +22,7 @@ class UserLoginView: UIView {
         txt.placeholder = "Email"
         txt.autocapitalizationType = .none
         txt.borderStyle = .none
+        txt.autocorrectionType = .no
         underLine(from: txt)
         return txt
         

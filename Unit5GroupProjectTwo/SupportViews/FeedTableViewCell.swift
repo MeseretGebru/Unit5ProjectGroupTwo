@@ -10,16 +10,16 @@ import SnapKit
 import Kingfisher
 
 class FeedTableViewCell: UITableViewCell {
-
+    
     lazy var userImageView: UIImageView = {
         let img = UIImageView()
-     //   img.backgroundColor = .blue
+        //   img.backgroundColor = .blue
         img.contentMode = .scaleAspectFill
         return img
     }()
     lazy var userLabel: UILabel = {
         let lab = UILabel()
-     //   lab.text = "UserNameHere"
+        //   lab.text = "UserNameHere"
         lab.backgroundColor = UIColor.orange
         return lab
     }()
@@ -30,12 +30,12 @@ class FeedTableViewCell: UITableViewCell {
     }()
     lazy var feedImageView: UIImageView = {
         let img = UIImageView()
-       img.contentMode = .scaleAspectFit
+        img.contentMode = .scaleAspectFit
         return img
     }()
     lazy var actionsStackView: UIView = {
         let view = UIView()
-       // view.backgroundColor = .yellow
+        // view.backgroundColor = .yellow
         return view
     }()
     lazy var upvoteButton: UIButton = {
@@ -47,13 +47,13 @@ class FeedTableViewCell: UITableViewCell {
     lazy var downvoteButton: UIButton = {
         let butt = UIButton()
         butt.setImage(#imageLiteral(resourceName: "ThumbDown"), for: .normal)
-         butt.imageView?.contentMode = .scaleAspectFit
+        butt.imageView?.contentMode = .scaleAspectFit
         return butt
     }()
     lazy var commentButton: UIButton = {
         let butt = UIButton()
         butt.setImage(#imageLiteral(resourceName: "CommentIcon"), for: .normal)
-         butt.imageView?.contentMode = .scaleAspectFit
+        butt.imageView?.contentMode = .scaleAspectFit
         return butt
     }()
     lazy var moreButton: UIButton = {
@@ -96,7 +96,7 @@ class FeedTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     func setupUserImageView() {
@@ -129,19 +129,19 @@ class FeedTableViewCell: UITableViewCell {
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.top.equalTo(titleLabel.snp.bottom).offset(8)
-         
+            
         }
     }
     func setupActionStackView() {
         addSubview(actionsStackView)
-      
+        
         actionsStackView.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.top.equalTo(feedImageView.snp.bottom).offset(15)
             make.bottom.equalToSuperview().offset(-8)
             make.height.equalTo(25)
-
+            
         }
         actionsStackView.addSubview(upvoteButton)
         actionsStackView.addSubview(downvoteButton)
@@ -178,27 +178,45 @@ class FeedTableViewCell: UITableViewCell {
         }
     }
     func configureCell(from post: Post) {
-                titleLabel.text = post.postTitle
         
-             // userLabel.text =
-                let postOwnerUID = post.user
-                    UserService.manager.getUser(uid: postOwnerUID, completion: { (onlineUser) in
-                        self.userLabel.text = onlineUser?.displayName
-                        if let userImageUrl = onlineUser?.imageURL {
-                            self.userImageView.kf.indicatorType = .activity
-                            self.userImageView.kf.setImage(with: URL.init(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, url) in
-                                
-                            })
-                
-                        }
-                        
-                    })
-       let imageUrl = post.imageURL
+        
+        
+        titleLabel.text = post.postTitle
+        let haveUser: (UserProfile?) -> Void = { user in
+            guard let user = user else { return }
+            self.userLabel.text = user.displayName
+            let userImageUrl = user.imageURL
+            self.userImageView.kf.setImage(with: URL(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil) { (image, error, cacherType, url) in
+                    
+                }
+            
+//            if let userImageUrl = onlineUser?.imageURL {
+//                self.userImageView.kf.indicatorType = .activity
+//                self.userImageView.kf.setImage(with: URL.init(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, url) in
+//
+//                })
+            
+            }
+        // userLabel.text =
+        let postOwnerUID = post.user
+        UserService.manager.getUser(uid: postOwnerUID, completion: haveUser)
+//        { (onlineUser) in
+//            self.userLabel.text = onlineUser?.displayName
+//            if let userImageUrl = onlineUser?.imageURL {
+//                self.userImageView.kf.indicatorType = .activity
+//                self.userImageView.kf.setImage(with: URL.init(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, url) in
+//
+//                })
+        
+//            }
+//
+//        })
+        let imageUrl = post.imageURL
         feedImageView.kf.indicatorType = .activity
         feedImageView.kf.setImage(with: URL.init(string: imageUrl) , placeholder: #imageLiteral(resourceName: "noImage"), options: nil, progressBlock: nil) { (image, error, cacheType, url) in
             
         }
         
     }
-
+    
 }
