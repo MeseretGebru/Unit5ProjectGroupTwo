@@ -39,14 +39,15 @@ struct UserService {
     }
     
     public func getUser(uid: String, completion: @escaping (UserProfile?) -> Void) {
-        var customUser: UserProfile?
+
         userRef.observe(.value) { (snapShot) in
-            for child in snapShot.children {
-                let dataSnapshot = child as! DataSnapshot
-                let onlineUser = UserProfile(snapShot: dataSnapshot)
-                if onlineUser.user == uid {
-                    customUser = onlineUser
-                    completion(customUser)
+            for user in snapShot.children {
+                let onlineUser = UserProfile(snapShot: user as! DataSnapshot)
+                print(onlineUser.email, uid)
+                if onlineUser.email == uid {
+                    completion(onlineUser)
+                    return
+            
                 }
             }
         }
@@ -110,7 +111,13 @@ struct UserService {
         return dateStr
     }
     
+<<<<<<< HEAD
+    public func setUserImage(image: UIImage) {
+||||||| merged common ancestors
     private func setUserImage(image: UIImage) {
+=======
+    func setUserImage(image: UIImage) {
+>>>>>>> 996c6a070972a2287f7188bf6f32efb075ee5334
         userRef.observe(.value) { (snapShot) in
             for user in snapShot.children {
                 let userSaved = UserProfile(snapShot: user as! DataSnapshot)
@@ -119,7 +126,7 @@ struct UserService {
                 }
             }
         }
-        
-        
     }
+        
+    
 }
