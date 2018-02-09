@@ -39,21 +39,23 @@ struct UserService {
     }
     
     public func getUser(uid: String, completion: @escaping (UserProfile?) -> Void) {
-        var customUser: UserProfile!
-        userRef.child("users").observe(.value) { (snapShot) in
-            for user in snapShot.children {
-                let onlineUser = UserProfile(snapShot: user as! DataSnapshot)
-                if onlineUser.userId == uid {
+        var customUser: UserProfile?
+        userRef.observe(.value) { (snapShot) in
+            for child in snapShot.children {
+                let dataSnapshot = child as! DataSnapshot
+                let onlineUser = UserProfile(snapShot: dataSnapshot)
+                if onlineUser.user == uid {
                     customUser = onlineUser
+                    completion(customUser)
                 }
             }
-            completion(customUser)
         }
     }
     
     
     public func saveNewUser(imageProfile: UIImage) {
         let newUser = userRef.childByAutoId()
+
         let user = UserProfile(ref: newUser, user: currentUser, displayName: currentUser.displayName!, email: currentUser.email!, lastLogin: getDate(), numberOfFlags: 0, imageURL: "")
         newUser.setValue(user.toAnyObject()){ (error, dbRef) in
             if let error = error {

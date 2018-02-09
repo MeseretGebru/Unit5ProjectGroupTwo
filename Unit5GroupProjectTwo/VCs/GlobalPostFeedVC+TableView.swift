@@ -7,13 +7,13 @@
 //
 
 import UIKit
-
+import Firebase
 extension GlobalPostFeedVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let post = posts[indexPath.row]
+        tableView.deselectRow(at: indexPath, animated: false)
         // TODO: replace with dependency injection
-
+       
         var selectedPost: Post!
         switch tableView {
         case feedView.tableView:
@@ -36,8 +36,8 @@ extension GlobalPostFeedVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        if tableView == feedView.tableView {
+      //  let cell = UITableViewCell()
+      //  if tableView == feedView.tableView {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell
         cell.layoutIfNeeded()
             // add handles to these buttons in cell
@@ -47,40 +47,19 @@ extension GlobalPostFeedVC: UITableViewDataSource {
         cell.moreButton.tag = indexPath.row
         cell.upvoteButton.addTarget(self, action: #selector(upvotePressed(sender:)), for: .touchUpInside)
         cell.downvoteButton.addTarget(self, action: #selector(downvotePressed(sender:)), for: .touchUpInside)
-          
-            
-            guard posts.count > 0 else {
-            switch indexPath.row {
-            case 0:
-                cell.feedImageView.image = #imageLiteral(resourceName: "dogs")
-            case 1:
-                cell.feedImageView.image = #imageLiteral(resourceName: "panda")
-            case 2:
-                cell.feedImageView.image = #imageLiteral(resourceName: "ThumbUp")
-            case 3:
-                cell.feedImageView.image = #imageLiteral(resourceName: "uggDog")
-            case 4:
-                cell.feedImageView.image = #imageLiteral(resourceName: "cards")
-            case 5:
-                cell.feedImageView.image = #imageLiteral(resourceName: "Dakota_instaweb")
-            default:
-                cell.feedImageView.image = #imageLiteral(resourceName: "ante")
-            }
-            return cell
-        }
-
-        print(posts.count)
-
+        
+ if tableView == feedView.tableView {
         let post = posts[indexPath.row]
-        cell.titleLabel.text = post.postTitle
-        //cell.userImageView.image = PostService.manager.getImagePost(urlImage: post.imageURL)
+        cell.configureCell(from: post)
         cell.setNeedsLayout()
         return cell
-        } else if tableView == popularFeedView.tableView {
-             let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell
-            cell.titleLabel.text = "it's popular feed cell"
-            return cell
-        }
+ } else {
+//    if tableView == popularFeedView.tableView {
+//             let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell
+    let post = populatedPosts[indexPath.row]
+    cell.configureCell(from: post)
+    cell.setNeedsLayout()
         return cell
     }
+}
 }
