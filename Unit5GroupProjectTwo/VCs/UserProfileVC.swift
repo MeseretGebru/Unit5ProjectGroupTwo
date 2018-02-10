@@ -55,8 +55,10 @@ class UserProfileVC: UIViewController {
     func loadData() {
         if let user = Auth.auth().currentUser {
             UserService.manager.getUser(uid: user.uid, completion: { (userOnline) in
-                if let userFirebase = userOnline {
-                    self.user = userFirebase
+                if let userProfile = userOnline {
+                    if let imageURL = URL(string: userProfile.imageURL) {
+                        self.userProfileView.profileImage.kf.setImage(with: imageURL)
+                    }
                 }
             })
             var posts = [Post]()
@@ -73,15 +75,8 @@ class UserProfileVC: UIViewController {
             userProfileView.numberofFlagsLabel.text = "Number of Flags: \(posts.filter{$0.flaged}.count)"
             userProfileView.userNameLabel.text = "\(user.displayName ?? "No user name")"
             userProfileView.numberofUpvotesLabel.text = "Number of Upvotes: \(posts.filter{$0.countOfUp > 0}.count)"
+            
         }
-        //        if let url = URL(string: user.imageURL) {
-        //            userProfileView.profileImage.kf.setImage(with: url)
-        //        }
-        //        UserService.manager.getImageProfile(urlImage: user.imageURL) { (image) in
-        //            if let image = image {
-        //                self.userProfileView.profileImage.image = image
-        //            }
-        //        }
     }
     
     public static func storyboardInstance() -> UserProfileVC {
