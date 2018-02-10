@@ -8,25 +8,11 @@
 
 import UIKit
 
-//extension PostDetailVC: UITextFieldDelegate {
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        textField.resignFirstResponder()
-//        if let message = textField.text {
-//            self.saveComment(text: message)
-//            textField.text = ""
-//            loadComments()
-//        }
-//        return true
-//    }
-//}
-
 extension PostDetailVC: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
-//            textView.resignFirstResponder()
             if textView.textColor == .black{
                 self.saveComment(text: textView.text)
-//                textView.textColor = .lightGray
                 textView.text = ""
                 textView.endEditing(true)
                 loadComments()
@@ -63,7 +49,6 @@ extension PostDetailVC: UITableViewDataSource {
         return comments.count
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? CommentTVCell {
             if comments.count % 2 == 0 {
@@ -79,20 +64,11 @@ extension PostDetailVC: UITableViewDataSource {
                     cell.backgroundColor = UIColor.white
                 }
             }
-            
             let comment = comments[indexPath.row]
             print(comment.textComment)
             cell.configureCell(comment: comment)
-//            cell.profileImageView.layer.cornerRadius = cell.profileImageView.frame.size.width / 2
-//            cell.setNeedsLayout()
-            
             return cell
         }
-        
         return UITableViewCell()
     }
-    
-    
-  
-
 }
