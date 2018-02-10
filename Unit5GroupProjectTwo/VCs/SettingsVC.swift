@@ -40,7 +40,13 @@ class SettingsVC: UIViewController {
     private func loadProfileImage() {
         
         guard let photoURL = Auth.auth().currentUser?.photoURL else { return }
-        settingView.profileImage.kf.setImage(with: photoURL, placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: nil)
+        let imageUrlStr = String(describing: photoURL)
+        ImageService.manager.getImage(from: imageUrlStr) { (onlineImage) in
+            if let image = onlineImage {
+                self.settingView.profileImage.image = image
+                self.settingView.profileImage.setNeedsLayout()
+            }
+        }
     }
     private func addSubViews(){
         view.addSubview(settingView)

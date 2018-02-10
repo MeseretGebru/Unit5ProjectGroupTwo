@@ -67,8 +67,6 @@ extension GlobalPostFeedVC: UITableViewDataSource {
             cell.setNeedsLayout()
             return cell
         } else {
-            //    if tableView == popularFeedView.tableView {
-            //             let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedTableViewCell
             let post = populatedPosts[indexPath.row]
             cell.configureCell(from: post)
             cell.setNeedsLayout()
