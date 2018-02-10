@@ -26,10 +26,10 @@ struct UserProfile {
   
    // var voteGave: Int
     // preparing info to save into firebase
-    init(ref: DatabaseReference, user: User, displayName: String, email: String, lastLogin: String, numberOfFlags: Int, imageURL: String){
+    init(ref: DatabaseReference, user: String, displayName: String, email: String, lastLogin: String, numberOfFlags: Int, imageURL: String){
         self.ref = ref
         self.userId = ref.key
-        self.user = user.uid
+        self.user = user
         self.displayName = displayName
         self.email = email
         self.lastLogin = lastLogin
