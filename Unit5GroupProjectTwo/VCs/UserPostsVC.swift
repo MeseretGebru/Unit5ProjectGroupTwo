@@ -35,13 +35,8 @@ class UserPostsVC: UIViewController {
         userPostsView.postTableView.delegate = self
         userPostsView.postTableView.dataSource = self
         userPostsView.postTableView.rowHeight = 150
-        //        userPostsView.postTableView.estimatedRowHeight = 200
         addSubViews()
         loadData()
-        //        fetchPosts()
-        //        if let user = Auth.auth().currentUser {
-        //            self.user = user
-        //        }
         
     }
     private func configureNavBar() {
@@ -55,22 +50,6 @@ class UserPostsVC: UIViewController {
         view.addSubview(userPostsView)
         addConstraints()
     }
-    
-    //    func fetchPosts(){
-    
-    //        Database.database().reference().child("posts").observeEventType(.childAdded, withBlock: {(snapshot) in
-    //            if let dictionary = snapshot.value as? [String: AnyObject] {
-    //                let posts = [Post]()
-    //                posts.setValuesForkeyWithDictionary(dictionary)
-    //                self.userPostsView.post.append(posts)
-    //                dispatch_async(dispatch_get_main_queue(), {
-    //
-    //                    userPostsView.postTableView.reloadData()
-    //                })
-    //                posts.description = dictionary["name"]
-    //            }
-    //        }, withCancelBlock: nil)
-    //   }
     
     
     @objc private func back(){
@@ -91,6 +70,14 @@ class UserPostsVC: UIViewController {
     private func loadData() {
         if let currentUser = Auth.auth().currentUser {
             userPostsView.userNameLabel.text! = currentUser.displayName ?? "No user's name"
+            
+            UserService.manager.getUser(uid: currentUser.uid, completion: { (userOnline) in
+                if let userProfile = userOnline {
+                    if let imageURL = URL(string: userProfile.imageURL) {
+                        self.userPostsView.profileImage.kf.setImage(with: imageURL)
+                    }
+                }
+            })
             
             PostService.manager.getUserPosts(from: currentUser.uid, completion: { (postsOnline) in
                 if let posts = postsOnline {
@@ -123,21 +110,6 @@ extension UserPostsVC: UITableViewDataSource, UITableViewDelegate {
         return posts.count
         
     }
-    /* func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? UserPostsTableViewCell
-     let post = posts[indexPath.row]
-     
-     PostService.manager.getImagePost(urlImage: post.imageURL) { (image) in
-     cell?.userPostImage.image = image
-     //cell?.feedImageView.image = image
-     cell?.layoutIfNeeded()
-     }
-     cell?.descriptionLabel.text = post.postContent
-     //cell?.titleLabel.text = post.postContent
-     
-     return cell!
-     
-     }*/
     
     //copied from feed table view
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
