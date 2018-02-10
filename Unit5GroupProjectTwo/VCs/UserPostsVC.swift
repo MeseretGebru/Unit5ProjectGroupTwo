@@ -21,7 +21,6 @@ class UserPostsVC: UIViewController {
             userPostsView.postTableView.reloadData()
             DispatchQueue.main.async {
                 self.userPostsView.postTableView.reloadData()
-                //self.userPostsView.userNameLabel.text = "\(self.posts.user) comment(s)"
             }
         }
     }
@@ -43,7 +42,6 @@ class UserPostsVC: UIViewController {
         navigationItem.title = "Posts"
         let backButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(back))
         navigationItem.leftBarButtonItem = backButton
-        //            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
     }
     
     private func addSubViews(){
@@ -73,9 +71,12 @@ class UserPostsVC: UIViewController {
             
             UserService.manager.getUser(uid: currentUser.uid, completion: { (userOnline) in
                 if let userProfile = userOnline {
-                    if let imageURL = URL(string: userProfile.imageURL) {
-                        self.userPostsView.profileImage.kf.setImage(with: imageURL)
-                    }
+                    ImageService.manager.getImage(from: userProfile.imageURL, completion: { (onlineImage) in
+                        if let image = onlineImage {
+                            self.userPostsView.profileImage.image = image
+                            self.userPostsView.profileImage.setNeedsLayout()
+                        }
+                    })
                 }
             })
             
@@ -125,9 +126,12 @@ extension UserPostsVC: UITableViewDataSource, UITableViewDelegate {
             let haveUser: (UserProfile?) -> Void = { user in
                 guard let user = user else { return }
                 cell.userName.text = user.displayName
-                let userImageUrl = user.imageURL
-                cell.userImageView.kf.setImage(with: URL(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil) { (image, error, cacherType, url) in
-                }
+                ImageService.manager.getImage(from: user.imageURL, completion: { (onlineImage) in
+                    if let image = onlineImage {
+                        cell.userImageView.image = image
+                        cell.userImageView.setNeedsLayout()
+                    }
+                })
             }
             let postOwnerUID = post.user
             UserService.manager.getUser(uid: postOwnerUID, completion: haveUser)

@@ -50,32 +50,25 @@ class GlobalPostFeedVC: UIViewController {
     
     var posts = [Post]() {
         didSet {
-        DispatchQueue.main.async {
-            self.feedView.tableView.reloadData()
-            
-        }
+            DispatchQueue.main.async {
+                self.feedView.tableView.reloadData()
+            }
         }
     }
     
     func loadPosts() {
-      
         PostService.manager.getPosts { (onlinePosts) in
              let safePosts = onlinePosts
             self.posts = safePosts
             let sortedPosts = safePosts.sorted(by: {$0.countOfUp > $1.countOfUp })
             self.populatedPosts = sortedPosts
-        
         }
     }
-    
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         loadPosts()
-        view.backgroundColor = .orange
-       // view.addSubview(feedView)
         feedView.tableView.delegate = self
         feedView.tableView.dataSource = self
         popularFeedView.tableView.delegate = self
@@ -83,11 +76,6 @@ class GlobalPostFeedVC: UIViewController {
         
         navigationItem.leftBarButtonItem = menuButt
 
-//        feedView.tableView.estimatedRowHeight = UITableViewAutomaticDimension
-//        feedView.tableView.rowHeight = UITableViewAutomaticDimension
-//        popularFeedView.tableView.rowHeight = UITableViewAutomaticDimension
-
-        
         if self.revealViewController() != nil {
             menuButt.target = self.revealViewController()
             menuButt.action = #selector(SWRevealViewController.revealToggle(_:))
@@ -149,8 +137,8 @@ class GlobalPostFeedVC: UIViewController {
     }
     
     @objc func upvotePressed(sender: UIButton) {
-        let ref = self.posts[sender.tag].postId
-        let userUid = Auth.auth().currentUser!.uid
+//        let ref = self.posts[sender.tag].postId
+//        let userUid = Auth.auth().currentUser!.uid
       //  PostService.manager.updateVoteUsers(childRef: ref, userUid: userUid)
         
         PostService.manager.updateUpVote(of: self.posts[sender.tag])
