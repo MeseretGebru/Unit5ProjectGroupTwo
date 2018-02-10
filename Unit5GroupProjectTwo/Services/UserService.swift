@@ -54,7 +54,7 @@ struct UserService {
     public func saveNewUser(imageProfile: UIImage) {
         let newUser = userRef.childByAutoId()
 
-        let user = UserProfile(ref: newUser, user: currentUser, displayName: currentUser.displayName!, email: currentUser.email!, lastLogin: getDate(), numberOfFlags: 0, imageURL: "")
+        let user = UserProfile(ref: newUser, user: currentUser.uid, displayName: currentUser.displayName!, email: currentUser.email!, lastLogin: getDate(), numberOfFlags: 0, imageURL: "")
         newUser.setValue(user.toAnyObject()){ (error, dbRef) in
             if let error = error {
                 print("addUser error: \(error)")
