@@ -43,10 +43,11 @@ class MenuVC: UIViewController {
 
             self.userNameLabel.text = Auth.auth().currentUser?.displayName!
             do {
-                let url = URL(string: imageUrl)!
-                let data = try Data.init(contentsOf: url)
-                let image = UIImage.init(data: data)
-             self.userImageButton.setImage(image, for: .normal)
+                if let url = URL(string: imageUrl) {
+                    let data = try Data.init(contentsOf: url)
+                    let image = UIImage.init(data: data)
+                    self.userImageButton.setImage(image, for: .normal)
+                }
             } catch {
                 print("error")
             }
