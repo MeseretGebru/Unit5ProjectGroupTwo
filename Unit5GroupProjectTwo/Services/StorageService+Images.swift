@@ -58,6 +58,17 @@ extension StorageService {
                 let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
                 guard let downloadURL = snapshot.metadata?.downloadURL() else { return }
                 changeRequest?.photoURL = downloadURL
+                
+                UserService.manager.getUser(uid: userId!, completion: { (userProfile) in
+                    if let user = userProfile {
+                        let userRef = UserService.manager.getUsersRef().child(user.userId)
+                        print(userRef)
+                        print(userRef)
+                        let imageStrUrl = String(describing: downloadURL)
+                        let newUser = UserProfile(ref: user.ref, user: user.user, displayName: user.displayName, email: user.email, lastLogin: user.lastLogin, numberOfFlags: user.numberOfFlags, imageURL: imageStrUrl)
+                        userRef.setValue(newUser.toAnyObject())
+                    }
+                })
                 changeRequest?.commitChanges(completion: { (error) in
                     if let error = error {
                         print("error changing request: \(error)")
