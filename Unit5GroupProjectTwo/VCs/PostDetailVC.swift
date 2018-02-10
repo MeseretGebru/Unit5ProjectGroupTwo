@@ -38,8 +38,6 @@ class PostDetailVC: UIViewController {
         delegates()
         viewContraints()
         loadData()
-//        commentView.tableView.rowHeight = UITableViewAutomaticDimension
-//        commentView.tableView.estimatedRowHeight = 50
         commentView.upVote.addTarget(self, action: #selector(votes(_:)), for: .touchUpInside)
         commentView.downVote.addTarget(self, action: #selector(votes(_:)), for: .touchUpInside)
     }
@@ -72,9 +70,12 @@ class PostDetailVC: UIViewController {
         }
         UserService.manager.getUser(uid: post.user) { (userProfileImage) in
             if let userImage = userProfileImage {
-                if let imageURL = URL(string: userImage.imageURL) {
-                    self.commentView.userPostImageView.kf.setImage(with: imageURL)
-                }
+                ImageService.manager.getImage(from: userImage.imageURL, completion: { (imageOnline) in
+                    if let image = imageOnline {
+                        self.commentView.userPostImageView.image = image
+                        self.commentView.userPostImageView.setNeedsLayout()
+                    }
+                })
             }
         }
         loadComments()

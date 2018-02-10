@@ -56,9 +56,12 @@ class UserProfileVC: UIViewController {
         if let user = Auth.auth().currentUser {
             UserService.manager.getUser(uid: user.uid, completion: { (userOnline) in
                 if let userProfile = userOnline {
-                    if let imageURL = URL(string: userProfile.imageURL) {
-                        self.userProfileView.profileImage.kf.setImage(with: imageURL)
-                    }
+                    ImageService.manager.getImage(from: userProfile.imageURL, completion: { (onlineImage) in
+                        if let image = onlineImage {
+                            self.userProfileView.profileImage.image = image
+                            self.userProfileView.profileImage.setNeedsLayout()
+                        }
+                    })
                 }
             })
             var posts = [Post]()

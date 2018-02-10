@@ -29,6 +29,7 @@
 		815EC677202117DD003FEFCD /* SegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815EC676202117DD003FEFCD /* SegmentedControlView.swift */; };
 		81624CE1202263F400D9EAD4 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81624CE0202263F400D9EAD4 /* MenuView.swift */; };
 		81624CE320228E7000D9EAD4 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81624CE220228E7000D9EAD4 /* MenuVC.swift */; };
+		81691B16202F8CD60089AEC5 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81691B15202F8CD60089AEC5 /* ImageService.swift */; };
 		81727912201FCB89002EE595 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81727911201FCB89002EE595 /* AppDelegate.swift */; };
 		81727914201FCB89002EE595 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81727913201FCB89002EE595 /* ViewController.swift */; };
 		81727917201FCB89002EE595 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81727915201FCB89002EE595 /* Main.storyboard */; };
@@ -85,6 +86,7 @@
 		815EC676202117DD003FEFCD /* SegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlView.swift; sourceTree = "<group>"; };
 		81624CE0202263F400D9EAD4 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		81624CE220228E7000D9EAD4 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
+		81691B15202F8CD60089AEC5 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		8172790E201FCB89002EE595 /* Unit5GroupProjectTwo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Unit5GroupProjectTwo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81727911201FCB89002EE595 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81727913201FCB89002EE595 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				81157D502023DEC3000B765B /* FirebaseAPI.swift */,
 				8185FF792028036500F6760B /* StorageService.swift */,
 				8185FF7B202803B600F6760B /* StorageService+Images.swift */,
+				81691B15202F8CD60089AEC5 /* ImageService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -514,6 +517,7 @@
 				81D7285D202117D9006F6B7D /* UserProfileView.swift in Sources */,
 				81E7C419202637250067136B /* UpvotedPostsView.swift in Sources */,
 				81E7C41F202638200067136B /* VoteService.swift in Sources */,
+				81691B16202F8CD60089AEC5 /* ImageService.swift in Sources */,
 				8172792E201FD01D002EE595 /* GlobalPostFeedVC.swift in Sources */,
 				8185FF4120216E2200F6760B /* Comment.swift in Sources */,
 				81E7C41D202638170067136B /* UserService.swift in Sources */,

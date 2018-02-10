@@ -47,11 +47,6 @@ class NewPostView: UIScrollView {
         tv.font = UIFont.systemFont(ofSize: fontSize)
         tv.backgroundColor = UIColor.white
         tv.autocorrectionType = .no
-//        tv.layer.shadowColor = UIColor.darkGray.cgColor
-//        tv.layer.shadowOpacity = 1
-//        tv.layer.shadowOffset = CGSize(width: 0, height: 3)
-//        tv.layer.shadowRadius = 3
-//        tv.clipsToBounds = false
         return tv
     }
     lazy var titleTextView: UITextView = customTitleTextView()
@@ -63,7 +58,6 @@ class NewPostView: UIScrollView {
         tv.layer.shadowOffset = CGSize(width: 0, height: 3)
         tv.layer.shadowRadius = 3
         tv.clipsToBounds = false
-//        tv.adjustsFontForContentSizeCategory = true
         return tv
     }
     lazy var descriptionContainer: UIView = customDescriptionContainer()
@@ -74,54 +68,16 @@ class NewPostView: UIScrollView {
         tv.textColor = .lightGray
         tv.font = UIFont.systemFont(ofSize: fontSize / 1.3)
         tv.backgroundColor = UIColor.white
-//        tv.layer.shadowColor = UIColor.darkGray.cgColor
-//        tv.layer.shadowOpacity = 1
-//        tv.layer.shadowOffset = CGSize(width: 0, height: 3)
-//        tv.layer.shadowRadius = 3
-//        tv.clipsToBounds = false
-//        tv.adjustsFontForContentSizeCategory = true
         return tv
     }
     lazy var descriptionTextView: UITextView = customDescriptionTextView()
-    
-//    private func customTransformingView() -> UIView {
-//        let view = UIView()
-//        view.backgroundColor = .cyan
-//        return view
-//    }
-//    lazy var categoryContainerView: UIView = customTransformingView()
-    
-//    private func customCategoryButton() -> UIButton {
-//        let bt = UIButton()
-//        bt.setTitle("Category: None", for: .normal)
-//        bt.titleLabel?.textAlignment = .left
-//        bt.titleLabel?.font = UIFont.systemFont(ofSize: fontSize)
-//        bt.backgroundColor = .red
-//        return bt
-//    }
-//    lazy var categoryButton: UIButton = customCategoryButton()
-//
-//    private func customPickerView() -> UIPickerView {
-//        let pv = UIPickerView(frame: categoryButton.frame)
-//        pv.backgroundColor = .white
-//        return pv
-//    }
-//    lazy var categoryPicker: UIPickerView = customPickerView()
-//
-//    private func customImageView() -> UIImageView {
-//        let iv = UIImageView(image: #imageLiteral(resourceName: "addImagePlaceholder"))
-//        iv.contentMode = .scaleAspectFit
-//        iv.backgroundColor = .white
-//        return iv
-//    }
-//    lazy var postImageView: UIImageView = customImageView()
+   
     
     private func customAddImageButton() -> UIButton {
         let button = UIButton()
         button.setTitle("Select an image", for: .normal)
         button.backgroundColor = .white
         button.imageView?.contentMode = .scaleAspectFit
-//        button.set
         button.setTitleColor(.lightGray, for: .normal)
         button.layer.shadowColor = UIColor.darkGray.cgColor
         button.layer.shadowOpacity = 1
@@ -131,24 +87,6 @@ class NewPostView: UIScrollView {
         return button
     }
     lazy var addImageButton: UIButton = customAddImageButton()
-    
-//    private func customPostButton() -> UIButton {
-//        let button = UIButton()
-//        button.setTitle("Post", for: .normal)
-//        button.backgroundColor = .blue
-//        button.tintColor = UIColor.darkGray
-//        return button
-//    }
-//    lazy var postButton: UIButton = customPostButton()
-    
-//    private func customCV() -> UICollectionView {
-//        let layout = UICollectionViewFlowLayout()
-//        layout.scrollDirection = .horizontal
-//        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        cv.backgroundColor = .blue
-//        return cv
-//    }
-//    lazy var tagsCV: UICollectionView = customCV()
     
     // MARK:- Set Constraints
     private func setupViews() {
@@ -212,8 +150,6 @@ class NewPostView: UIScrollView {
             make.leading.equalTo(titleTextView.snp.leading)
             make.trailing.equalTo(titleTextView.snp.trailing)
             make.height.equalTo(70)
-//            make.height.equalTo(addImageButton.snp.width).multipliedBy(ratio)
-            
             make.bottom.equalTo(snp.bottom)
         }
         addImageButton.imageView?.snp.makeConstraints({ (make) in

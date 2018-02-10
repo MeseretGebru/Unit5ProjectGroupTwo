@@ -104,8 +104,8 @@ class UpvotedPostsVC: UIViewController {
     }
     
     @objc func upvotePressed(sender: UIButton) {
-        let ref = self.posts[sender.tag].postId
-        let userUid = Auth.auth().currentUser!.uid
+//        let ref = self.posts[sender.tag].postId
+//        let userUid = Auth.auth().currentUser!.uid
       //  PostService.manager.updateVoteUsers(childRef: ref, userUid: userUid)
         PostService.manager.updateUpVote(of: self.posts[sender.tag])
     }
