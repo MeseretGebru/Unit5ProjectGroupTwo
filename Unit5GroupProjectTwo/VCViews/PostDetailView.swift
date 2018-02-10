@@ -22,24 +22,30 @@ class PostDetailView: UIScrollView {
     
     lazy var postImageView: UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleAspectFit
-        //image.image = #imageLiteral(resourceName: "c4q-logo")
+        image.contentMode = .scaleAspectFill
+        image.contentCompressionResistancePriority(for: .vertical)
+        image.contentHuggingPriority(for: .vertical)
         image.image = #imageLiteral(resourceName: "panda")
-        image.layer.cornerRadius = image.frame.size.width / 2
         image.clipsToBounds = true
-//        image.backgroundColor = .orange
+        return image
+    }()
+    
+    lazy var userPostImageView: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
+        image.layer.cornerRadius = 6
+        image.layer.borderColor = UIColor.black.cgColor
+        image.layer.borderWidth = 2
+        image.clipsToBounds = true
         return image
     }()
     
     lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-//        tv.isEditable = false
         label.textColor = .lightGray
-        //        tv.text = "Type your comment..."
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         label.font = UIFont(name: "Arial", size: 20)
-        //        textField.backgroundColor = .green
         return label
     }()
     
@@ -48,7 +54,6 @@ class PostDetailView: UIScrollView {
         button.setImage(#imageLiteral(resourceName: "ThumbUp"), for: .normal)
         button.tag = 0
         button.translatesAutoresizingMaskIntoConstraints = false
-//        button.backgroundColor = .red
         return button
     }()
     
@@ -65,18 +70,9 @@ class PostDetailView: UIScrollView {
         button.setImage(#imageLiteral(resourceName: "ThumbDown"), for: .normal)
         button.tag = 1
         button.translatesAutoresizingMaskIntoConstraints = false
-//        button.backgroundColor = .red
         return button
     }()
     
-//    lazy var voteStackView: UIStackView = {
-//        let stView = UIStackView()
-//        stView.axis  = UILayoutConstraintAxis.horizontal
-//        stView.distribution  = UIStackViewDistribution.fillEqually
-//        stView.alignment = .center
-//        stView.spacing = 8.0
-//        return stView
-//    }()
     
     lazy var numComments: UILabel = {
         let label = UILabel()
@@ -87,31 +83,17 @@ class PostDetailView: UIScrollView {
     
     lazy var newComment: UIButton = {
         let button = UIButton()
-
-       // button.setImage(#imageLiteral(resourceName: "icoComment"), for: .normal)
         button.setImage(#imageLiteral(resourceName: "CommentIcon"), for: .normal)
         return button
     }()
-    
-//    lazy var headerL2: UIStackView = {
-//        let stView = UIStackView()
-//        stView.axis  = UILayoutConstraintAxis.horizontal
-//        stView.distribution  = UIStackViewDistribution.fill
-//        stView.alignment = UIStackViewAlignment.center
-//        stView.spacing   = 8.0
-//        return stView
-//    }()
     
     lazy var profileImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.layer.borderColor = UIColor.lightGray.cgColor
         image.layer.borderWidth = 1.5
-        image.layer.cornerRadius = image.frame.size.width / 2
         image.clipsToBounds = true
-
         image.image = #imageLiteral(resourceName: "panda")
-//        image.backgroundColor = .orange
         return image
     }()
     
@@ -121,7 +103,6 @@ class PostDetailView: UIScrollView {
         tv.textColor = .lightGray
         tv.text = "Type your comment..."
         tv.font = UIFont(name: "Arial", size: 20)
-//        textField.backgroundColor = .green
         return tv
     }()
     
@@ -129,7 +110,6 @@ class PostDetailView: UIScrollView {
         let tv = UITableView()
         tv.register(CommentTVCell.self, forCellReuseIdentifier: "Cell")
         tv.separatorStyle = .none
-        //tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
     }()
     
@@ -144,25 +124,22 @@ class PostDetailView: UIScrollView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        // make profile image a circle
+        commentTextField.setNeedsLayout()
         profileImageView.setNeedsLayout()
+        userPostImageView.setNeedsLayout()
         //profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2
     }
     
     private func commonInit() {
-//        backgroundColor = .cyan
-//        addSubview(headerStackView)
         addSubview(titleLabel)
         addSubview(postImageView)
+        addSubview(userPostImageView)
         addSubview(descriptionLabel)
-////        addSubview(headerL2)
-//        addSubview(voteStackView)
         addSubview(upVote)
         addSubview(numVotes)
         addSubview(downVote)
         addSubview(numComments)
         addSubview(newComment)
-////        addSubview(commentStackView)
         addSubview(profileImageView)
         addSubview(commentTextField)
         addSubview(tableView)
@@ -170,34 +147,25 @@ class PostDetailView: UIScrollView {
     }
     
     private func constraints() {
-//        headerStackView.snp.makeConstraints { (make) in
-//            make.top.equalTo(self.snp.top).offset(8)
-//            make.left.equalTo(self.snp.left).offset(8)
-//            make.right.equalTo(self.snp.right).offset(-8)
-//            make.height.equalTo(self.snp.height).multipliedBy(0.5)
-//        }
-//        commentStackView.snp.makeConstraints { (make) in
-//            make.centerX.equalTo(headerStackView.snp.centerX)
-//            make.bottom.equalTo(headerStackView.snp.bottom).offset(-8)
-//        }
         titleLabel.snp.makeConstraints { (make) in
             make.width.equalTo(snp.width)
             make.top.equalTo(snp.top).offset(8)
             make.centerX.equalTo(snp.centerX)
-            //            make.bottom.equalTo(profileImageView.snp.top)
         }
         postImageView.snp.makeConstraints { (make) in
-//            make.bottom.equalTo(titleLabel.snp.top)
-            make.width.equalTo(snp.width)
-            make.top.equalTo(titleLabel.snp.bottom).offset(80)
+            make.width.height.equalTo(snp.width)
+            make.top.equalTo(titleLabel.snp.bottom).offset(8)
             make.centerX.equalTo(snp.centerX)
-            make.height.equalTo(200)
+        }
+        userPostImageView.snp.makeConstraints { (make) in
+            make.centerY.equalTo(postImageView.snp.bottom)
+            make.leading.equalTo(snp.leading).offset(16)
+            make.height.width.equalTo(64)
         }
         descriptionLabel.snp.makeConstraints { (make) in
             make.top.equalTo(postImageView.snp.bottom).offset(8)
-            make.leading.equalTo(postImageView.snp.leading).offset(8)
+            make.leading.equalTo(userPostImageView.snp.trailing).offset(8)
             make.trailing.equalTo(postImageView.snp.trailing).offset(-8)
-//            make.height.equalTo(69)
         }
         upVote.snp.makeConstraints { (make) in
             let ratio = (upVote.imageView?.image?.size.width)! / (upVote.imageView?.image?.size.height)!
@@ -221,8 +189,6 @@ class PostDetailView: UIScrollView {
 
         numComments.snp.makeConstraints { (make) in
             make.leading.equalTo(downVote.snp.trailing).offset(69)
-//            make.trailing.equalTo(postImageView).offset(-8)
-//            make.width.equalTo(<#T##other: ConstraintRelatableTarget##ConstraintRelatableTarget#>)
             make.centerY.equalTo(upVote)
             make.height.equalTo(upVote)
         }
@@ -248,7 +214,6 @@ class PostDetailView: UIScrollView {
 
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(profileImageView.snp.bottom).offset(32)
-//            make.top.equalTo(commentTextField.snp.bottom).offset(8)
             make.leading.equalTo(postImageView.snp.leading).offset(8)
             make.trailing.equalTo(postImageView.snp.trailing).offset(-8)
             make.bottom.equalTo(self.snp.bottom).offset(-8)

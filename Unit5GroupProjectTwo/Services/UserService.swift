@@ -12,7 +12,7 @@ import FirebaseDatabase
 import FirebaseStorage
 import Kingfisher
 
-class UserService {
+struct UserService {
     private init() {
         dbRef = Database.database().reference()
         userRef = dbRef.child("users")
@@ -39,14 +39,12 @@ class UserService {
     }
     
     public func getUser(uid: String, completion: @escaping (UserProfile?) -> Void) {
-
         userRef.observe(.value) { (snapShot) in
             for user in snapShot.children {
                 let onlineUser = UserProfile(snapShot: user as! DataSnapshot)
                 if onlineUser.user == uid {
                     completion(onlineUser)
                     return
-            
                 }
             }
         }

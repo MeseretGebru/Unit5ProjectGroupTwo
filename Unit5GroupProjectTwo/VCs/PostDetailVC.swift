@@ -35,12 +35,11 @@ class PostDetailVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         navigationItem.title = "Comments"
-//        currentUser = UserService.manager.getUser(user: Auth.auth().currentUser!)
         delegates()
         viewContraints()
         loadData()
-        commentView.tableView.rowHeight = UITableViewAutomaticDimension
-        commentView.tableView.estimatedRowHeight = 50
+//        commentView.tableView.rowHeight = UITableViewAutomaticDimension
+//        commentView.tableView.estimatedRowHeight = 50
         commentView.upVote.addTarget(self, action: #selector(votes(_:)), for: .touchUpInside)
         commentView.downVote.addTarget(self, action: #selector(votes(_:)), for: .touchUpInside)
     }
@@ -55,7 +54,6 @@ class PostDetailVC: UIViewController {
     
     private func delegates() {
         commentView.commentTextField.delegate = self
-//        commentView.descriptionView.delegate = self
         commentView.tableView.delegate = self
         commentView.tableView.dataSource = self
     }
@@ -68,20 +66,16 @@ class PostDetailVC: UIViewController {
     }
     private func loadData() {
         commentView.titleLabel.text = post.postTitle
-//        print(commentView.contentInset.top)
         commentView.descriptionLabel.text = post.postContent
-//        commentView.contentInset.top = 0
-//        print(commentView.contentInset.top)
         PostService.manager.getImagePost(urlImage: post.imageURL) { (image) in
             self.commentView.postImageView.image = image
-            self.commentView.postImageView.snp.remakeConstraints({ (make) in
-                let ratio = image.size.height / image.size.width
-                make.width.equalTo(self.commentView.snp.width)
-                make.top.equalTo(self.commentView.titleLabel.snp.bottom).offset(8)
-                make.centerX.equalTo(self.commentView.snp.centerX)
-                make.height.equalTo(self.commentView.postImageView.snp.width).multipliedBy(ratio)
-            })
-            self.commentView.setNeedsLayout()
+        }
+        UserService.manager.getUser(uid: post.user) { (userProfileImage) in
+            if let userImage = userProfileImage {
+                if let imageURL = URL(string: userImage.imageURL) {
+                    self.commentView.userPostImageView.kf.setImage(with: imageURL)
+                }
+            }
         }
         loadComments()
     }
@@ -97,5 +91,4 @@ class PostDetailVC: UIViewController {
     func saveComment(text: String) {
         CommentService.manager.saveNewComment(postKey: self.post.ref.key, content: text)
     }
-    
 }

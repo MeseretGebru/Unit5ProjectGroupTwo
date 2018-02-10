@@ -208,14 +208,19 @@ class FeedTableViewCell: UITableViewCell {
         // userLabel.text =
         let postOwnerUID = post.user
         UserService.manager.getUser(uid: postOwnerUID, completion: { (onlineUser) in
-            self.userName.text = onlineUser?.displayName
-            self.userEmail.text = onlineUser?.email
-            if let userImageUrl = onlineUser?.imageURL {
-                self.userImageView.kf.indicatorType = .activity
-                self.userImageView.kf.setImage(with: URL.init(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, url) in
-                    
-                })
-                
+            if let userProfile = onlineUser {
+                self.userName.text = userProfile.displayName
+                self.userEmail.text = userProfile.email
+                do {
+                    if let url = URL(string: userProfile.imageURL) {
+                        let data = try Data.init(contentsOf: url)
+                        let image = UIImage.init(data: data)
+                        self.userImageView.image = image
+                        //self.userImageButton.setImage(image, for: .normal)
+                    }
+                } catch {
+                    print("error")
+                }
             }
             
         })
