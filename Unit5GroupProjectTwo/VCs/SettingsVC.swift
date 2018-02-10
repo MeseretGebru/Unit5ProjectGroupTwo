@@ -33,28 +33,14 @@ class SettingsVC: UIViewController {
         settingView.settingOptionsTV.delegate = self
         settingView.settingOptionsTV.dataSource = self
         settingView.editUserImageButton.addTarget(self, action: #selector(getImageFromUser), for: .touchUpInside)
-//        settingView.saveChangesButton.addTarget(self, action: #selector(saveChanges), for: .touchUpInside)
+        settingView.saveChangesButton.addTarget(self, action: #selector(saveChanges), for: .touchUpInside)
         loadProfileImage()
     }
-    //    private func configureNavBar() {
-    //        navigationItem.title = "Setting"
-    //        let backButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(back))
-    //        navigationItem.leftBarButtonItem = backButton
-    //
-    //    }
+    
     private func loadProfileImage() {
         
         guard let photoURL = Auth.auth().currentUser?.photoURL else { return }
         settingView.profileImage.kf.setImage(with: photoURL, placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: nil)
-        
-//        UserService.manager.getUser(uid: (Auth.auth().currentUser?.uid)!) { (onlineUser) in
-//            if let user = onlineUser {
-//                if let url = URL(string: user.imageURL) {
-//                    print(user.imageURL)
-//                    self.settingView.profileImage.kf.setImage(with: url, placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: nil)
-//                }
-//            }
-//        }
     }
     private func addSubViews(){
         view.addSubview(settingView)
@@ -109,73 +95,16 @@ class SettingsVC: UIViewController {
         self.present(addImageActionSheet, animated: true, completion: nil)
         
     }
-    
-//<<<<<<< HEAD
-//    private func saveChanges() {
-//        //Where user saves image and/or color changes
-//        UserService.manager.setUserImage(image: settingView.profileImage.image!)
-//        print("Image Saved")
-//
-//=======
+
 
     @objc private func saveChanges() {
         //Where user saves image and/or color changes
         UserService.manager.setUserImage(image: settingView.profileImage.image!)
-
-
     }
     
     @objc private func dismissView() {
         dismiss(animated: true, completion: nil)
     }
-    
-    
-    
-    //    private func addConstraints(){
-    //        settingView.snp.makeConstraints { (make) in
-    //            make.edges.equalTo(self.view)
-    //        }
-    //    }
-    
-    
-    //    private func changeEmail() {
-    //        guard let email = settingView.enterPasswordTextfield.text else { print("Problem with email"); return }
-    //        guard !email.isEmpty else { print("Email is nil"); return }
-    //        Auth.auth().currentUser?.updateEmail(to: email, completion: { (error) in
-    //            if error != nil {
-    //                print("Error updating email: \(String(describing: error?.localizedDescription))")
-    //            }
-    //        })
-    //    }
-    
-    
-    //    @objc private func changeSettings() {
-    //        guard let password = settingView.enterPasswordTextfield.text else { print("Problem with password"); return }
-    //        guard !password.isEmpty else { print("Password is nil"); return }
-    //
-    //        let user = Auth.auth().currentUser
-    ////        let credential = EmailAuthProvider.credential(withEmail: user?.email, password: user.)
-    //
-    //        Auth.auth().currentUser?.updatePassword(to: password, completion: { (error) in
-    //            if error != nil {
-    //                print("Error updating password: \(String(describing: error?.localizedDescription))")
-    //            }
-    //        })
-    //
-    //        guard let newUserName = settingView.enterUserNameTextfield.text else { print("Problem with User Name"); return }
-    //        guard !newUserName.isEmpty else { print("UserName is nil"); return }
-    //        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-    //        changeRequest?.displayName = newUserName
-    //        changeRequest?.commitChanges(completion: { (error) in
-    //            if error != nil {
-    //                print("Error changing user name: \(String(describing: error?.localizedDescription))")
-    //            }
-    //        })
-    //
-    //        //Place image change function here
-    //
-    //    }
-    
     
 }
 

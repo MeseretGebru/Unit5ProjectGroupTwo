@@ -207,23 +207,42 @@ class FeedTableViewCell: UITableViewCell {
         upvoteCount.text = "\(post.countOfUp)"
         // userLabel.text =
         let postOwnerUID = post.user
-        UserService.manager.getUser(uid: postOwnerUID, completion: { (onlineUser) in
-            self.userName.text = onlineUser?.displayName
-            self.userEmail.text = onlineUser?.email
-            if let userImageUrl = onlineUser?.imageURL {
-                self.userImageView.kf.indicatorType = .activity
-                self.userImageView.kf.setImage(with: URL.init(string: userImageUrl), placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: { (image, error, cacheType, url) in
-                    
-                })
-                
-            }
-            
-        })
         let imageUrl = post.imageURL
         feedImageView.kf.indicatorType = .activity
         feedImageView.kf.setImage(with: URL.init(string: imageUrl) , placeholder: #imageLiteral(resourceName: "noImage"), options: nil, progressBlock: nil) { (image, error, cacheType, url) in
             
         }
+        UserService.manager.getUser(uid: postOwnerUID, completion: { (onlineUser) in
+            if let userProfile = onlineUser {
+                self.userName.text = userProfile.displayName
+                self.userEmail.text = userProfile.email
+                ImageCache.default.retrieveImage(forKey: userProfile.imageURL, options: nil, completionHandler: { (image, cache) in
+                    if let image = image {
+                        self.userImageView.image = image
+                        return
+                    }
+                })
+                do {
+                    if let url = URL(string: userProfile.imageURL) {
+//                        let data = try Data.init(contentsOf: url)
+//                        let image = UIImage.init(data: data)
+//                        self.userImageView.image = image
+                        
+                        self.userImageView.kf.setImage(with: url, placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: { (image, error, cache, url) in
+                            if let error = error {
+                                print(error)
+                                return
+                            }
+                            if let image = image {
+                                ImageCache.default.store(image, forKey: userProfile.imageURL)
+                            }
+                        })
+                    }
+                }
+            }
+            
+        })
+        
         
     }
 }
