@@ -103,9 +103,7 @@ class SettingsView: UIView {
         profileImage.snp.makeConstraints { (make) in
             make.top.equalTo(imageContainer.snp.top).offset(10)
             make.centerX.equalTo(imageContainer.snp.centerX)
-            //            make.centerY.equalTo(self.snp.centerY)
-            make.width.equalTo(self.snp.width).multipliedBy(0.2)
-            make.height.equalTo(self.snp.height).multipliedBy(0.2)
+            make.width.height.equalTo(snp.width).multipliedBy(0.2)
         }
         
     }
