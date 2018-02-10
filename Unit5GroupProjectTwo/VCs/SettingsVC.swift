@@ -47,14 +47,11 @@ class SettingsVC: UIViewController {
         guard let photoURL = Auth.auth().currentUser?.photoURL else { return }
         settingView.profileImage.kf.setImage(with: photoURL, placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: nil)
         
-//        UserService.manager.getUser(uid: (Auth.auth().currentUser?.uid)!) { (onlineUser) in
-//            if let user = onlineUser {
-//                if let url = URL(string: user.imageURL) {
-//                    print(user.imageURL)
-//                    self.settingView.profileImage.kf.setImage(with: url, placeholder: #imageLiteral(resourceName: "frog"), options: nil, progressBlock: nil, completionHandler: nil)
-//                }
-//            }
-//        }
+        UserService.manager.getUser(uid: (Auth.auth().currentUser?.uid)!) { (onlineUser) in
+            if let user = onlineUser {
+                StorageService.manager.storeImage(image: self.settingView.profileImage.image!, postId: nil, userId: user.ref.key, isUpdatingUserImage: true)
+            }
+        }
     }
     private func addSubViews(){
         view.addSubview(settingView)
