@@ -91,7 +91,6 @@ class PostDetailView: UIScrollView {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.layer.borderColor = UIColor.lightGray.cgColor
-        image.layer.borderWidth = 1.5
         image.clipsToBounds = true
         image.image = #imageLiteral(resourceName: "panda")
         return image
@@ -103,6 +102,11 @@ class PostDetailView: UIScrollView {
         tv.textColor = .lightGray
         tv.text = "Type your comment..."
         tv.font = UIFont(name: "Arial", size: 20)
+        tv.layer.shadowColor = UIColor.lightGray.cgColor
+        tv.layer.shadowOpacity = 0.7
+        tv.layer.shadowOffset = CGSize(width: -5, height: 5)
+        tv.layer.shadowRadius = 3
+        tv.clipsToBounds = false
         return tv
     }()
     
@@ -124,10 +128,10 @@ class PostDetailView: UIScrollView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        profileImageView.layer.cornerRadius = profileImageView.bounds.size.width / 2
         commentTextField.setNeedsLayout()
         profileImageView.setNeedsLayout()
         userPostImageView.setNeedsLayout()
-        //profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2
     }
     
     private func commonInit() {
