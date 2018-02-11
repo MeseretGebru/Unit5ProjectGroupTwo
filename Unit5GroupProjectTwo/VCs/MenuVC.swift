@@ -39,17 +39,13 @@ class MenuVC: UIViewController {
        self.userNameLabel.text = self.currentUser.displayName
         
         UserService.manager.getUser(uid: Auth.auth().currentUser!.uid) { (onlineUser) in
-            let imageUrl = onlineUser!.imageURL
-
-            self.userNameLabel.text = Auth.auth().currentUser?.displayName!
-            do {
-                if let url = URL(string: imageUrl) {
-                    let data = try Data.init(contentsOf: url)
-                    let image = UIImage.init(data: data)
-                    self.userImageButton.setImage(image, for: .normal)
-                }
-            } catch {
-                print("error")
+            if let user = onlineUser {
+                
+                ImageService.manager.getImage(from: user.imageURL, completion: { (image) in
+                    if let image = image {
+                        self.userImageButton.setImage(image, for: .normal)
+                    }
+                })
             }
         }
     }
