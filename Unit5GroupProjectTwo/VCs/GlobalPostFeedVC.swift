@@ -43,7 +43,7 @@ class GlobalPostFeedVC: UIViewController {
         didSet {
             DispatchQueue.main.async {
                 self.popularFeedView.tableView.reloadData()
-                
+
             }
         }
     }
