@@ -30,6 +30,8 @@
 		81624CE1202263F400D9EAD4 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81624CE0202263F400D9EAD4 /* MenuView.swift */; };
 		81624CE320228E7000D9EAD4 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81624CE220228E7000D9EAD4 /* MenuVC.swift */; };
 		81691B16202F8CD60089AEC5 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81691B15202F8CD60089AEC5 /* ImageService.swift */; };
+		81691B192030F2820089AEC5 /* AuthUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81691B182030F2820089AEC5 /* AuthUserService.swift */; };
+		81691B1B20310E8E0089AEC5 /* UserLoginVC+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81691B1A20310E8E0089AEC5 /* UserLoginVC+Extension.swift */; };
 		81727912201FCB89002EE595 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81727911201FCB89002EE595 /* AppDelegate.swift */; };
 		81727914201FCB89002EE595 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81727913201FCB89002EE595 /* ViewController.swift */; };
 		81727917201FCB89002EE595 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81727915201FCB89002EE595 /* Main.storyboard */; };
@@ -87,6 +89,8 @@
 		81624CE0202263F400D9EAD4 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		81624CE220228E7000D9EAD4 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
 		81691B15202F8CD60089AEC5 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
+		81691B182030F2820089AEC5 /* AuthUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUserService.swift; sourceTree = "<group>"; };
+		81691B1A20310E8E0089AEC5 /* UserLoginVC+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserLoginVC+Extension.swift"; sourceTree = "<group>"; };
 		8172790E201FCB89002EE595 /* Unit5GroupProjectTwo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Unit5GroupProjectTwo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81727911201FCB89002EE595 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81727913201FCB89002EE595 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -148,16 +152,25 @@
 		81157D742024F7C3000B765B /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				81691B182030F2820089AEC5 /* AuthUserService.swift */,
+				81691B172030F2360089AEC5 /* Storage */,
 				81157D752024F7D3000B765B /* PostService.swift */,
 				81E7C41C202638170067136B /* UserService.swift */,
 				81E7C41E202638200067136B /* VoteService.swift */,
 				81E7C4202026382A0067136B /* CommentService.swift */,
 				81157D502023DEC3000B765B /* FirebaseAPI.swift */,
-				8185FF792028036500F6760B /* StorageService.swift */,
-				8185FF7B202803B600F6760B /* StorageService+Images.swift */,
 				81691B15202F8CD60089AEC5 /* ImageService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		81691B172030F2360089AEC5 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				8185FF792028036500F6760B /* StorageService.swift */,
+				8185FF7B202803B600F6760B /* StorageService+Images.swift */,
+			);
+			path = Storage;
 			sourceTree = "<group>";
 		};
 		81727905201FCB89002EE595 = {
@@ -211,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				8172792B201FD007002EE595 /* UserLogInVC.swift */,
+				81691B1A20310E8E0089AEC5 /* UserLoginVC+Extension.swift */,
 				81157D522023EBA6000B765B /* ForgotPasswordVC.swift */,
 				8172792D201FD01D002EE595 /* GlobalPostFeedVC.swift */,
 				81E7C416202630880067136B /* GlobalPostFeedVC+TableView.swift */,
@@ -487,6 +501,7 @@
 				81E7C4212026382A0067136B /* CommentService.swift in Sources */,
 				8172792A201FCFC8002EE595 /* MainVC.swift in Sources */,
 				81E7C417202630880067136B /* GlobalPostFeedVC+TableView.swift in Sources */,
+				81691B1B20310E8E0089AEC5 /* UserLoginVC+Extension.swift in Sources */,
 				81DA327D202A810C00E5DE0A /* GlobalFeedSegmentedViewController.swift in Sources */,
 				81157D472023B66C000B765B /* PostDetailVC+Extension.swift in Sources */,
 				81157D3F2023A5B0000B765B /* Vote.swift in Sources */,
@@ -499,6 +514,7 @@
 				81157D412023B5BF000B765B /* PostDetailView.swift in Sources */,
 				81727930201FD03A002EE595 /* UserProfileVC.swift in Sources */,
 				81624CE320228E7000D9EAD4 /* MenuVC.swift in Sources */,
+				81691B192030F2820089AEC5 /* AuthUserService.swift in Sources */,
 				81ED6102202131BD00072587 /* GlobalPostFeedView.swift in Sources */,
 				81ED61052021322700072587 /* UserProfileTableViewCell.swift in Sources */,
 				81DA3258202A442F00E5DE0A /* SWRevealViewController.m in Sources */,
