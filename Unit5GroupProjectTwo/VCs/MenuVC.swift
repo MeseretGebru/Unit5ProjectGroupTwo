@@ -38,7 +38,7 @@ class MenuVC: UIViewController {
         self.currentUser = Auth.auth().currentUser!
        self.userNameLabel.text = self.currentUser.displayName
         
-        UserService.manager.getUser(uid: Auth.auth().currentUser!.uid) { (onlineUser) in
+        UserService.manager.getUser(uid: self.currentUser.uid) { (onlineUser) in
             if let user = onlineUser {
                 
                 ImageService.manager.getImage(from: user.imageURL, completion: { (image) in
