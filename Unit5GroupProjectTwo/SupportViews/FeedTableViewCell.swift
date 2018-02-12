@@ -112,8 +112,8 @@ class FeedTableViewCell: UITableViewCell {
     func setupUserImageView() {
         addSubview(userImageView)
         userImageView.snp.makeConstraints { (make) in
-            make.leading.equalToSuperview().offset(8)
-            make.top.equalToSuperview().offset(8)
+            make.left.equalTo(snp.left).offset(8)
+            make.top.equalTo(snp.top).offset(8)
             make.width.equalTo(50)
             make.height.equalTo(50)
         }
@@ -122,40 +122,38 @@ class FeedTableViewCell: UITableViewCell {
         addSubview(userName)
         addSubview(userEmail)
         userName.snp.makeConstraints { (make) in
-            make.leading.equalTo(userImageView.snp.trailing).offset(15)
-            make.top.equalToSuperview().offset(15)
+            make.left.equalTo(userImageView.snp.right).offset(15)
+            make.bottom.equalTo(userImageView.snp.centerY).offset(-8)
         }
         userEmail.snp.makeConstraints { (make) in
-            make.leading.equalTo(userName.snp.leading)
-            make.top.equalTo(userName.snp.bottom).offset(4)
+            make.left.equalTo(userName.snp.left)
+            make.top.equalTo(userName.snp.centerY).offset(8)
         }
     }
     func setupTitleLabel() {
         addSubview(titleLabel)
         titleLabel.snp.makeConstraints { (make) in
             make.top.equalTo(userImageView.snp.bottom).offset(8)
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
+            make.left.equalTo(snp.left)
+            make.right.equalTo(snp.right)
         }
     }
     func setupFeedImageView() {
         addSubview(feedImageView)
         feedImageView.snp.makeConstraints { (make) in
-            make.width.equalToSuperview()
+            make.top.equalTo(titleLabel.snp.bottom).offset(16)
             make.centerX.equalTo(snp.centerX)
-            //make.trailing.equalToSuperview()
-            make.top.equalTo(titleLabel.snp.bottom)
-            make.bottom.equalTo(snp.bottom).offset(-30)
+            make.width.equalTo(snp.width)
+            make.bottom.equalTo(snp.bottom).offset(-44)
         }
     }
     func setupActionStackView() {
         addSubview(actionsStackView)
         
         actionsStackView.snp.makeConstraints { (make) in
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.top.equalTo(feedImageView.snp.bottom)
-            make.bottom.equalToSuperview().offset(-8)
+            make.left.equalTo(snp.left)
+            make.right.equalTo(snp.right)
+            make.bottom.equalTo(snp.bottom).offset(-8)
             make.height.equalTo(40)
             
         }
@@ -166,43 +164,34 @@ class FeedTableViewCell: UITableViewCell {
         actionsStackView.addSubview(moreButton)
         
         upvoteButton.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
-            make.leadingMargin.equalToSuperview().offset(15)
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.width.equalTo(25)
+            make.centerY.equalTo(actionsStackView.snp.centerY)
+            make.left.equalTo(actionsStackView.snp.left).offset(15)
+            make.width.height.equalTo(25)
         }
         upvoteCount.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
-            make.leadingMargin.equalTo(upvoteButton.snp.trailing).offset(15)
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.width.equalTo(25)
+            make.centerY.equalTo(actionsStackView.snp.centerY)
+            make.left.equalTo(upvoteButton.snp.right).offset(15)
+            make.width.height.equalTo(25)
         }
         downvoteButton.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
-            make.leadingMargin.equalTo(upvoteCount.snp.trailing).offset(15)
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.width.equalTo(25)
+            make.centerY.equalTo(actionsStackView.snp.centerY)
+            make.left.equalTo(upvoteCount.snp.right).offset(15)
+            make.width.height.equalTo(25)
         }
         commentButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(snp.centerX)
-            make.centerY.equalToSuperview()
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.width.equalTo(25)
+            make.centerY.equalTo(actionsStackView.snp.centerY)
+            make.width.height.equalTo(25)
         }
         moreButton.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
-            make.trailingMargin.equalToSuperview().offset(-15)
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.width.equalTo(25)
+            make.centerY.equalTo(actionsStackView.snp.centerY)
+            make.right.equalTo(actionsStackView.snp.right).offset(-15)
+            make.width.height.equalTo(25)
         }
     }
 
     func configureCell(from post: Post) {
+        setupViews()
         titleLabel.text = post.postTitle
         upvoteCount.text = "\(post.countOfUp)"
         let postOwnerUID = post.user
