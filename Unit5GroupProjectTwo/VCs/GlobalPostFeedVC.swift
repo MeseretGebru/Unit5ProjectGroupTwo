@@ -119,9 +119,6 @@ class GlobalPostFeedVC: UIViewController {
         newPostvc.modalTransitionStyle = .flipHorizontal
         newPostvc.modalPresentationStyle = .overCurrentContext
         navigationController?.pushViewController(NewPostVC(), animated: true)
-//        present(newPostvc, animated: true, completion: nil)
-//        present(PostViewController(), animated: true, completion: nil)
-//        navigationController?.pushViewController(PostViewController(), animated: true)
     }
     @objc func moreButtonPressed(sender: UIButton) {
     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
