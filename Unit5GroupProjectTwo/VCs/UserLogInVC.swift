@@ -27,6 +27,7 @@ class UserLogInVC: UIViewController {
     let userLoginView = UserLoginView()
     let userSignUpView = SignUpView()
     let viewContainer = SegmentedControlView()
+    private var authUserService = AuthUserService()
     var verificationTimer: Timer = Timer() //For email verification
     
     lazy var userProfileImage: UIImageView =  {
@@ -46,7 +47,6 @@ class UserLogInVC: UIViewController {
         return iv
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         userLoginView.emailTextField.delegate = self
@@ -54,7 +54,7 @@ class UserLogInVC: UIViewController {
         userSignUpView.usernameTextField.delegate = self
         userSignUpView.emailTextField.delegate = self
         userSignUpView.passwordTextField.delegate = self
-        
+        authUserService.delegate = self
         //To check if user is already logged in.
         if Auth.auth().currentUser != nil {
             let storyboard = UIStoryboard(name: "GlobalPostFeed", bundle: nil)
@@ -141,51 +141,9 @@ class UserLogInVC: UIViewController {
         guard !email.isEmpty else { self.alertForErrors(with: "Please enter an email."); return }
         guard let password = userLoginView.passwordTextField.text else { self.alertForErrors(with: "Please enter a password."); return }
         guard !password.isEmpty else { self.alertForErrors(with: "Please enter a password."); return }
-        FirebaseAPIClient.manager.login(with: email, an: password) { (user, error) in
-            
-            if error != nil {
-                if let errorCode = AuthErrorCode(rawValue: error!._code) {
-                    //Take message for each case and put in a string to use for alert.
-                    var message = ""
-                    switch errorCode {
-                    case .wrongPassword:
-                        message = "Wrong password entered."
-                    case .userNotFound:
-                        message = "User not found. Please check that you entered the correct name and password."
-                    case .invalidEmail:
-                        message = "Please enter a valid email"
-                    case .networkError:
-                        message = "There was an error with your connection. Please try again later."
-                    default:
-                        break
-                    }
-                    
-                    self.alertForErrors(with: message)
-                }
-            }
-            
-            if Auth.auth().currentUser?.isEmailVerified != true {
-                print("User hasn't verified email")
-                self.alertForErrors(with: "Please verify your email.")
-                return
-            }
-                
-            else {
-                //                self.verificationTimer.invalidate()
-            }
-            
-            if user != nil {
-                
-                let storyboard = UIStoryboard(name: "GlobalPostFeed", bundle: nil)
-                let revealVC = storyboard.instantiateViewController(withIdentifier: "SWRealViewController")
-                
-                self.present(revealVC, animated: true, completion: nil)
-            }
-        }
         
+        authUserService.signIn(email: email, password: password)
     }
-    
-    
     
     @objc private func signUp() {
         guard let userName = userSignUpView.usernameTextField.text else {  self.alertForErrors(with: "Please enter a valid user name."); return }
@@ -195,72 +153,10 @@ class UserLogInVC: UIViewController {
         guard let password = userSignUpView.passwordTextField.text else { self.alertForErrors(with: "Password is nil "); return }
         guard !password.isEmpty else { self.alertForErrors(with: "Password field is empty"); return }
         
-        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
-            if error == nil && user != nil {
-                print("User created!")
-                
-                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                changeRequest?.displayName = userName
-                changeRequest?.commitChanges { error in
-                    if error == nil {
-                        print ("User display name changed")
-                    }
-                    
-                }
-                
-                
-                
-                Auth.auth().currentUser?.sendEmailVerification { (error) in
-                    if error == nil {
-                        let ac = UIAlertController(title: "Email Verification Sent", message: "Email verification is needed. Please check your email and follow the instructions.", preferredStyle: .alert)
-                        let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                            self.userLoginView.isHidden = false
-                            self.userSignUpView.isHidden = true
-                            self.viewContainer.segmentedControl.selectedSegmentIndex = 0
-                            self.userSignUpView.usernameTextField.text = ""
-                            self.userSignUpView.emailTextField.text = ""
-                            self.userSignUpView.passwordTextField.text = ""
-                            self.userSignUpView.uploadImageButton.setImage(#imageLiteral(resourceName: "profile64"), for: .normal)
-                        })
-                        ac.addAction(okAction)
-                        self.present(ac, animated: true, completion: {
-                            if let userImage = self.userProfileImage.image {
-                                UserService.manager.saveNewUser(imageProfile: userImage)
-                            }
-                        })
-                        
-                        
-                        
-//                    })
-                    }
-                }
-                
-            }
-                
-            else {
-                if let errorCode = AuthErrorCode(rawValue: error!._code) {
-                    var message = ""
-                    switch errorCode {
-                    case .invalidEmail:
-                        message = "Please enter a valid email"
-                    case .networkError:
-                        message = "There was an error with your connection. Please try again later."
-                    case .emailAlreadyInUse:
-                        message = "There is already an account associated with this email."
-                    case .missingEmail:
-                        message = "Email textfield empty. Please input a valid email."
-                    default:
-                        break
-                    }
-                    self.alertForErrors(with: message)
-                    
-                }
-            }
-            print("Error creating user: \(String(describing: error?.localizedDescription))")
-        }
+        authUserService.createUser(email: email, password: password)
+        
+        
     }
-    
-    
     
     @objc private func reset() {
         let resetVC = ForgotPasswordVC()
@@ -299,21 +195,12 @@ class UserLogInVC: UIViewController {
         
     }
     
-    
-    //To check if user is logged in and switch screens if true
-    //    private func getStarted() {
-    //        let navBar = MainVC()
-    //        navigationController?.pushViewController(navBar, animated: true)
-    //
-    //    }
-    
     func setUpLogoConstraints() {
         logoImage.snp.makeConstraints { (make) in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.width.equalTo(view.snp.width)
             make.centerX.equalTo(view)
             make.bottom.equalTo(viewContainer.snp.top)
-            
         }
     }
     
@@ -347,7 +234,7 @@ class UserLogInVC: UIViewController {
     }
     
     
-    private func alertForErrors(with message: String) {
+    public func alertForErrors(with message: String) {
         let ac = UIAlertController(title: "Problem Logging In", message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         ac.addAction(okAction)
