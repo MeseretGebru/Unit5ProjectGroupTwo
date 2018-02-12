@@ -28,22 +28,23 @@ extension GlobalPostFeedVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if posts.count == 0 {
-            return view.layer.bounds.height * 0.40
-        } else {
-            return UITableViewAutomaticDimension
-        }
+        return view.layer.bounds.height * 0.40
+//        if posts.count == 0 {
+//            return view.layer.bounds.height * 0.40
+//        } else {
+//            return UITableViewAutomaticDimension
+//        }
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view.layer.bounds.height * 0.40
+        return UITableViewAutomaticDimension
+        //return view.layer.bounds.height * 0.40
     }
     
 }
 
 extension GlobalPostFeedVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return posts.count
     }
     
