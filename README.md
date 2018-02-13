@@ -7,7 +7,7 @@ Powered by Firebase, this app lets a user post their favorite pictures online, a
 ## Gifs
 |User login page|User Main post feed |
 |:-------------:|:------------:|
-|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|
+|![loginscreen](https://user-images.githubusercontent.com/32072624/36167388-b60e5050-10c3-11e8-81c7-c0ad2bf00807.gif)|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|
 
 |User setting page|User profile page|
 |:-------------:|:------------:|
