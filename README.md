@@ -11,7 +11,8 @@ Powered by Firebase, this app lets a user post their favorite pictures online, a
 
 |User setting page|User profile page|
 |:-------------:|:------------:|
-|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|
+|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|![userprofile](https://user-images.githubusercontent.com/32072624/36166959-30546b08-10c2-11e8-9822-f8689e8a3195.gif)
+
 
 |User creating a new post|User upvoting a post|
 |:-------------:|:------------:|
