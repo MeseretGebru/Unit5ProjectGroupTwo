@@ -7,24 +7,19 @@ Powered by Firebase, this app lets a user post their favorite pictures online, a
 ## Gifs
 |User login page|User Main post feed |
 |:-------------:|:------------:|
-|![loginscreen](https://user-images.githubusercontent.com/32072624/36167388-b60e5050-10c3-11e8-81c7-c0ad2bf00807.gif)|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|
+|![loginscreen](https://user-images.githubusercontent.com/32072624/36167388-b60e5050-10c3-11e8-81c7-c0ad2bf00807.gif)|![globalfeedpost](https://user-images.githubusercontent.com/32072624/36167697-c2be1140-10c4-11e8-8e65-730c7834666c.gif)|
 
 |User setting page|User profile page|
 |:-------------:|:------------:|
-|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|![userprofile](https://user-images.githubusercontent.com/32072624/36166959-30546b08-10c2-11e8-9822-f8689e8a3195.gif)
+|![settingprofile](https://user-images.githubusercontent.com/32072624/36167735-e3fce980-10c4-11e8-9067-f041e25bbf36.gif)
+|![userprofile](https://user-images.githubusercontent.com/32072624/36166959-30546b08-10c2-11e8-9822-f8689e8a3195.gif)|
 
 
-|User creating a new post|User upvoting a post|
+|User creating a new post|Menu|
 |:-------------:|:------------:|
-|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|
+|![creatingpost](https://user-images.githubusercontent.com/32072624/36167799-1a9e9d30-10c5-11e8-99e0-f1fa3922a969.gif)
+|![menu](https://user-images.githubusercontent.com/32072624/36167638-8f15fec0-10c4-11e8-9ed5-3db147858c1f.gif)|
 
-|place holder|place holder|
-|:-------------:|
-|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|
-
-|place holder|place holder|
-|:-------------:|:-------------:|
-|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|<img src="https://user-images.githubusercontent.com/32072624/36032689-cbac3d4a-0d7c-11e8-8a12-fa1c9826fad0.gif" width="358" height="626">|
 
 ## Features
 - users can post pictures and texts
